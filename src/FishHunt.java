@@ -178,6 +178,7 @@ public class FishHunt extends Application {
                 lastTime = now;
             }
         };
+        timer.start();
     }
 
 
