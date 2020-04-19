@@ -88,13 +88,16 @@ public class FishHunt extends Application {
 
 
 
-        root.setOnMouseMoved((event) -> {
-            double w = imageView.getBoundsInLocal().getWidth();
-            double h = imageView.getBoundsInLocal().getHeight();
-            double x = event.getX() - w / 2;
-            double y = event.getY() - h / 2;
+        scene.setOnMouseMoved((event) -> {
+            double x = event.getX() - 25;
+            double y = event.getY() - 25;
             imageView.setX(x);
             imageView.setY(y);
+            
+        });
+
+        scene.setOnMouseClicked((event) -> {
+            controleur.newBall(event.getX(), event.getY());
         });
 
 

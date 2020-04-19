@@ -12,6 +12,7 @@ public class Jeu {
 
     // Entités dans le jeu
     private Bulle[][] bulles;
+    private Balle balle;
 
 
     /**
@@ -21,6 +22,8 @@ public class Jeu {
 
         // pas de bulles au debut du jeu
         bulles = new Bulle[0][0];
+
+        balle = null;
 
     }
 
@@ -33,6 +36,8 @@ public class Jeu {
         Bulle.groupBulles(bulles, WIDTH, HEIGHT);
     }
 
+    public void newBall(double x, double y) {balle = new Balle(x,y);}
+
 
     /**
      * Met a jour les donnes du jeu
@@ -40,6 +45,7 @@ public class Jeu {
      * @param dt Temps écoulé depuis le dernier update()
      */
     public void update(double dt) {
+
         // Pour chaque groupe de bulle
         for (int i = 0; i < bulles.length; i++) {
             // Pour chaque bulles dans un groupe
@@ -49,6 +55,11 @@ public class Jeu {
                 bulle.update(dt);
             }
         }
+
+        if(balle != null) {
+            balle.update(dt);
+        }
+
     }
 
 
@@ -63,6 +74,9 @@ public class Jeu {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
+        if(balle != null) {
+            balle.draw(context);
+        }
 
         // Pour chaque groupe de bulle
         for (int i = 0; i < bulles.length; i++) {

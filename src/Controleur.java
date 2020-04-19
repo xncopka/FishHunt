@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class Controleur {
 
-    Jeu jeu;
+    private Jeu jeu;
 
     /**
      * Constructeur de Controleur
@@ -19,7 +19,7 @@ public class Controleur {
      * Demande au jeu de dessiner les formes du dessin
      * @param context contexte graphique du canvas
      */
-    void draw(GraphicsContext context) {
+    public void draw(GraphicsContext context) {
         jeu.draw(context);
     }
 
@@ -28,7 +28,7 @@ public class Controleur {
      * Demande au jeu de mettre à jour les données du jeu
      * @param deltaTime Temps écoulé depuis le dernier update() en secondes
      */
-    void update(double deltaTime) {
+    public void update(double deltaTime) {
         jeu.update(deltaTime);
     }
 
@@ -37,7 +37,9 @@ public class Controleur {
      * Demande au modele de mettre à jour l'état des bulles
      * Methode pour grouper les bulles a l'arriere plan
      */
-    void groupBulles() { jeu.groupBulles();}
+    public void groupBulles() { jeu.groupBulles();}
+
+    public void newBall(double x, double y) {jeu.newBall(x,y);}
 
 
 
