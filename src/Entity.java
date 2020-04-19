@@ -9,7 +9,7 @@ public abstract class Entity {
     protected double x, y;
 
     protected double vx, vy;
-    protected double ax, ay = 1200; // gravite du jeu.
+    protected double ax, ay; 
 
     /**
      * Met à jour la position et la vitesse de l'entité

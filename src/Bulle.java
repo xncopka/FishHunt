@@ -31,7 +31,7 @@ public class Bulle extends Entity {
         this.rayon = rayon;
         this.vx = vx;
         this.vy = vy;
-        this.ay = 0;
+
     }
 
 
