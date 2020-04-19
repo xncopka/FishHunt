@@ -162,10 +162,7 @@ public class FishHunt extends Application {
             // Initialiser dernier temps et premier temps
             private long lastTime = 0;
             private long firstTime = 0;
-
-            // Initialiser la premiere et derniere fois que la meduse touche la tortue
-            private long firstInter = 0;
-            private long lastInter = 0;
+            private long firstTime5Sec = 0;
 
             // fonction appelée à chaque frame
             @Override
@@ -182,10 +179,18 @@ public class FishHunt extends Application {
 
 
                 // Si 3 secondes se sont écoulés depuis le debut de l'animation,
-                // faire apparaitre un groupe de bulles
+                // faire apparaitre un groupe de bulles et un poisson
                 if ((now - firstTime) >= ((long)3e+9)) {
                     firstTime = now;
                     controleur.groupBulles();
+                    controleur.newFish();
+                }
+
+                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
+                // faire apparaitre un poisson spécial
+                if ((now - firstTime5Sec) >= ((long)5e+9)) {
+                    firstTime5Sec = now;
+                    controleur.newSpecialFish();
                 }
 
 

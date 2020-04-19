@@ -41,6 +41,14 @@ public class Controleur {
 
     public void newBall(double x, double y) {jeu.newBall(x,y);}
 
+    public void newFish() {
+        jeu.newFish();
+    }
+
+    public void newSpecialFish() {
+        jeu.newSpecialFish();
+    }
+
 
 
 

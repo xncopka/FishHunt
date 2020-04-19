@@ -2,6 +2,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -17,6 +18,7 @@ public class Jeu {
     private Balle balle;
     private ArrayList<Fish> fishes = new ArrayList<Fish>();
 
+    private int level;
 
     /**
      * Constructeur de Jeu
@@ -43,6 +45,25 @@ public class Jeu {
 
     public void newBall(double x, double y) {
         balle = new Balle(x, y);
+    }
+
+    public void newFish() {
+        Fish fish = new Fish(level);
+        fishes.add(fish);
+    }
+
+    public void newSpecialFish() {
+        Fish fish;
+        Random random = new Random();
+        int valeurRandom = random.nextInt(2);
+        if (valeurRandom == 0){
+            fish = new Crab(level);
+            fishes.add(fish);
+        } else{
+            fish = new Star(level);
+            fishes.add(fish);
+        }
+
     }
 
 
