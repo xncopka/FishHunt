@@ -8,7 +8,7 @@ import javafx.scene.paint.*;
 public class Jeu {
 
     // Largeur, hauteur du niveau
-    public static final int WIDTH = 480, HEIGHT = 640;
+    public static final int WIDTH = 640, HEIGHT = 480;
 
     // Entités dans le jeu
     private Bulle[][] bulles;

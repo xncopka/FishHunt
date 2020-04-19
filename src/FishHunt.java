@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class FishHunt extends Application {
 
     // Largeur et hauteur de la fenêtre
-    public static final int WIDTH = 480, HEIGHT = 640;
+    public static final int WIDTH = 640, HEIGHT = 480;
 
     // Contrôleur de l'application
     private Controleur controleur;
