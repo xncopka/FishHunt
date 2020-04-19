@@ -9,6 +9,7 @@ public class Fish extends Entity{
     private Image[] frames;
     private Image image;
     private Color color;
+    private boolean leftOfScreen;
 
 
     public Fish(int level) {
@@ -19,7 +20,7 @@ public class Fish extends Entity{
         this.vy = random.nextDouble()*(200-100) + 100;
         this.y = random.nextDouble()*(4.0/5 - 1.0/5) + 1.0/5;
 
-        frames = new Image[]{
+        this.frames = new Image[]{
                 new Image("fish/00.png"),
                 new Image("fish/01.png"),
                 new Image("fish/02.png"),
@@ -29,13 +30,20 @@ public class Fish extends Entity{
                 new Image("fish/06.png"),
                 new Image("fish/07.png")
         };
-        image = frames[0];
-
-        //TODO Inverser image
+        this.image = frames[0];
 
 
+        int valeurRandom = random.nextInt(2);
+        if (valeurRandom == 0) {    // 0: va à droite
+            this.x = -this.largeur; // poisson est à gauche de l'écran
+            this.leftOfScreen = true;
+        } else {                    // 1: va à gauche
+            this.x = Jeu.WIDTH;     // poisson est à droite de l'écran
+            this.vx *= -1;
+            this.leftOfScreen = false;
+            //TODO Inverser image
 
-
+        }
 
 
         //TODO Couleur aléatoire
@@ -48,6 +56,14 @@ public class Fish extends Entity{
 
 
 
+    }
+
+    public boolean isLeftOfScreen() {
+        return leftOfScreen;
+    }
+
+    public void setLeftOfScreen(boolean leftOfScreen) {
+        this.leftOfScreen = leftOfScreen;
     }
 
 
@@ -66,6 +82,6 @@ public class Fish extends Entity{
 
     @Override
     public void draw(GraphicsContext context) {
-
+        context.drawImage(image, x, y, largeur, hauteur);
     }
 }

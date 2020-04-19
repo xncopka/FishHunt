@@ -1,6 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.*;
 
+import java.util.ArrayList;
+
 
 /**
  * Classe reprentant le jeu et la logique interne de l’application (modèle)
@@ -13,6 +15,7 @@ public class Jeu {
     // Entités dans le jeu
     private Bulle[][] bulles;
     private Balle balle;
+    private ArrayList<Fish> fishes = new ArrayList<Fish>();
 
 
     /**
@@ -24,6 +27,8 @@ public class Jeu {
         bulles = new Bulle[0][0];
 
         balle = null;
+        fishes = null;
+
 
     }
 
@@ -36,7 +41,9 @@ public class Jeu {
         Bulle.groupBulles(bulles, WIDTH, HEIGHT);
     }
 
-    public void newBall(double x, double y) {balle = new Balle(x,y);}
+    public void newBall(double x, double y) {
+        balle = new Balle(x, y);
+    }
 
 
     /**
@@ -56,8 +63,14 @@ public class Jeu {
             }
         }
 
-        if(balle != null) {
+        if (balle != null) {
             balle.update(dt);
+        }
+
+        if (fishes != null) {
+            for (Fish f : fishes) {
+                f.update(dt);
+            }
         }
 
     }
@@ -66,6 +79,7 @@ public class Jeu {
     /**
      * Dessine toutes les formes de l'animation dans le contexte
      * graphique du canvas
+     *
      * @param context contexte graphique du canvas
      */
     public void draw(GraphicsContext context) {
@@ -74,9 +88,6 @@ public class Jeu {
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
 
-        if(balle != null) {
-            balle.draw(context);
-        }
 
         // Pour chaque groupe de bulle
         for (int i = 0; i < bulles.length; i++) {
@@ -87,7 +98,18 @@ public class Jeu {
                 bulle.draw(context);
             }
         }
+
+
+        if (fishes != null) {
+            for (Fish f : fishes) {
+                f.draw(context);
+            }
+        }
+
+        if (balle != null) {
+            balle.draw(context);
+        }
+
+
     }
-
-
 }
