@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -34,6 +35,8 @@ public class FishHunt extends Application {
 
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
+
+
 
 
     /** Méthode main de HighSeaTower
@@ -72,9 +75,28 @@ public class FishHunt extends Application {
         // Contexte graphique du canvas
         context = canvas.getGraphicsContext2D();
 
+
+        Image img = new Image("/cible.png");
+        ImageView imageView = new ImageView(img);
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        root.getChildren().add(imageView);
+
         // Debut du jeu
         startGame();
         newTimer();
+
+
+
+        root.setOnMouseMoved((event) -> {
+            double w = imageView.getBoundsInLocal().getWidth();
+            double h = imageView.getBoundsInLocal().getHeight();
+            double x = event.getX() - w / 2;
+            double y = event.getY() - h / 2;
+            imageView.setX(x);
+            imageView.setY(y);
+        });
+
 
 
 
@@ -95,6 +117,7 @@ public class FishHunt extends Application {
 
 
         });
+
 
 
 
