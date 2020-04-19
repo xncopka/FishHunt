@@ -30,7 +30,7 @@ public class Fish extends Entity{
                 new Image("fish/06.png"),
                 new Image("fish/07.png")
         };
-        this.image = frames[0];
+        this.image = frames[random.nextInt(8)];
 
 
         int valeurRandom = random.nextInt(2);
@@ -56,6 +56,10 @@ public class Fish extends Entity{
 
 
 
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public boolean isLeftOfScreen() {
