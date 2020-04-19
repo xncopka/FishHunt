@@ -1,3 +1,3 @@
 # FishHunt
 
-Voir l'onglet "Projects" pour la coordination du travail
+Voir l'onglet "Projects" et cliquez sur "Tâches" pour la coordination du travail.
