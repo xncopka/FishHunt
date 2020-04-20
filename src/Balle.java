@@ -27,10 +27,10 @@ public class Balle extends Entity  {
         context.setFill(Color.BLACK);
 
         context.fillOval(x-rayon, y-rayon, rayon*2, rayon*2);
-        
-
-
-
 
     }
+
+
+    //TODO methode intersects() Balle et Poisson
+
 }
