@@ -175,26 +175,42 @@ public class Jeu {
         }
 
         if (balles != null) {
-            for (Balle balle : balles) {
+            for (Iterator<Balle> iterator = balles.iterator(); iterator.hasNext(); ) {
+                Balle balle = iterator.next();
                 balle.update(dt);
+                if (balle.getRayon() <= 0) {
+                    iterator.remove();
+                }
             }
         }
+
+
+
+
+        if (fishes != null) {
+            for (Fish fish : fishes) {
+                fish.update(dt);
+            }
+        }
+
+
+
 
         if (fishes != null) {
             for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
                 Fish fish = iterator.next();
-                fish.update(dt);
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
                     if (fish.estAttrape()) {
-                        fishes.remove(fish);
+                        players[0].setPoints(players[0].getPoints()+1);
+                        iterator.remove();
                     }
                 }
             }
         }
 
 
-        // A partir du level 3, les piranhas apparaissent
+        // A partir du level 3, les poissons servant d'appât apparaissent
         if (levels[2]) {
             Appat appat = new Appat(getLevelId());
             fishes.add(appat);

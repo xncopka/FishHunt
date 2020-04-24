@@ -3,7 +3,18 @@ import javafx.scene.paint.Color;
 
 public class Balle extends Entity  {
 
+
     private double rayon;
+
+    public double getRayon() {
+        return rayon;
+    }
+
+    public void setRayon(double rayon) {
+        this.rayon = rayon;
+    }
+
+
 
 
     public Balle(double x, double y) {

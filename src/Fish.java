@@ -18,7 +18,7 @@ public class Fish extends Entity{
         this.ay = 100;
         this.vx = 100*Math.pow(level, 1.0/3) + 200;
         Random random= new Random();
-        this.vy = random.nextDouble()*(200-100) + 100;
+        this.vy = (random.nextDouble()*(200-100) + 100)*(-1);
         this.y = random.nextDouble()*(4.0*Jeu.HEIGHT/5 - 1.0*Jeu.HEIGHT/5) + 1.0*Jeu.HEIGHT/5;
         this.estAttrape = false;
         this.largeur=100;
