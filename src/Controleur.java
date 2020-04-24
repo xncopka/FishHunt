@@ -49,17 +49,37 @@ public class Controleur {
         jeu.newSpecialFish(level);
     }
 
-    public int getLevelId(){
-        return jeu.getLevelId();
-    }
 
     /**
      * Demande au modele de mettre à jour l'état du jeu
      * Methode qui indique si la partie est terminee ou pas
      */
-    boolean getGameOver() {
+    public boolean getGameOver() {
         return jeu.getGameOver();
     }
+
+    public int getLevel() {
+        return jeu.getLevel();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public boolean getAfficherLevel() {
+        return jeu.getAfficherLevel();
+    }
+
+    public void setAfficherLevel(boolean afficherLevel) {
+        jeu.setAfficherLevel(afficherLevel);
+    }
+
 
 
 

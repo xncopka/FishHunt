@@ -46,6 +46,9 @@ public class FishHunt extends Application {
     // Texte du Game Over
     private Text over;
 
+    private Text level;
+
+
 
 
 
@@ -174,6 +177,7 @@ public class FishHunt extends Application {
             private long lastTime = 0;
             private long firstTime = 0;
             private long firstTime5Sec = 0;
+            private long firstTimeLevel = 0;
 
             // fonction appelée à chaque frame
             @Override
@@ -194,15 +198,15 @@ public class FishHunt extends Application {
                 if ((now - firstTime) >= ((long)3e+9)) {
                     firstTime = now;
                     controleur.groupBulles();
-                    controleur.newFish(controleur.getLevelId());
+                    controleur.newFish(controleur.getLevel());
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
-                if(controleur.getLevelId()==2) {
+                if(controleur.getLevel()>=2) {
                     if ((now - firstTime5Sec) >= ((long) 5e+9)) {
                         firstTime5Sec = now;
-                        controleur.newSpecialFish(controleur.getLevelId());
+                        controleur.newSpecialFish(controleur.getLevel());
                     }
                 }
 
@@ -213,6 +217,17 @@ public class FishHunt extends Application {
                     textOver();
 
 
+                }
+                        //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
+                if (controleur.getAfficherLevel() ){
+                    controleur.setAfficherLevel(false);
+                    firstTimeLevel = now;
+                    textLevel();
+                }
+
+                if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
+                    root.getChildren().remove(level);
+                    firstTimeLevel = 0;
                 }
 
 
@@ -260,6 +275,19 @@ public class FishHunt extends Application {
 
 
     /**
+     * Methode qui renvoit si la partie est terminée
+     * @return un boolean
+     */
+    public int getLevel() {
+        return controleur.getLevel();
+    }
+
+
+
+
+
+
+    /**
      * Cree le texte du Game Over et l'ajoute à la racine
      */
     public void textOver(){
@@ -272,6 +300,19 @@ public class FishHunt extends Application {
         root.getChildren().add(over);
     }
 
+
+    /**
+     * Cree le texte du level
+     */
+    public void textLevel(){
+        level = new Text("Level " + getLevel());
+        level.setFill(Color.WHITE);
+        level.setFont(Font.font(100));
+        level.setTextAlignment(TextAlignment.CENTER);
+        level.setX(200);
+        level.setY(210);
+        root.getChildren().add(level);
+    }
 
 
 

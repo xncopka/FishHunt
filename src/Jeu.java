@@ -25,11 +25,19 @@ public class Jeu {
     // joueurs dans le jeu
     private Player[] players;
 
-    // quel niveau on est dans le jeu
-    private boolean[] levels = new boolean[3];
+
+
+    // niveau du jeu
+    private int level;
+    private boolean firstChangeLevel;
 
     // si la partie est terminée
     private boolean gameOver;
+
+
+    private int palier;
+
+    private boolean afficherLevel;
 
 
 
@@ -51,19 +59,7 @@ public class Jeu {
             return "Player " + winner.getId() + " wins!";
     }
 
-    /**
-     * Represente le niveau de difficulté du jeu
-     * @return un nombre
-     */
-    public int getLevelId() {
-        if (levels[0]) {
-            return 1;
-        } else if (levels[1]) {
-            return 2;
-        } else {
-            return 3; // BONUS ajout de poissons a ne pas attraper
-        }
-    }
+  
 
 
 
@@ -110,7 +106,11 @@ public class Jeu {
 
 
 
-        levels[0] = true;
+        level = 0;
+        firstChangeLevel=false;
+        afficherLevel = false;
+        palier = 0;
+
 
         // pas de bulles au debut du jeu
         bulles = new Bulle[0][0];
@@ -219,11 +219,11 @@ public class Jeu {
         }
 
 
-        // A partir du level 3, les poissons servant d'appât apparaissent
-        if (levels[2]) {
-            Appat appat = new Appat(getLevelId());
+      /*  // A partir du level 3, les poissons servant d'appât apparaissent
+        if (level == 3) {
+            Appat appat = new Appat(level);
             fishes.add(appat);
-        }
+        }*/
 
 
 
@@ -240,16 +240,22 @@ public class Jeu {
                 Level 1: temps au depart
                 Level 2: 2min < temps < 5min
                 Level 3: 5min et +
+
            */
          if(modeSolo) {
-             if (players[0].getPoints() < 6) {
-                 levels[0] = true;
-             } else if (players[0].getPoints() < 20) {
-                 levels[0] = false;
-                 levels[1] = true;
-             } else {
-                 levels[1] = false;
-                 levels[2] = true;
+
+             if (players[0].getPoints()  == palier + 5) {
+                 firstChangeLevel = false;
+           }
+
+             if (players[0].getPoints() % 5 == 0 && firstChangeLevel==false) {
+
+                 
+                 afficherLevel=true;
+
+                 firstChangeLevel = true;
+                 level +=  1;
+                 palier = players[0].getPoints();
              }
                                                 
          } else {
@@ -332,5 +338,18 @@ public class Jeu {
         
 
 
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+
+    public boolean getAfficherLevel() {
+        return afficherLevel;
+    }
+
+    public void setAfficherLevel(boolean afficherLevel) {
+        this.afficherLevel = afficherLevel;
     }
 }
