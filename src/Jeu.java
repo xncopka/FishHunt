@@ -178,8 +178,8 @@ public class Jeu {
 
         // A partir du level 3, les piranhas apparaissent
         if (levels[2]) {
-            Piranha piranha = new Piranha(getLevelId());
-            fishes.add(piranha);
+            Appat appat = new Appat(getLevelId());
+            fishes.add(appat);
         }
 
 
