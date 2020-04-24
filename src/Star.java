@@ -12,7 +12,18 @@ public class Star extends Fish {
 
     }
 
+    @Override
+    public void update(double dt) {
 
+        if ((dt - tempsZero) >= ((long)1e+9)){
+            count +=1;
+        }
+        if ( count %3 == 0){
+            y -=  dt * vy;
+        } else {
+            y +=  dt * vy;
+        }
+    }
 
 
 }
