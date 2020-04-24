@@ -19,8 +19,10 @@ public class Fish extends Entity{
         this.vx = 100*Math.pow(level, 1.0/3) + 200;
         Random random= new Random();
         this.vy = random.nextDouble()*(200-100) + 100;
-        this.y = random.nextDouble()*(4.0/5 - 1.0/5) + 1.0/5;
+        this.y = random.nextDouble()*(4.0*Jeu.HEIGHT/5 - 1.0*Jeu.HEIGHT/5) + 1.0*Jeu.HEIGHT/5;
         this.estAttrape = false;
+        this.largeur=100;
+        this.hauteur=100;
 
         this.frames = new Image[]{
                 new Image("fish/00.png"),
@@ -39,10 +41,12 @@ public class Fish extends Entity{
         if (valeurRandom == 0) {    // 0: va à droite
             this.x = -this.largeur; // poisson est à gauche de l'écran
             this.leftOfScreen = true;
+         
         } else {                    // 1: va à gauche
             this.x = Jeu.WIDTH;     // poisson est à droite de l'écran
             this.vx *= -1;
             this.leftOfScreen = false;
+
             //TODO Inverser image
 
         }

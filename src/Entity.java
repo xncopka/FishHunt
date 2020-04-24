@@ -22,18 +22,8 @@ public abstract class Entity {
         x += dt * vx;
         y += dt * vy;
 
-        // Force à rester dans les bornes de l'écran
-        if (x + largeur > FishHunt.WIDTH || x < 0) {
-            vx *= -0.5;
-        }
+     
 
-        x = Math.min(x, FishHunt.WIDTH - largeur);
-        x = Math.max(x, 0);
-
-        // Au debut du jeu, la meduse se trouve au bas de l'ecran
-        if (dt == 0) {
-            y = Math.min(y, FishHunt.HEIGHT - hauteur);
-        }
 
     }
 

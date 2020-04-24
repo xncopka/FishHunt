@@ -2,6 +2,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 
@@ -180,7 +181,8 @@ public class Jeu {
         }
 
         if (fishes != null) {
-            for (Fish fish : fishes) {
+            for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
+                Fish fish = iterator.next();
                 fish.update(dt);
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
