@@ -49,8 +49,8 @@ public class Controleur {
         jeu.newSpecialFish(level);
     }
 
-    public int getLevel(){
-        return jeu.getLevel();
+    public int getLevelId(){
+        return jeu.getLevelId();
     }
 
 

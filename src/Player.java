@@ -2,7 +2,7 @@ public class Player {
 
     private int id;
     private int life;
-    private int points;
+    private int points; // points en nombre de poissons attrapés
 
     public Player(int id) {
         this.id = id;
@@ -11,7 +11,7 @@ public class Player {
     }
 
     /**
-     * Getter du nombre de vies de la méduse
+     * Getter du nombre de vies du joueur
      * @return le nombre de vie restant
      */
     public int getNbVies() {
@@ -19,7 +19,7 @@ public class Player {
     }
 
     /**
-     * Mutateur du nombre de vies de la meduse
+     * Mutateur du nombre de vies du joueur
      * @param life nouveau nombre de vies restant
      */
     public void setNbVies(int life) { this.life = life;

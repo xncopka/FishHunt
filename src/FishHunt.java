@@ -189,14 +189,16 @@ public class FishHunt extends Application {
                 if ((now - firstTime) >= ((long)3e+9)) {
                     firstTime = now;
                     controleur.groupBulles();
-                    controleur.newFish(controleur.getLevel());
+                    controleur.newFish(controleur.getLevelId());
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
-                if ((now - firstTime5Sec) >= ((long)5e+9)) {
-                    firstTime5Sec = now;
-                    controleur.newSpecialFish(controleur.getLevel());
+                if(controleur.getLevelId()==2) {
+                    if ((now - firstTime5Sec) >= ((long) 5e+9)) {
+                        firstTime5Sec = now;
+                        controleur.newSpecialFish(controleur.getLevelId());
+                    }
                 }
 
 

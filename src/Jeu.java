@@ -47,9 +47,9 @@ public class Jeu {
 
     /**
      * Represente le niveau de difficulté du jeu
-     * @return un String
+     * @return un nombre
      */
-    public int getLevel() {
+    public int getLevelId() {
         if (levels[0]) {
             return 1;
         } else if (levels[1]) {
@@ -58,6 +58,8 @@ public class Jeu {
             return 3; // BONUS ajout de poissons a ne pas attraper
         }
     }
+
+
 
 
     /**
@@ -93,6 +95,8 @@ public class Jeu {
      * Constructeur de Jeu
      */
     public Jeu(int nbPlayers) {
+
+        levels[0] = true;
 
         // pas de bulles au debut du jeu
         bulles = new Bulle[0][0];
@@ -170,6 +174,45 @@ public class Jeu {
                 }
             }
         }
+
+
+        // A partir du level 3, les piranhas apparaissent
+        if (levels[2]) {
+            Piranha piranha = new Piranha(getLevelId());
+            fishes.add(piranha);
+        }
+
+
+
+
+
+          /* Mode Solo:
+                Level 1 : 0-4 poissons capturés
+                Level 2 : 5-19 poissons capturés
+                Level 3 : 20+ poissons capturés
+
+             Mode Multijoueur:
+                Level 1: temps au depart
+                Level 2: 2min < temps < 5min
+                Level 3: 5min et +
+           */
+         if(modeSolo) {
+             if (players[0].getPoints() < 6) {
+                 levels[0] = true;
+             } else if (players[0].getPoints() < 20) {
+                 levels[0] = false;
+                 levels[1] = true;
+             } else {
+                 levels[1] = false;
+                 levels[2] = true;
+             }
+                                                
+         } else {
+             // TODO MODE MULTI
+         }
+
+
+
 
     }
 
