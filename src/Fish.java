@@ -108,4 +108,12 @@ public class Fish extends Entity{
     public void draw(GraphicsContext context) {
         context.drawImage(image, x, y, largeur, hauteur);
     }
+
+    public boolean estAttrape() {
+        return estAttrape;
+    }
+
+    public void setEstAttrape(boolean estAttrape) {
+        this.estAttrape = estAttrape;
+    }
 }

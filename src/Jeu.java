@@ -42,7 +42,7 @@ public class Jeu {
                     winner = players[i+1];
                 }
             }
-            return "Player " + winner.getId()+1 + " wins!";
+            return "Player " + winner.getId() + " wins!";
     }
 
     /**
@@ -96,6 +96,14 @@ public class Jeu {
      */
     public Jeu(int nbPlayers) {
 
+        if(nbPlayers == 1){
+            modeSolo = true;
+        } else {
+            modeSolo = false;
+        }
+
+
+
         levels[0] = true;
 
         // pas de bulles au debut du jeu
@@ -105,6 +113,12 @@ public class Jeu {
         fishes = null;
 
         players = new Player[nbPlayers];
+
+        int counter = 1;
+        for (int i = 0; i < players.length ; i++) {
+            players[i] = new Player(counter);
+            counter++;
+        }
 
 
     }
@@ -171,6 +185,9 @@ public class Jeu {
                 fish.update(dt);
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
+                    if (fish.estAttrape()) {
+                        fishes.remove(fish);
+                    }
                 }
             }
         }
@@ -181,6 +198,8 @@ public class Jeu {
             Appat appat = new Appat(getLevelId());
             fishes.add(appat);
         }
+
+
 
 
 

@@ -5,8 +5,6 @@ public class Balle extends Entity  {
 
     private double rayon;
 
-    // Si la balle n'a pas encore touché le poisson
-    private boolean firstInter = true;
 
     public Balle(double x, double y) {
         this.x = x;

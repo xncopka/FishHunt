@@ -37,7 +37,7 @@ public class FishHunt extends Application {
     private double deltaTime;
 
     // nombre de joueurs dans le jeu
-    private int nbPlayers;
+    private int nbPlayers = 1; // à changer une fois que le mode multi est implenté
 
 
 
