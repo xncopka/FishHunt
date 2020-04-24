@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -310,7 +311,25 @@ public class Jeu {
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(25));
         context.setFill(Color.WHITE);
-        context.fillText(""+players[0].getPoints(), WIDTH/2, 60);
+        context.fillText(""+players[0].getPoints(), WIDTH/2 + 20, 60);
+
+        // dessine les vies restantex
+        if (players[0].getNbVies()==3) {
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 , 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 + 50, 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+        }
+
+        if (players[0].getNbVies()==2) {
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+        }
+
+        if (players[0].getNbVies()==1) {
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+        }
+
+        
 
 
     }
