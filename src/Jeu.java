@@ -212,6 +212,14 @@ public class Jeu {
          }
 
 
+        /**
+         * /** BONUS
+         *  * Apres avoir manger 10 poissons à la suite sans perdre une seule vie, le requin prend confiance et
+         *  * sans perdre une vie et plus vifs dans ses prochaines attaques. Le super- pouvoir disparait apres qu'il
+         *  * ait perdu une vie
+         *  */
+
+
 
 
     }

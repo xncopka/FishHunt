@@ -2,8 +2,8 @@ import javafx.scene.image.Image;
 
 
 /**
- *  Objets dans le jeu qui permet de faire gagner 1 vie supplémentaire au requin qui apparait aleatoirement apres que
- *  le requin mange un poisson au même endroit. Ce coeur ensuite tombe par la gravite.
+ *  Objets dans le jeu qui permet de faire gagner 1 vie supplémentaire au requin qui apparait aléatoirement
+ *  apres que le requin mange un poisson et apparait au même endroit ou le requin mange ce dernier
  */
 
 
