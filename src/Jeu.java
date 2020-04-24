@@ -185,20 +185,24 @@ public class Jeu {
         }
 
 
-
-
-        if (fishes != null) {
-            for (Fish fish : fishes) {
-                fish.update(dt);
-            }
+        if ( players[0].getNbVies() == 0 ) {
+            gameOver = true;
         }
 
+   
 
 
 
         if (fishes != null) {
             for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
                 Fish fish = iterator.next();
+                fish.update(dt);
+
+                if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
+                    iterator.remove();
+                    players[0].setNbVies(players[0].getNbVies()-1);
+                }
+
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
                     if (fish.estAttrape()) {

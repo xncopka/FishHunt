@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -39,7 +43,8 @@ public class FishHunt extends Application {
     // nombre de joueurs dans le jeu
     private int nbPlayers = 1; // à changer une fois que le mode multi est implenté
 
-
+    // Texte du Game Over
+    private Text over;
 
 
 
@@ -202,6 +207,17 @@ public class FishHunt extends Application {
                 }
 
 
+                // redemarre une partie si la partie est terminée
+                if (getGameOver()) {
+
+                    textOver();
+
+
+                }
+
+
+
+
                 // temps = (temps now - dernier temps) converti en seconde
                 deltaTime = (now - lastTime) * 1e-9;
 
@@ -232,6 +248,31 @@ public class FishHunt extends Application {
         newTimer();
 
     }
+
+    /**
+     * Methode qui renvoit si la partie est terminée
+     * @return un boolean
+     */
+    public boolean getGameOver() {
+        return controleur.getGameOver();
+    }
+
+
+
+    /**
+     * Cree le texte du Game Over et l'ajoute à la racine
+     */
+    public void textOver(){
+        over = new Text("GAME OVER");
+        over.setFill(Color.RED);
+        over.setFont(Font.font(50));
+        over.setTextAlignment(TextAlignment.CENTER);
+        over.setX(200);
+        over.setY(210);
+        root.getChildren().add(over);
+    }
+
+
 
 
 

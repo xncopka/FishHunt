@@ -53,6 +53,15 @@ public class Controleur {
         return jeu.getLevelId();
     }
 
+    /**
+     * Demande au modele de mettre à jour l'état du jeu
+     * Methode qui indique si la partie est terminee ou pas
+     */
+    boolean getGameOver() {
+        return jeu.getGameOver();
+    }
+
+
 
 
 
