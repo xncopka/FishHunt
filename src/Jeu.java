@@ -15,21 +15,92 @@ public class Jeu {
 
     // Entités dans le jeu
     private Bulle[][] bulles;
-    private Balle balle;
+    private  ArrayList<Balle> balles = new ArrayList<Balle>();
     private ArrayList<Fish> fishes = new ArrayList<Fish>();
 
-    private int level;
+    // joueurs dans le jeu
+    private Player[] players;
+
+    // quel niveau on est dans le jeu
+    private boolean[] levels = new boolean[3];
+
+    // si la partie est terminée
+    private boolean gameOver;
+
+
+    private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
+
+
+    /**
+     * Permet de savoir qui est le gagnant de la partie
+     * @return un string
+     */
+    public String getWinner() {
+            Player winner = players[0];
+            for (int i = 0; i < players.length-1; i++) {
+                if (players[i].getPoints() < players[i+1].getPoints()) {
+                    winner = players[i+1];
+                }
+            }
+            return "Player " + winner.getId()+1 + " wins!";
+    }
+
+    /**
+     * Represente le niveau de difficulté du jeu
+     * @return un String
+     */
+    public int getLevel() {
+        if (levels[0]) {
+            return 1;
+        } else if (levels[1]) {
+            return 2;
+        } else {
+            return 3; // BONUS ajout de poissons a ne pas attraper
+        }
+    }
+
+
+    /**
+     * Savoir si le jeu est terminée
+     * @return un boolean
+     */
+    public boolean getGameOver() {
+        return this.gameOver;
+    }
+
+
+    /**
+     * Getter du nombre de vies du Player avec l'id correspondant
+     * @return le nombre de vie restant
+     */
+    public int getNbViesPlayer(int id) {
+        return players[id].getNbVies();
+    }
+
+    /**
+     * Mutateur du nombre de vies du player avec l'id correspondant
+     * @param life nouveau nombre de vies restant
+     */
+    public void setNbViesPlayer(int id, int life) {
+        players[id].setNbVies(life);
+    }
+
+
+
+
 
     /**
      * Constructeur de Jeu
      */
-    public Jeu() {
+    public Jeu(int nbPlayers) {
 
         // pas de bulles au debut du jeu
         bulles = new Bulle[0][0];
 
-        balle = null;
+        balles = null;
         fishes = null;
+
+        players = new Player[nbPlayers];
 
 
     }
@@ -44,15 +115,16 @@ public class Jeu {
     }
 
     public void newBall(double x, double y) {
-        balle = new Balle(x, y);
+        Balle balle = new Balle(x, y);
+        balles.add(balle);
     }
 
-    public void newFish() {
+    public void newFish(int level) {
         Fish fish = new Fish(level);
         fishes.add(fish);
     }
 
-    public void newSpecialFish() {
+    public void newSpecialFish(int level) {
         Fish fish;
         Random random = new Random();
         int valeurRandom = random.nextInt(2);
@@ -84,13 +156,18 @@ public class Jeu {
             }
         }
 
-        if (balle != null) {
-            balle.update(dt);
+        if (balles != null) {
+            for (Balle balle : balles) {
+                balle.update(dt);
+            }
         }
 
         if (fishes != null) {
-            for (Fish f : fishes) {
-                f.update(dt);
+            for (Fish fish : fishes) {
+                fish.update(dt);
+                for (Balle balle : balles) {
+                    fish.testCollision(balle);
+                }
             }
         }
 
@@ -127,8 +204,10 @@ public class Jeu {
             }
         }
 
-        if (balle != null) {
-            balle.draw(context);
+        if (balles != null) {
+            for (Balle balle: balles) {
+                balle.draw(context);
+            }
         }
 
 

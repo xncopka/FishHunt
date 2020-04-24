@@ -10,6 +10,7 @@ public class Fish extends Entity{
     private Image image;
     private Color color;
     private boolean leftOfScreen;
+    private boolean estAttrape;
 
 
     public Fish(int level) {
@@ -19,6 +20,7 @@ public class Fish extends Entity{
         Random random= new Random();
         this.vy = random.nextDouble()*(200-100) + 100;
         this.y = random.nextDouble()*(4.0/5 - 1.0/5) + 1.0/5;
+        this.estAttrape = false;
 
         this.frames = new Image[]{
                 new Image("fish/00.png"),
@@ -68,6 +70,24 @@ public class Fish extends Entity{
 
     public void setLeftOfScreen(boolean leftOfScreen) {
         this.leftOfScreen = leftOfScreen;
+    }
+
+
+
+    public boolean intersects(Balle other) {
+        return other.intersects(this);
+    }
+
+
+    /**
+     * Methode qui set estAttrape selon si la balle a touché le poisson
+     * @param other balle
+     */
+    public void testCollision(Balle other) {
+        if (intersects(other)) {
+            estAttrape = true;
+        }
+
     }
 
 

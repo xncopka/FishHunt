@@ -36,6 +36,12 @@ public class FishHunt extends Application {
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
 
+    // nombre de joueurs dans le jeu
+    private int nbPlayers;
+
+
+
+
 
 
 
@@ -146,7 +152,7 @@ public class FishHunt extends Application {
      *  Reinitialise les valeurs du jeu au debut
      */
     public void startGame() {
-        controleur = new Controleur();
+        controleur = new Controleur(nbPlayers);
         controleur.draw(context);
     }
 
@@ -183,14 +189,14 @@ public class FishHunt extends Application {
                 if ((now - firstTime) >= ((long)3e+9)) {
                     firstTime = now;
                     controleur.groupBulles();
-                    controleur.newFish();
+                    controleur.newFish(controleur.getLevel());
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
                 if ((now - firstTime5Sec) >= ((long)5e+9)) {
                     firstTime5Sec = now;
-                    controleur.newSpecialFish();
+                    controleur.newSpecialFish(controleur.getLevel());
                 }
 
 

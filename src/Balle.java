@@ -5,6 +5,9 @@ public class Balle extends Entity  {
 
     private double rayon;
 
+    // Si la balle n'a pas encore touché le poisson
+    private boolean firstInter = true;
+
     public Balle(double x, double y) {
         this.x = x;
         this.y = y;
@@ -31,6 +34,31 @@ public class Balle extends Entity  {
     }
 
 
-    //TODO methode intersects() Balle et Poisson
+
+
+
+    /**
+     * Methode qui permet de verifier si la balle intersecte le poisson
+     * Trouve le point (x, y) à l'intérieur du carré le plus proche du centre du cercle
+     * et vérifie s'il se trouve dans le rayon du cercle
+     * @param other le poisson
+     * @return vrai ou faux, selon si le poisson intersecte le rayon du cercle
+     */
+    public boolean intersects(Fish other) {
+
+        double deltaX = x - Math.max(other.x - other.largeur / 2, Math.min(x, other.x + other.largeur / 2));
+        double deltaY = y - Math.max(other.y - other.hauteur / 2, Math.min(y, other.y + other.largeur / 2));
+
+        return deltaX * deltaX + deltaY * deltaY < rayon * rayon;
+    }
+
+
+
+
+
+
+
+
+
 
 }

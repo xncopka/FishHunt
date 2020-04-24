@@ -10,8 +10,8 @@ public class Controleur {
     /**
      * Constructeur de Controleur
      */
-    public Controleur() {
-        jeu = new Jeu();
+    public Controleur(int nbPlayers) {
+        jeu = new Jeu(nbPlayers);
     }
 
 
@@ -41,12 +41,16 @@ public class Controleur {
 
     public void newBall(double x, double y) {jeu.newBall(x,y);}
 
-    public void newFish() {
-        jeu.newFish();
+    public void newFish(int level) {
+        jeu.newFish(level);
     }
 
-    public void newSpecialFish() {
-        jeu.newSpecialFish();
+    public void newSpecialFish(int level) {
+        jeu.newSpecialFish(level);
+    }
+
+    public int getLevel(){
+        return jeu.getLevel();
     }
 
 
