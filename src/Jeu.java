@@ -1,5 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,6 +29,8 @@ public class Jeu {
 
     // si la partie est terminée
     private boolean gameOver;
+
+
 
 
     private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
@@ -300,6 +304,13 @@ public class Jeu {
                 balle.draw(context);
             }
         }
+
+
+        // dessine le score
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFont(Font.font(25));
+        context.setFill(Color.WHITE);
+        context.fillText(""+players[0].getPoints(), WIDTH/2, 60);
 
 
     }
