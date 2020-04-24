@@ -109,8 +109,7 @@ public class Jeu {
         // pas de bulles au debut du jeu
         bulles = new Bulle[0][0];
 
-        balles = null;
-        fishes = null;
+      
 
         players = new Player[nbPlayers];
 
