@@ -1,15 +1,25 @@
 import javafx.scene.image.Image;
 
 public class Crab extends Fish {
-    private double tempsZero;
+    private double xInit;
+    private double dt;
     private int count;
+
     public Crab(int level) {
         super(level);
-        this.vx *= 1.3;
+        //composante y de la vitesse de la tortue
+
         this.ay = 0;
+        this.vy=0;
+        this.xInit =0;
+        this.vx = (100*Math.pow(level, 1.0/3) + 200)*1.3;
+
+
+
+
         setImage(new Image("/crabe.png"));
-        tempsZero = 0;
-        count = 1;
+        this.count = 0;
+
 
 
         //TODO Oscillations
@@ -21,19 +31,28 @@ public class Crab extends Fish {
      * Il avance pendant 0.5s, puis recule pendant 0.25s, puis avance
      * pendant 0.5s, jusqu’à avoir dépassé l’autre côté de l’écran.
      */
+
     @Override
     public void update(double dt) {
+        super.update(dt);
+            if ((Math.abs(xInit - this.x) / Math.abs(this.vx)) > 0.25) {
+                count++;
 
-        if ((dt - tempsZero) >= ((long)25e+9)){
-            count +=1;
-        }
-        if ( count %3 == 0){
-            y -=  dt * vy;
-        } else {
-            y +=  dt * vy;
-        }
+
+                if (count % 3 == 2) {
+                    xInit = this.x;
+                    this.vx*=-1;
+                }
+                if (count % 3 == 0 && count != 0) {
+                    xInit = this.x;
+                    this.vx*=-1;
+                }
+            }
+
+
+
+
     }
-
 
 
 }

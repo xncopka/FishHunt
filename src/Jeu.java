@@ -178,6 +178,7 @@ public class Jeu {
             }
         }
 
+
         if (balles != null) {
             for (Iterator<Balle> iterator = balles.iterator(); iterator.hasNext(); ) {
                 Balle balle = iterator.next();

@@ -12,7 +12,7 @@ public class Star extends Fish {
 
     }
 
-    @Override
+  /*  @Override
     public void update(double dt) {
 
         if ((dt - tempsZero) >= ((long)1e+9)){
@@ -24,6 +24,6 @@ public class Star extends Fish {
             y +=  dt * vy;
         }
     }
-
+*/
 
 }
