@@ -53,7 +53,7 @@ public class Balle extends Entity  {
      * @param other le poisson
      * @return vrai ou faux, selon si le poisson intersecte le rayon du cercle
      */
-    public boolean intersects(Fish other) {
+    public boolean intersects(Entity other) {
 
         double deltaX = x - Math.max(other.x - other.largeur / 2, Math.min(x, other.x + other.largeur / 2));
         double deltaY = y - Math.max(other.y - other.hauteur / 2, Math.min(y, other.y + other.largeur / 2));

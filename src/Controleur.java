@@ -1,5 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
+
 /**
  *  Classe qui relie la vue au modèle, HighSeaTower à Jeu
  */
@@ -55,6 +57,10 @@ public class Controleur {
 
     public void newBadFish(int level){
         jeu.newBadFish(level);
+    }
+
+    public ArrayList<Item> getItem(){
+        return jeu.getItem();
     }
 
 
