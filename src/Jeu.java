@@ -21,6 +21,7 @@ public class Jeu {
     private Bulle[][] bulles;
     private  ArrayList<Balle> balles = new ArrayList<Balle>();
     private ArrayList<Fish> fishes = new ArrayList<Fish>();
+    private ArrayList<Item> items = new ArrayList<Item>();
 
     // joueurs dans le jeu
     private Player[] players;
@@ -172,6 +173,15 @@ public class Jeu {
         fishes.add(fish);
     }
 
+    public void newItem(){
+        Heart heart = new Heart();
+        items.add(heart);
+    }
+
+    public ArrayList<Item> getItem(){
+        return this.items;
+    }
+
 
 
     /**
@@ -206,7 +216,39 @@ public class Jeu {
             gameOver = true;
         }
 
-   
+
+        Random random = new Random();
+        int valeurRandom = random.nextInt(1001);
+        if(valeurRandom==0) {
+            newItem();
+        }
+
+
+        for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
+            Item item = iterator.next();
+            item.update(dt);
+            for (Balle balle : balles) {
+                item.testCollision(balle);
+                if (item.estAttrape() && !item.isUsed()) {
+                    if (item.getId().equals("vie bonus")) {
+                        if(players[0].getNbVies() < 3) {
+                            players[0].setNbVies(players[0].getNbVies() + 1);
+                        }
+                    } else {
+                        players[0].setNbVies(players[0].getNbVies() - 1);
+                    }
+                    item.setUsed(true);
+                    iterator.remove();
+                }
+            }
+            if(item.getLastTimeActivation()){
+                iterator.remove();
+            }
+        }
+
+
+
+
 
 
 
@@ -235,6 +277,7 @@ public class Jeu {
                 }
             }
         }
+
 
 
     /* // A partir du level 3, les poissons servant d'appât apparaissent
@@ -329,6 +372,12 @@ public class Jeu {
                 balle.draw(context);
             }
         }
+
+        for (Item item: items) {
+            item.draw(context);
+        }
+
+
 
 
         // dessine le score
