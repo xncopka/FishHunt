@@ -14,7 +14,7 @@ public class Appat extends Fish {
     public Appat(int level) {
         super(level);
         this.ay=0;
-        setImage(new Image("/appat.png"));
+        setImage(new Image("fish/appat.png"));
     }
 
 

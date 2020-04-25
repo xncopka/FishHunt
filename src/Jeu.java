@@ -161,6 +161,18 @@ public class Jeu {
 
     }
 
+    public void newBadFish(int level) {
+
+           Fish fish = new Appat(level);
+            fishes.add(fish);
+    }
+
+    public void newFastFish(int level) {
+        Fish fish = new Sailfish(level);
+        fishes.add(fish);
+    }
+
+
 
     /**
      * Met a jour les donnes du jeu
@@ -205,26 +217,32 @@ public class Jeu {
 
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
-                    players[0].setNbVies(players[0].getNbVies()-1);
+                    if(!(fish instanceof Appat)) {
+                        players[0].setNbVies(players[0].getNbVies() - 1);
+                    }
                 }
 
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
                     if (fish.estAttrape()) {
-                        players[0].setPoints(players[0].getPoints()+1);
-                        iterator.remove();
+                        if(fish instanceof Appat) {
+                            gameOver=true;
+                        } else {
+                            players[0].setPoints(players[0].getPoints() + 1);
+                            iterator.remove();
+                        }
                     }
                 }
             }
         }
 
 
-      /*  // A partir du level 3, les poissons servant d'appât apparaissent
+    /* // A partir du level 3, les poissons servant d'appât apparaissent
         if (level == 3) {
             Appat appat = new Appat(level);
             fishes.add(appat);
-        }*/
-
+        }
+*/
 
 
 

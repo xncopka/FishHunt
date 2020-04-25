@@ -177,6 +177,8 @@ public class FishHunt extends Application {
             private long lastTime = 0;
             private long firstTime = 0;
             private long firstTime5Sec = 0;
+            private long firstTime10Sec = 0;
+            private long firstTime15Sec = 0;
             private long firstTimeLevel = 0;
 
             // fonction appelée à chaque frame
@@ -207,6 +209,24 @@ public class FishHunt extends Application {
                     if ((now - firstTime5Sec) >= ((long) 5e+9)) {
                         firstTime5Sec = now;
                         controleur.newSpecialFish(controleur.getLevel());
+                    }
+                }
+
+                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
+                // faire apparaitre un poisson spécial
+                if(controleur.getLevel()>=3) {
+                    if ((now - firstTime10Sec) >= ((long) 10e+9)) {
+                        firstTime10Sec = now;
+                        controleur.newBadFish(controleur.getLevel());
+                    }
+                }
+
+                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
+                // faire apparaitre un poisson spécial
+                if(controleur.getLevel()>=4) {
+                    if ((now - firstTime15Sec) >= ((long) 10e+9)) {
+                        firstTime15Sec = now;
+                        controleur.newFastFish(controleur.getLevel());
                     }
                 }
 
