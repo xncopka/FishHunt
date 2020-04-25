@@ -19,12 +19,8 @@ public class Jeu {
 
     // Entités dans le jeu
     private Bulle[][] bulles;
-    private  ArrayList<Balle> balles = new ArrayList<>();
-    private ArrayList<Fish> fishes = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
-
-
-
+    private  ArrayList<Balle> balles = new ArrayList<Balle>();
+    private ArrayList<Fish> fishes = new ArrayList<Fish>();
 
     // joueurs dans le jeu
     private Player[] players;
@@ -43,50 +39,10 @@ public class Jeu {
 
     private boolean afficherLevel;
 
-    public boolean getModeInvicible() {
-        return modeInvicible;
-    }
-
-    public void setModeInvicible(boolean modeInvicible) {
-        this.modeInvicible = modeInvicible;
-    }
-
-    private boolean modeInvicible;
-
-
-
-    private boolean sniperGame;
 
 
 
     private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
-
-
-
-
-
-
-
-    public boolean getSniperGame() {
-        return sniperGame;
-    }
-
-    public void setSniperGame(boolean sniperGame) {
-        this.sniperGame = sniperGame;
-    }
-
-    public int getBalles() {
-        return players[0].getBalles();
-    }
-
-    public void setBalles(int balles) {
-        if(players[0].getBalles()!=0) {
-            players[0].setBalles(balles);
-        }
-    }
-
-
-
 
 
     /**
@@ -103,10 +59,8 @@ public class Jeu {
             return "Player " + winner.getId() + " wins!";
     }
 
+  
 
-    public void setGameOver(boolean gameOver) {
-       this.gameOver = gameOver;
-    }
 
 
 
@@ -116,31 +70,6 @@ public class Jeu {
      */
     public boolean getGameOver() {
         return this.gameOver;
-    }
-
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getScore() {
-        return players[0].getPoints();
-    }
-
-    public void setScore(int score) {
-
-            players[0].setPoints(score);
-
-    }
-
-    public void setLife(int life) {
-        if(getLife()<3) {
-            players[0].setNbVies(life);
-        }
-    }
-
-    public int getLife() {
-        return players[0].getNbVies();
     }
 
 
@@ -161,17 +90,7 @@ public class Jeu {
     }
 
 
-    public boolean isInvicible(){
-        return players[0].isInvicible();
-    }
-    public void setInvicible (boolean isInvicible){
-        players[0].setInvicible(isInvicible);
-    }
 
-
-    public void setSerie(int serie) {
-        players[0].setSerie(serie);
-    }
 
 
     /**
@@ -179,14 +98,12 @@ public class Jeu {
      */
     public Jeu(int nbPlayers) {
 
-        modeSolo = nbPlayers == 1;
+        if(nbPlayers == 1){
+            modeSolo = true;
+        } else {
+            modeSolo = false;
+        }
 
-        // Test du mode sniper
-        //sniperGame = true;
-        sniperGame = false;
-
-
-        modeInvicible = false;
 
 
         level = 0;
@@ -221,13 +138,8 @@ public class Jeu {
     }
 
     public void newBall(double x, double y) {
-        Balle balle = new Balle(x, y, true);
+        Balle balle = new Balle(x, y);
         balles.add(balle);
-    }
-
-    public void newBallSniper(double x, double y) {
-        Balle balle = new Balle(x, y, false);
-        items.add(balle);
     }
 
     public void newFish(int level) {
@@ -260,28 +172,6 @@ public class Jeu {
         fishes.add(fish);
     }
 
-    public void newItem(){
-      /*  Heart heart = new Heart();
-        items.add(heart);*/
-        if(sniperGame){
-            Random random = new Random();
-            int valeurRandom = random.nextInt(6);
-            if(valeurRandom == 0){
-                Heart heart = new Heart();
-                items.add(heart);
-            } else {
-                newBallSniper(random.nextDouble()*(Jeu.WIDTH-20), random.nextDouble()*(Jeu.HEIGHT-20));
-            }
-        } else {
-            Heart heart = new Heart();
-            items.add(heart);
-        }
-    }
-
-    public ArrayList<Item> getItem(){
-        return this.items;
-    }
-
 
 
     /**
@@ -292,11 +182,11 @@ public class Jeu {
     public void update(double dt) {
 
         // Pour chaque groupe de bulle
-        for (Bulle[] value : bulles) {
+        for (int i = 0; i < bulles.length; i++) {
             // Pour chaque bulles dans un groupe
             for (int j = 0; j < bulles[0].length; j++) {
                 // mettre a jour la vitesse de la bulle
-                Bulle bulle = value[j];
+                Bulle bulle = bulles[i][j];
                 bulle.update(dt);
             }
         }
@@ -316,147 +206,67 @@ public class Jeu {
             gameOver = true;
         }
 
-
-        Random random = new Random();
-        if(!sniperGame) {
-            int valeurRandom = random.nextInt(1001);
-            if (valeurRandom == 0) {
-                newItem();
-            }
-        } else {
-            int valeurRandom = random.nextInt(201);
-            if (valeurRandom == 0) {
-                newItem();
-            }
-        }
-
-
-        for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
-            Item item = iterator.next();
-            item.update(dt);
-            for (Balle balle : balles) {
-                item.testCollision(balle);
-                if (item.estAttrape() && !item.isUsed()) {
-                    if(item instanceof Heart) {
-                        if (item.getId().equals("vie bonus")) {
-                            if (players[0].getNbVies() < 3) {
-                                players[0].setNbVies(players[0].getNbVies() + 1);
-                            }
-                        } else {
-                            if (!players[0].isInvicible()) {
-                                players[0].setNbVies(players[0].getNbVies() - 1);
-                            }
-                        }
-                    } else {
-                        if(sniperGame){
-                            players[0].setBalles(players[0].getBalles()+2);
-                        }
-                    }
-                    item.setUsed(true);
-                    balle.setAttrape(true);
-                    iterator.remove();
-                }
-            }
-            if(item.getLastTimeActivation()){
-                iterator.remove();
-            }
-        }
-
-
-
-
+   
 
 
 
         if (fishes != null) {
             for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
                 Fish fish = iterator.next();
-
                 fish.update(dt);
 
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
                     if(!(fish instanceof Appat)) {
-                        if(!players[0].isInvicible()) {
-                            players[0].setNbVies(players[0].getNbVies() - 1);
-                            players[0].setSerie(0);
-
-
-
-                            }
-                        }
+                        players[0].setNbVies(players[0].getNbVies() - 1);
                     }
-
+                }
 
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
-
-                    for (Fish f: fishes) {
-                        if (f.getX() >= 0 && f.getX() <= Jeu.WIDTH - f.getLargeur()) {
-                            if (f.getY() >= 0 && f.getY() <= Jeu.HEIGHT - f.getHauteur()) {
-                                if (f instanceof Sailfish) {
-                                    if (!((Sailfish) f).isMaxSpeed()) {
-                                        f.setVX(2 * f.getVX());
-                                        ((Sailfish) f).setMaxSpeed(true);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-
                     if (fish.estAttrape()) {
                         if(fish instanceof Appat) {
-                            if(!players[0].isInvicible()) {
-                                gameOver = true;
-                            }
+                            gameOver=true;
                         } else {
                             players[0].setPoints(players[0].getPoints() + 1);
-                            players[0].setSerie(players[0].getSerie()+1);
                             iterator.remove();
                         }
-                         balle.setAttrape(true);
                     }
-
                 }
             }
         }
 
 
-
-        for (Balle balle : balles) {
-            if(!balle.aAttrape()){
-                players[0].setSerie(0);
-            }
+    /* // A partir du level 3, les poissons servant d'appât apparaissent
+        if (level == 3) {
+            Appat appat = new Appat(level);
+            fishes.add(appat);
         }
-
-
-
-        if(players[0].getSerie() != 0) {
-
-            if (players[0].getSerie() % 10 == 0) {
-                players[0].setInvicible(true);
-            } else {
-                players[0].setInvicible(false);
-            }
-
-        }
+*/
 
 
 
 
 
 
+          /* Mode Solo:
+                Level 1 : 0-4 poissons capturés
+                Level 2 : 5-19 poissons capturés
+                Level 3 : 20+ poissons capturés
 
+             Mode Multijoueur:
+                Level 1: temps au depart
+                Level 2: 2min < temps < 5min
+                Level 3: 5min et +
 
+           */
          if(modeSolo) {
 
              if (players[0].getPoints()  == palier + 5) {
                  firstChangeLevel = false;
            }
 
-             if (players[0].getPoints() % 5 == 0 && !firstChangeLevel) {
+             if (players[0].getPoints() % 5 == 0 && firstChangeLevel==false) {
 
                  
                  afficherLevel=true;
@@ -466,14 +276,17 @@ public class Jeu {
                  palier = players[0].getPoints();
              }
                                                 
+         } else {
+             // TODO MODE MULTI
          }
 
 
-        if(sniperGame){
-            if(players[0].getBalles()==0){
-                gameOver = true;
-            }
-        }
+        /**
+         * /** BONUS
+         *  * Apres avoir manger 10 poissons à la suite sans perdre une seule vie, le requin prend confiance et
+         *  * sans perdre une vie et plus vifs dans ses prochaines attaques. Le super- pouvoir disparait apres qu'il
+         *  * ait perdu une vie
+         *  */
 
 
 
@@ -495,10 +308,10 @@ public class Jeu {
 
 
         // Pour chaque groupe de bulle
-        for (Bulle[] value : bulles) {
+        for (int i = 0; i < bulles.length; i++) {
             // Pour chaque bulles dans un groupe
             for (int j = 0; j < bulles[0].length; j++) {
-                Bulle bulle = value[j];
+                Bulle bulle = bulles[i][j];
                 // dessiner la bulle
                 bulle.draw(context);
             }
@@ -517,70 +330,28 @@ public class Jeu {
             }
         }
 
-        for (Item item: items) {
-            item.draw(context);
-        }
-
-
-
 
         // dessine le score
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(25));
         context.setFill(Color.WHITE);
-        context.fillText(""+players[0].getPoints(), WIDTH/2.0 + 20, 60);
-
-        if(sniperGame){
-
-            // dessine les balles restantes
-            context.setTextAlign(TextAlignment.CENTER);
-            context.setFont(Font.font(20));
-            context.setFill(Color.WHITE);
-            context.fillText("Balles restantes: "+ players[0].getBalles(), 100, 80);
-        }
-
-        // dessine les balles restantes
-        context.setTextAlign(TextAlignment.CENTER);
-        context.setFont(Font.font(20));
-        context.setFill(Color.WHITE);
-        context.fillText("Série: "+ players[0].getSerie(), 70, 30);
-
-
-
-
+        context.fillText(""+players[0].getPoints(), WIDTH/2 + 20, 60);
 
         // dessine les vies restantex
         if (players[0].getNbVies()==3) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 , 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 + 50, 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
         }
 
         if (players[0].getNbVies()==2) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
         }
 
         if (players[0].getNbVies()==1) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
         }
-
-       
 
         
 

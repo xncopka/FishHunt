@@ -7,15 +7,6 @@ import javafx.scene.image.Image;
 
 public class Sailfish extends Fish {
 
-    public boolean isMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public void setMaxSpeed(boolean maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    private boolean maxSpeed;
 
 
 
@@ -25,7 +16,7 @@ public class Sailfish extends Fish {
         setImage(new Image("fish/sailfish.png"));
         this.hauteur=150;
         this.largeur=150;
-        this.maxSpeed = false;
+        this.vx *=2;
     }
 
 

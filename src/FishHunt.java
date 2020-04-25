@@ -14,8 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 
 
 /**
@@ -48,12 +47,6 @@ public class FishHunt extends Application {
     private Text over;
 
     private Text level;
-
-    private Text invincible;
-
-    private boolean firstTimeLevelActivation = false;
-
-    private boolean [] firstClics = new boolean[]{false, false, false, false};
 
 
 
@@ -119,11 +112,6 @@ public class FishHunt extends Application {
 
         scene.setOnMouseClicked((event) -> {
             controleur.newBall(event.getX(), event.getY());
-            if(controleur.getSniperGame()) {
-                if(!controleur.getModeInvicible()){
-                controleur.setBalles(controleur.getBalles() - 1);
-                }
-            }
         });
 
 
@@ -143,59 +131,7 @@ public class FishHunt extends Application {
             if (event.getCode() == KeyCode.R) {
                 restart();
             }
-                                                                                                     
-            if (event.getCode() == KeyCode.H && !firstClics[0]) {
-                controleur.setLevel(controleur.getLevel()+1);
-                controleur.setAfficherLevel(true);
-                firstClics[0]=true;
 
-            }
-
-            if (event.getCode() == KeyCode.J && !firstClics[1]) {
-                controleur.setScore(controleur.getScore()+1);
-                firstClics[1]=true;
-            }
-
-            if (event.getCode() == KeyCode.K && !firstClics[2]) {
-                controleur.setLife(controleur.getLife()+1);
-                firstClics[2]=true;
-            }
-
-
-            if (event.getCode() == KeyCode.L && !firstClics[3]) {
-                setGameOver(true);
-                firstClics[3]=true;
-            }
-
-
-
-        });
-
-
-        // Actions sur le clavier en relachant la touche
-        // Interdit le spammage de touches
-        scene.setOnKeyReleased((event) -> {
-
-
-
-            if (event.getCode() == KeyCode.H) {
-                firstClics[0]=false;  
-
-            }
-
-
-            if (event.getCode() == KeyCode.J) {
-                firstClics[1]=false;
-            }
-
-
-            if(event.getCode() == KeyCode.K) {
-                firstClics[2]=false;
-            }
-            if (event.getCode() == KeyCode.L){
-                firstClics[3]=false;
-            }
-           
 
         });
 
@@ -243,14 +179,7 @@ public class FishHunt extends Application {
             private long firstTime5Sec = 0;
             private long firstTime10Sec = 0;
             private long firstTime15Sec = 0;
-            //private long firstTimeLevel = 0;
-            private long firstTimeInvicible = 0;
-            private long lastTimeInvicible = 0;
-
-            private ArrayList<Long> firstTimeLevels = new ArrayList<Long>();
-
-
-
+            private long firstTimeLevel = 0;
 
             // fonction appelée à chaque frame
             @Override
@@ -283,7 +212,7 @@ public class FishHunt extends Application {
                     }
                 }
 
-                // Si 10 secondes se sont écoulés depuis le debut de l'animation,
+                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
                 if(controleur.getLevel()>=3) {
                     if ((now - firstTime10Sec) >= ((long) 10e+9)) {
@@ -302,53 +231,6 @@ public class FishHunt extends Application {
                 }
 
 
-                if(!controleur.getItem().isEmpty()){
-                    for (Item item: controleur.getItem()) {
-                        if(!item.getFirstTimeActivation()) {
-                            item.setFirstTime(now);
-                            item.setFirstTimeActivation(true);
-                        }
-                        if ((now - item.getFirstTime()) >= ((long) 1.5e+9)) {
-                            item.setLastTimeActivation(true);
-                        }
-                    }
-                }
-
-
-                if(controleur.isInvicible() & !controleur.getModeInvicible()){
-                    firstTimeInvicible = now;
-                    controleur.setModeInvicible(true);
-                    textDebutInvincible();
-                }
-
-                if(firstTimeInvicible>0) {
-                    if ((now - firstTimeInvicible) >= ((long) 3e+9)) {
-                        root.getChildren().remove(invincible);
-                    }
-                }
-
-                if (lastTimeInvicible>0) {
-                    if ((now - lastTimeInvicible) >= ((long) 3e+9)) {
-                        root.getChildren().remove(invincible);
-                        lastTimeInvicible = 0;
-                    }
-                }
-
-
-
-                if(now-firstTimeInvicible >= ((long) 10e+9) && controleur.getModeInvicible()) {
-                    controleur.setInvicible(false);
-                    controleur.setModeInvicible(false);
-                    textFinInvincible();
-                    firstTimeInvicible = 0;
-                    lastTimeInvicible = now;
-                }
-
-             
-
-
-
-
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
 
@@ -357,35 +239,18 @@ public class FishHunt extends Application {
 
                 }
                         //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
-                if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
-                    firstTimeLevelActivation = true;
+                if (controleur.getAfficherLevel() ){
                     controleur.setAfficherLevel(false);
-                    //firstTimeLevel = now;
-                    long firstTimeLevel = now;
-                    firstTimeLevels.add(firstTimeLevel);
+                    firstTimeLevel = now;
                     textLevel();
                 }
 
-                if(!firstTimeLevels.isEmpty()){
-                for (Iterator<Long> iterator = firstTimeLevels.iterator(); iterator.hasNext(); ) {
-                    long firstTimeLevel = iterator.next();
-
-
-
-                /*if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
+                if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
                     root.getChildren().remove(level);
                     firstTimeLevel = 0;
-                }*/
-
-                    if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
-                        root.getChildren().remove(level);
-                        iterator.remove();
-                        firstTimeLevelActivation = false;
-                        
-                    }
-
                 }
-            }
+
+
 
 
                 // temps = (temps now - dernier temps) converti en seconde
@@ -425,10 +290,6 @@ public class FishHunt extends Application {
      */
     public boolean getGameOver() {
         return controleur.getGameOver();
-    }
-
-    public void setGameOver(boolean gameOver) {
-        controleur.setGameOver(gameOver);
     }
 
 
@@ -472,39 +333,6 @@ public class FishHunt extends Application {
         level.setY(210);
         root.getChildren().add(level);
     }
-
-    /**
-     * Cree le texte du level
-     */
-   public void textDebutInvincible(){
-        invincible = new Text("Serie de 10 atteinte:\ndebut invincibilité");
-        invincible.setFill(Color.GREEN);
-        invincible.setFont(Font.font(25));
-        invincible.setTextAlignment(TextAlignment.CENTER);
-        invincible.setX(410);
-        invincible.setY(50);
-        root.getChildren().add(invincible);
-    }
-
-
-    /**
-     * Cree le texte du level
-     */
-    public void textFinInvincible(){
-        invincible = new Text("10 sec écoulées:\nfin invincibilité");
-        invincible.setFill(Color.RED);
-        invincible.setFont(Font.font(25));
-        invincible.setTextAlignment(TextAlignment.CENTER);
-        invincible.setX(410);
-        invincible.setY(50);
-        root.getChildren().add(invincible);
-    }
-
-
-
-
-
-
 
 
 

@@ -1,7 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.ArrayList;
-
 /**
  *  Classe qui relie la vue au modèle, HighSeaTower à Jeu
  */
@@ -59,10 +57,6 @@ public class Controleur {
         jeu.newBadFish(level);
     }
 
-    public ArrayList<Item> getItem(){
-        return jeu.getItem();
-    }
-
 
     /**
      * Demande au modele de mettre à jour l'état du jeu
@@ -76,51 +70,13 @@ public class Controleur {
         return jeu.getLevel();
     }
 
-    public void setLevel(int level) {
-        jeu.setLevel(level);
-    }
-
-    public int getScore() {
-        return jeu.getScore();
-    }
-
-    public void setScore(int score) {
-        jeu.setScore(score);
-    }
-
-    public void setLife(int life) {
-        jeu.setLife(life);
-    }
-
-    public int getLife() {
-        return jeu.getLife();
-    }
 
 
 
 
-    public boolean isInvicible(){
-        return jeu.isInvicible();
-    }
-    public void setInvicible (boolean isInvicible){
-        jeu.setInvicible(isInvicible);
-    }
 
-    public boolean getModeInvicible() {
-        return jeu.getModeInvicible();
-    }
 
-    public void setModeInvicible(boolean modeInvicible) {
-        jeu.setModeInvicible(modeInvicible);
-    }
 
-    public void setSerie(int serie) {
-        jeu.setSerie(serie);
-    }
-
-    public void setGameOver(boolean gameOver) {
-        jeu.setGameOver(gameOver);
-    }
 
 
 
@@ -134,22 +90,6 @@ public class Controleur {
 
 
 
-
-    public boolean getSniperGame() {
-        return jeu.getSniperGame();
-    }
-
-    public void setSniperGame(boolean sniperGame) {
-        jeu.setSniperGame(sniperGame);
-    }
-
-    public int getBalles() {
-        return jeu.getBalles();
-    }
-
-    public void setBalles(int balles) {
-        jeu.setBalles(balles);
-    }
 
 
 
