@@ -38,14 +38,15 @@ public class Crab extends Fish {
             if ((Math.abs(xInit - this.x) / Math.abs(this.vx)) > 0.25) {
                 count++;
 
-
                 if (count % 3 == 2) {
                     xInit = this.x;
-                    this.vx*=-1;
+                    this.vx *=-1;
                 }
-                if (count % 3 == 0 && count != 0) {
+                if (count % 3 == 0) {
                     xInit = this.x;
-                    this.vx*=-1;
+                    if(this.vx < 0 ) {
+                        this.vx *= -1;
+                    }
                 }
             }
 
