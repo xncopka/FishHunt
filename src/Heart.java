@@ -1,4 +1,7 @@
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.Random;
 
 
 /**
@@ -7,14 +10,35 @@ import javafx.scene.image.Image;
  */
 
 
-public class Heart extends Fish {         // n'est pas un poisson mais reprend les méthodes du poisson
+public class Heart extends Item {
 
 
-    public Heart(int level) {
-        super(level);
+
+
+    public Heart() {
+        Random random = new Random();
         this.ay=0;
-        setImage(new Image("/heart.png"));
+        this.hauteur = 50;
+        this.largeur = 50;
+        this.x = random.nextDouble()*(Jeu.WIDTH-largeur);
+        this.y = random.nextDouble()*(Jeu.HEIGHT-hauteur);
+        int pileOuFace = random.nextInt(2);
+        if (pileOuFace ==0) {
+            this.image = new Image("items/heart-plus.png");
+            this.id = "vie bonus";
+        } else {
+            this.image = new Image("items/heart-minus.png");
+            this.id = "vie malus";
+        }
+        estAttrape = false;
+        firstTimeActivation = false;
+        lastTimeActivation = false;
+        isUsed = false;
     }
+
+
+
+
 
 
 

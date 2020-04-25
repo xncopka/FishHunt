@@ -231,6 +231,20 @@ public class FishHunt extends Application {
                 }
 
 
+                if(!controleur.getItem().isEmpty()){
+                    for (Item item: controleur.getItem()) {
+                        if(!item.getFirstTimeActivation()) {
+                            item.setFirstTime(now);
+                            item.setFirstTimeActivation(true);
+                        }
+                        if ((now - item.getFirstTime()) >= ((long) 1.5e+9)) {
+                            item.setLastTimeActivation(true);
+                        }
+
+
+                    }
+                }
+
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
 
