@@ -49,6 +49,14 @@ public class Controleur {
         jeu.newSpecialFish(level);
     }
 
+    public void newFastFish(int level){
+        jeu.newFastFish(level);
+    }
+
+    public void newBadFish(int level){
+        jeu.newBadFish(level);
+    }
+
 
     /**
      * Demande au modele de mettre à jour l'état du jeu
