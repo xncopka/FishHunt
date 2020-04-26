@@ -186,7 +186,8 @@ public class Jeu {
         }
 
         // Test du mode sniper
-        sniperGame = true;
+        //sniperGame = true;
+        sniperGame = false;
 
 
         modeInvicible = false;
