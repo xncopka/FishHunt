@@ -76,6 +76,26 @@ public class Controleur {
         return jeu.getLevel();
     }
 
+    public void setLevel(int level) {
+        jeu.setLevel(level);
+    }
+
+    public int getScore() {
+        return jeu.getScore();
+    }
+
+    public void setScore(int score) {
+        jeu.setScore(score);
+    }
+
+    public void setLife(int life) {
+        jeu.setLife(life);
+    }
+
+    public int getLife() {
+        return jeu.getLife();
+    }
+
 
 
 
@@ -98,6 +118,9 @@ public class Controleur {
         jeu.setSerie(serie);
     }
 
+    public void setGameOver(boolean gameOver) {
+        jeu.setGameOver(gameOver);
+    }
 
 
 
