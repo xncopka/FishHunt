@@ -48,6 +48,8 @@ public class FishHunt extends Application {
 
     private Text level;
 
+    private Text invincible;
+
 
 
 
@@ -181,6 +183,7 @@ public class FishHunt extends Application {
             private long firstTime15Sec = 0;
             private long firstTimeLevel = 0;
             private long firstTimeInvicible = 0;
+            private long lastTimeInvicible = 0;
 
 
             // fonction appelée à chaque frame
@@ -249,12 +252,34 @@ public class FishHunt extends Application {
                 if(controleur.isInvicible() & !controleur.getModeInvicible()){
                     firstTimeInvicible = now;
                     controleur.setModeInvicible(true);
+                    textDebutInvincible();
                 }
+
+                if(firstTimeInvicible>0) {
+                    if ((now - firstTimeInvicible) >= ((long) 3e+9)) {
+                        root.getChildren().remove(invincible);
+                    }
+                }
+
+                if (lastTimeInvicible>0) {
+                    if ((now - lastTimeInvicible) >= ((long) 3e+9)) {
+                        root.getChildren().remove(invincible);
+                        lastTimeInvicible = 0;
+                    }
+                }
+
+
+
                 if(now-firstTimeInvicible >= ((long) 10e+9) && controleur.getModeInvicible()) {
                     controleur.setInvicible(false);
                     controleur.setModeInvicible(false);
                     controleur.setSerie(0);
+                    textFinInvincible();
+                    firstTimeInvicible = 0;
+                    lastTimeInvicible = now;
                 }
+
+             
 
 
 
@@ -361,6 +386,36 @@ public class FishHunt extends Application {
         level.setY(210);
         root.getChildren().add(level);
     }
+
+    /**
+     * Cree le texte du level
+     */
+   public void textDebutInvincible(){
+        invincible = new Text("Serie de 10 atteinte:\ndebut invincibilité");
+        invincible.setFill(Color.GREEN);
+        invincible.setFont(Font.font(25));
+        invincible.setTextAlignment(TextAlignment.CENTER);
+        invincible.setX(410);
+        invincible.setY(50);
+        root.getChildren().add(invincible);
+    }
+
+
+    /**
+     * Cree le texte du level
+     */
+    public void textFinInvincible(){
+        invincible = new Text("10 sec écoulées:\nfin invincibilité");
+        invincible.setFill(Color.RED);
+        invincible.setFont(Font.font(25));
+        invincible.setTextAlignment(TextAlignment.CENTER);
+        invincible.setX(410);
+        invincible.setY(50);
+        root.getChildren().add(invincible);
+    }
+
+
+
 
 
 
