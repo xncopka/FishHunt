@@ -135,6 +135,22 @@ public class Controleur {
 
 
 
+    public boolean getSniperGame() {
+        return jeu.getSniperGame();
+    }
+
+    public void setSniperGame(boolean sniperGame) {
+        jeu.setSniperGame(sniperGame);
+    }
+
+    public int getBalles() {
+        return jeu.getBalles();
+    }
+
+    public void setBalles(int balles) {
+        jeu.setBalles(balles);
+    }
+
 
 
 }

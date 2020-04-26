@@ -55,11 +55,38 @@ public class Jeu {
 
 
 
-
+    private boolean sniperGame;
 
 
 
     private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
+
+
+
+
+
+
+
+    public boolean getSniperGame() {
+        return sniperGame;
+    }
+
+    public void setSniperGame(boolean sniperGame) {
+        this.sniperGame = sniperGame;
+    }
+
+    public int getBalles() {
+        return players[0].getBalles();
+    }
+
+    public void setBalles(int balles) {
+        if(players[0].getBalles()!=0) {
+            players[0].setBalles(balles);
+        }
+    }
+
+
+
 
 
     /**
@@ -158,6 +185,9 @@ public class Jeu {
             modeSolo = false;
         }
 
+        // Test du mode sniper
+        sniperGame = true;
+
 
         modeInvicible = false;
 
@@ -194,8 +224,13 @@ public class Jeu {
     }
 
     public void newBall(double x, double y) {
-        Balle balle = new Balle(x, y);
+        Balle balle = new Balle(x, y, true);
         balles.add(balle);
+    }
+
+    public void newBallSniper(double x, double y) {
+        Balle balle = new Balle(x, y, false);
+        items.add(balle);
     }
 
     public void newFish(int level) {
@@ -229,8 +264,21 @@ public class Jeu {
     }
 
     public void newItem(){
-        Heart heart = new Heart();
-        items.add(heart);
+      /*  Heart heart = new Heart();
+        items.add(heart);*/
+        if(sniperGame){
+            Random random = new Random();
+            int valeurRandom = random.nextInt(6);
+            if(valeurRandom == 0){
+                Heart heart = new Heart();
+                items.add(heart);
+            } else {
+                newBallSniper(random.nextDouble()*(Jeu.WIDTH-20), random.nextDouble()*(Jeu.HEIGHT-20));
+            }
+        } else {
+            Heart heart = new Heart();
+            items.add(heart);
+        }
     }
 
     public ArrayList<Item> getItem(){
@@ -273,9 +321,16 @@ public class Jeu {
 
 
         Random random = new Random();
-        int valeurRandom = random.nextInt(1001);
-        if(valeurRandom==0) {
-            newItem();
+        if(!sniperGame) {
+            int valeurRandom = random.nextInt(1001);
+            if (valeurRandom == 0) {
+                newItem();
+            }
+        } else {
+            int valeurRandom = random.nextInt(201);
+            if (valeurRandom == 0) {
+                newItem();
+            }
         }
 
 
@@ -285,16 +340,23 @@ public class Jeu {
             for (Balle balle : balles) {
                 item.testCollision(balle);
                 if (item.estAttrape() && !item.isUsed()) {
-                    if (item.getId().equals("vie bonus")) {
-                        if(players[0].getNbVies() < 3) {
-                            players[0].setNbVies(players[0].getNbVies() + 1);
+                    if(item instanceof Heart) {
+                        if (item.getId().equals("vie bonus")) {
+                            if (players[0].getNbVies() < 3) {
+                                players[0].setNbVies(players[0].getNbVies() + 1);
+                            }
+                        } else {
+                            if (!players[0].isInvicible()) {
+                                players[0].setNbVies(players[0].getNbVies() - 1);
+                            }
                         }
                     } else {
-                        if(!players[0].isInvicible()) {
-                            players[0].setNbVies(players[0].getNbVies() - 1);
+                        if(sniperGame){
+                            players[0].setBalles(players[0].getBalles()+2);
                         }
                     }
                     item.setUsed(true);
+                    balle.setAttrape(true);
                     iterator.remove();
                 }
             }
@@ -337,21 +399,32 @@ public class Jeu {
                             players[0].setSerie(players[0].getSerie()+1);
                             iterator.remove();
                         }
+                         balle.setAttrape(true);
                     }
+
                 }
             }
         }
 
 
 
+        for (Balle balle : balles) {
+            if(!balle.aAttrape()){
+                players[0].setSerie(0);
+            }
+        }
 
 
-           if(players[0].getSerie()>=10){
-               players[0].setInvicible(true);
-           } else {
-               players[0].setInvicible(false);
-           }
 
+        if(players[0].getSerie() != 0) {
+
+            if (players[0].getSerie() % 10 == 0) {
+                players[0].setInvicible(true);
+            } else {
+                players[0].setInvicible(false);
+            }
+
+        }
 
 
 
@@ -381,6 +454,11 @@ public class Jeu {
          }
 
 
+        if(sniperGame){
+            if(players[0].getBalles()==0){
+                gameOver = true;
+            }
+        }
 
 
 
@@ -436,6 +514,21 @@ public class Jeu {
         context.setFont(Font.font(25));
         context.setFill(Color.WHITE);
         context.fillText(""+players[0].getPoints(), WIDTH/2 + 20, 60);
+
+        if(sniperGame){
+
+            // dessine les balles restantes
+            context.setTextAlign(TextAlignment.CENTER);
+            context.setFont(Font.font(20));
+            context.setFill(Color.WHITE);
+            context.fillText("Balles restantes: "+ players[0].getBalles(), 100, 80);
+        }
+
+        // dessine les balles restantes
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFont(Font.font(20));
+        context.setFill(Color.WHITE);
+        context.fillText("Série: "+ players[0].getSerie(), 70, 30);
 
 
 
