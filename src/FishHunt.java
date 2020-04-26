@@ -119,6 +119,11 @@ public class FishHunt extends Application {
 
         scene.setOnMouseClicked((event) -> {
             controleur.newBall(event.getX(), event.getY());
+            if(controleur.getSniperGame()) {
+                if(!controleur.getModeInvicible()){
+                controleur.setBalles(controleur.getBalles() - 1);
+                }
+            }
         });
 
 
@@ -334,7 +339,6 @@ public class FishHunt extends Application {
                 if(now-firstTimeInvicible >= ((long) 10e+9) && controleur.getModeInvicible()) {
                     controleur.setInvicible(false);
                     controleur.setModeInvicible(false);
-                    controleur.setSerie(0);
                     textFinInvincible();
                     firstTimeInvicible = 0;
                     lastTimeInvicible = now;

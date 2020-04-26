@@ -1,10 +1,21 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Balle extends Entity  {
+public class Balle extends Item  {
 
 
     private double rayon;
+    private boolean isPossessed;
+
+    public boolean aAttrape() {
+        return aAttrape;
+    }
+
+    public void setAttrape(boolean aAttrape) {
+        this.aAttrape = aAttrape;
+    }
+
+    private boolean aAttrape;
 
     public double getRayon() {
         return rayon;
@@ -17,10 +28,16 @@ public class Balle extends Entity  {
 
 
 
-    public Balle(double x, double y) {
+    public Balle(double x, double y, boolean isPossessed) {
         this.x = x;
         this.y = y;
         this.rayon = 50;
+        this.isPossessed = isPossessed;
+        this.aAttrape = false;
+        if(!isPossessed){
+            this.rayon = 20;
+        }
+
 
     }
 
@@ -31,7 +48,9 @@ public class Balle extends Entity  {
     @Override
     public void update(double dt) {
         // met a jour le nouveau rayon
-        rayon -= dt * 300;
+        if(isPossessed) {
+            rayon -= dt * 300;
+        }
     }
 
     @Override
@@ -61,6 +80,16 @@ public class Balle extends Entity  {
         return deltaX * deltaX + deltaY * deltaY < rayon * rayon;
     }
 
+
+    public void testCollision(Entity other) {
+        if(other instanceof Fish){
+            ((Fish) other).testCollision(this);
+        }
+        if (other instanceof Item){
+            ((Item) other).testCollision(this);
+        }
+
+    }
 
 
 
