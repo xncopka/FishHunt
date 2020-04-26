@@ -3,11 +3,16 @@ public class Player {
     private int id;
     private int life;
     private int points; // points en nombre de poissons attrapés
+    private int serie;
+    private boolean invicible;
+
 
     public Player(int id) {
         this.id = id;
         this.life = 3;
         this.points = 0;
+        this.serie = 0;
+        this.invicible = false;
     }
 
     /**
@@ -40,4 +45,25 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getSerie() {
+        return serie;
+    }
+
+    public void setSerie(int serie) {
+        this.serie = serie;
+    }
+
+
+    public boolean isInvicible() {
+        return invicible;
+    }
+
+    public void setInvicible(boolean invicible) {
+        this.invicible = invicible;
+    }
+
+
+
+
 }

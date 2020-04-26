@@ -150,6 +150,15 @@ public abstract class Entity {
 
 
     /**
+     * Mutateur de la composante y de la vitesse du modèle
+     * @param vy composante x de la vitesse
+     */
+    public void setVY(double vy) {
+        this.vy = vy;
+    }
+
+
+    /**
      * Mutateur de la composante x de l'accélération du modèle
      * @param ax composante x de l'accélération
      */

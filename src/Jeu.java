@@ -23,6 +23,9 @@ public class Jeu {
     private ArrayList<Fish> fishes = new ArrayList<Fish>();
     private ArrayList<Item> items = new ArrayList<Item>();
 
+
+
+
     // joueurs dans le jeu
     private Player[] players;
 
@@ -39,6 +42,19 @@ public class Jeu {
     private int palier;
 
     private boolean afficherLevel;
+
+    public boolean getModeInvicible() {
+        return modeInvicible;
+    }
+
+    public void setModeInvicible(boolean modeInvicible) {
+        this.modeInvicible = modeInvicible;
+    }
+
+    private boolean modeInvicible;
+
+
+
 
 
 
@@ -91,7 +107,17 @@ public class Jeu {
     }
 
 
+    public boolean isInvicible(){
+        return players[0].isInvicible();
+    }
+    public void setInvicible (boolean isInvicible){
+        players[0].setInvicible(isInvicible);
+    }
 
+
+    public void setSerie(int serie) {
+        players[0].setSerie(serie);
+    }
 
 
     /**
@@ -105,6 +131,8 @@ public class Jeu {
             modeSolo = false;
         }
 
+
+        modeInvicible = false;
 
 
         level = 0;
@@ -235,7 +263,9 @@ public class Jeu {
                             players[0].setNbVies(players[0].getNbVies() + 1);
                         }
                     } else {
-                        players[0].setNbVies(players[0].getNbVies() - 1);
+                        if(!players[0].isInvicible()) {
+                            players[0].setNbVies(players[0].getNbVies() - 1);
+                        }
                     }
                     item.setUsed(true);
                     iterator.remove();
@@ -255,12 +285,16 @@ public class Jeu {
         if (fishes != null) {
             for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
                 Fish fish = iterator.next();
+
                 fish.update(dt);
 
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
                     if(!(fish instanceof Appat)) {
-                        players[0].setNbVies(players[0].getNbVies() - 1);
+                        if(!players[0].isInvicible()) {
+                            players[0].setNbVies(players[0].getNbVies() - 1);
+                            players[0].setSerie(0);
+                        }
                     }
                 }
 
@@ -268,9 +302,12 @@ public class Jeu {
                     fish.testCollision(balle);
                     if (fish.estAttrape()) {
                         if(fish instanceof Appat) {
-                            gameOver=true;
+                            if(!players[0].isInvicible()) {
+                                gameOver = true;
+                            }
                         } else {
                             players[0].setPoints(players[0].getPoints() + 1);
+                            players[0].setSerie(players[0].getSerie()+1);
                             iterator.remove();
                         }
                     }
@@ -280,12 +317,16 @@ public class Jeu {
 
 
 
-    /* // A partir du level 3, les poissons servant d'appât apparaissent
-        if (level == 3) {
-            Appat appat = new Appat(level);
-            fishes.add(appat);
-        }
-*/
+
+
+           if(players[0].getSerie()>=10){
+               players[0].setInvicible(true);
+           } else {
+               players[0].setInvicible(false);
+           }
+
+
+
 
 
 
@@ -386,21 +427,42 @@ public class Jeu {
         context.setFill(Color.WHITE);
         context.fillText(""+players[0].getPoints(), WIDTH/2 + 20, 60);
 
+
+
+
+
         // dessine les vies restantex
         if (players[0].getNbVies()==3) {
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2 , 80, 30, 30);
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2 + 50, 80, 30, 30);
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            if(!modeInvicible) {
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2 + 50, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            } else {
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 + 50, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+            }
         }
 
         if (players[0].getNbVies()==2) {
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            if(!modeInvicible) {
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            } else {
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+            }
         }
 
         if (players[0].getNbVies()==1) {
-            context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            if(!modeInvicible) {
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+            } else {
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+            }
         }
+
+       
 
         
 
