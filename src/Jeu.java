@@ -333,17 +333,6 @@ public class Jeu {
 
 
 
-          /* Mode Solo:
-                Level 1 : 0-4 poissons capturés
-                Level 2 : 5-19 poissons capturés
-                Level 3 : 20+ poissons capturés
-
-             Mode Multijoueur:
-                Level 1: temps au depart
-                Level 2: 2min < temps < 5min
-                Level 3: 5min et +
-
-           */
          if(modeSolo) {
 
              if (players[0].getPoints()  == palier + 5) {
@@ -365,12 +354,6 @@ public class Jeu {
          }
 
 
-        /**
-         * /** BONUS
-         *  * Apres avoir manger 10 poissons à la suite sans perdre une seule vie, le requin prend confiance et
-         *  * sans perdre une vie et plus vifs dans ses prochaines attaques. Le super- pouvoir disparait apres qu'il
-         *  * ait perdu une vie
-         *  */
 
 
 
