@@ -180,6 +180,8 @@ public class FishHunt extends Application {
             private long firstTime10Sec = 0;
             private long firstTime15Sec = 0;
             private long firstTimeLevel = 0;
+            private long firstTimeInvicible = 0;
+
 
             // fonction appelée à chaque frame
             @Override
@@ -212,7 +214,7 @@ public class FishHunt extends Application {
                     }
                 }
 
-                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
+                // Si 10 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
                 if(controleur.getLevel()>=3) {
                     if ((now - firstTime10Sec) >= ((long) 10e+9)) {
@@ -240,10 +242,22 @@ public class FishHunt extends Application {
                         if ((now - item.getFirstTime()) >= ((long) 1.5e+9)) {
                             item.setLastTimeActivation(true);
                         }
-
-
                     }
                 }
+
+
+                if(controleur.isInvicible() & !controleur.getModeInvicible()){
+                    firstTimeInvicible = now;
+                    controleur.setModeInvicible(true);
+                }
+                if(now-firstTimeInvicible >= ((long) 10e+9) && controleur.getModeInvicible()) {
+                    controleur.setInvicible(false);
+                    controleur.setModeInvicible(false);
+                    controleur.setSerie(0);
+                }
+
+
+
 
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
@@ -347,6 +361,9 @@ public class FishHunt extends Application {
         level.setY(210);
         root.getChildren().add(level);
     }
+
+
+
 
 
 

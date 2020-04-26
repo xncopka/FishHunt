@@ -79,9 +79,24 @@ public class Controleur {
 
 
 
+    public boolean isInvicible(){
+        return jeu.isInvicible();
+    }
+    public void setInvicible (boolean isInvicible){
+        jeu.setInvicible(isInvicible);
+    }
 
+    public boolean getModeInvicible() {
+        return jeu.getModeInvicible();
+    }
 
+    public void setModeInvicible(boolean modeInvicible) {
+        jeu.setModeInvicible(modeInvicible);
+    }
 
+    public void setSerie(int serie) {
+        jeu.setSerie(serie);
+    }
 
 
 
