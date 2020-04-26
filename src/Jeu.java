@@ -76,8 +76,10 @@ public class Jeu {
             return "Player " + winner.getId() + " wins!";
     }
 
-  
 
+    public void setGameOver(boolean gameOver) {
+       this.gameOver = gameOver;
+    }
 
 
 
@@ -87,6 +89,31 @@ public class Jeu {
      */
     public boolean getGameOver() {
         return this.gameOver;
+    }
+
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getScore() {
+        return players[0].getPoints();
+    }
+
+    public void setScore(int score) {
+
+            players[0].setPoints(score);
+
+    }
+
+    public void setLife(int life) {
+        if(getLife()<3) {
+            players[0].setNbVies(life);
+        }
+    }
+
+    public int getLife() {
+        return players[0].getNbVies();
     }
 
 
