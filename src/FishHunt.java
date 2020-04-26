@@ -14,7 +14,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -49,6 +50,10 @@ public class FishHunt extends Application {
     private Text level;
 
     private Text invincible;
+
+    private boolean firstTimeLevelActivation = false;
+
+    private boolean [] firstClics = new boolean[]{false, false, false, false};
 
 
 
@@ -133,7 +138,59 @@ public class FishHunt extends Application {
             if (event.getCode() == KeyCode.R) {
                 restart();
             }
+                                                                                                     
+            if (event.getCode() == KeyCode.H && !firstClics[0]) {
+                controleur.setLevel(controleur.getLevel()+1);
+                controleur.setAfficherLevel(true);
+                firstClics[0]=true;
 
+            }
+
+            if (event.getCode() == KeyCode.J && !firstClics[1]) {
+                controleur.setScore(controleur.getScore()+1);
+                firstClics[1]=true;
+            }
+
+            if (event.getCode() == KeyCode.K && !firstClics[2]) {
+                controleur.setLife(controleur.getLife()+1);
+                firstClics[2]=true;
+            }
+
+
+            if (event.getCode() == KeyCode.L && !firstClics[3]) {
+                setGameOver(true);
+                firstClics[3]=true;
+            }
+
+
+
+        });
+
+
+        // Actions sur le clavier en relachant la touche
+        // Interdit le spammage de touches
+        scene.setOnKeyReleased((event) -> {
+
+
+
+            if (event.getCode() == KeyCode.H) {
+                firstClics[0]=false;  
+
+            }
+
+
+            if (event.getCode() == KeyCode.J) {
+                firstClics[1]=false;
+            }
+
+
+            if(event.getCode() == KeyCode.K) {
+                firstClics[2]=false;
+            }
+            if (event.getCode() == KeyCode.L){
+                firstClics[3]=false;
+            }
+           
 
         });
 
@@ -181,9 +238,13 @@ public class FishHunt extends Application {
             private long firstTime5Sec = 0;
             private long firstTime10Sec = 0;
             private long firstTime15Sec = 0;
-            private long firstTimeLevel = 0;
+            //private long firstTimeLevel = 0;
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
+
+            private ArrayList<Long> firstTimeLevels = new ArrayList<Long>();
+
+
 
 
             // fonction appelée à chaque frame
@@ -292,18 +353,35 @@ public class FishHunt extends Application {
 
                 }
                         //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
-                if (controleur.getAfficherLevel() ){
+                if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
+                    firstTimeLevelActivation = true;
                     controleur.setAfficherLevel(false);
-                    firstTimeLevel = now;
+                    //firstTimeLevel = now;
+                    long firstTimeLevel = now;
+                    firstTimeLevels.add(firstTimeLevel);
                     textLevel();
                 }
 
-                if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
+                if(!firstTimeLevels.isEmpty()){
+                for (Iterator<Long> iterator = firstTimeLevels.iterator(); iterator.hasNext(); ) {
+                    long firstTimeLevel = iterator.next();
+
+
+
+                /*if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
                     root.getChildren().remove(level);
                     firstTimeLevel = 0;
+                }*/
+
+                    if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
+                        root.getChildren().remove(level);
+                        iterator.remove();
+                        firstTimeLevelActivation = false;
+                        
+                    }
+
                 }
-
-
+            }
 
 
                 // temps = (temps now - dernier temps) converti en seconde
@@ -343,6 +421,10 @@ public class FishHunt extends Application {
      */
     public boolean getGameOver() {
         return controleur.getGameOver();
+    }
+
+    public void setGameOver(boolean gameOver) {
+        controleur.setGameOver(gameOver);
     }
 
 
