@@ -13,7 +13,7 @@ public class Crab extends Fish {
         this.xInit = 0;
         this.tempsInitial = 0;
         this.nowTime = 0 ;
-        this.vx = 423; //(100*Math.pow(level, 1.0/3) + 200)*1.3;
+        this.vx = (100*Math.pow(level, 1.0/3) + 200)*1.3;
 
 
         setImage(new Image("/crabe.png"));
@@ -37,11 +37,13 @@ public class Crab extends Fish {
         nowTime+=dt;
         int dividerNum = (int) Math.floor(nowTime/0.25);
         if (dividerNum % 3 == 0){
-            this.vx = 423;
+            this.vx = Math.abs(vx);
         }
 
         if(dividerNum % 3 == 2){
-            this.vx = -423;
+            if(vx>0) {
+                this.vx *= -1;
+            }
         }
         super.update(dt);
     }
