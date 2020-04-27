@@ -2,23 +2,22 @@ import javafx.scene.image.Image;
 
 public class Crab extends Fish {
     private double xInit;
-    private double dt;
-    private int count;
+    private double tempsInitial;
+    private double nowTime;
+
 
     public Crab(int level) {
         super(level);
-        //composante y de la vitesse de la tortue
-
         this.ay = 0;
         this.vy=0;
-        this.xInit =0;
-        this.vx = (100*Math.pow(level, 1.0/3) + 200)*1.3;
-
-
+        this.xInit = 0;
+        this.tempsInitial = 0;
+        this.nowTime = 0 ;
+        this.vx = 423; //(100*Math.pow(level, 1.0/3) + 200)*1.3;
 
 
         setImage(new Image("/crabe.png"));
-        this.count = 0;
+
 
 
 
@@ -34,26 +33,16 @@ public class Crab extends Fish {
 
     @Override
     public void update(double dt) {
+
+        nowTime+=dt;
+        int dividerNum = (int) Math.floor(nowTime/0.25);
+        if (dividerNum % 3 == 0){
+            this.vx = 423;
+        }
+
+        if(dividerNum % 3 == 2){
+            this.vx = -423;
+        }
         super.update(dt);
-            if ((Math.abs(xInit - this.x) / Math.abs(this.vx)) > 0.25) {
-                count++;
-
-                if (count % 3 == 2) {
-                    xInit = this.x;
-                    this.vx *=-1;
-                }
-                if (count % 3 == 0) {
-                    xInit = this.x;
-                    if(this.vx < 0 ) {
-                        this.vx *= -1;
-                    }
-                }
-            }
-
-
-
-
     }
-
-
 }

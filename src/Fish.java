@@ -23,6 +23,7 @@ public class Fish extends Entity{
         this.estAttrape = false;
         this.largeur=100;
         this.hauteur=100;
+        System.out.println(vx);
 
         this.frames = new Image[]{
                 new Image("fish/00.png"),
