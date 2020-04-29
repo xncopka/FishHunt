@@ -27,6 +27,7 @@ public class Fish extends Entity{
         this.largeur=100;
         this.hauteur=100;
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
+        //System.out.println(y);
 
 
         this.frames = new Image[]{
