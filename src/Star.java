@@ -23,7 +23,6 @@ public class Star extends Fish {
 
         nowTime+=dt;
         this.y =  randomY + 50*Math.sin((2 * Math.PI * nowTime));
-
         super.update(dt);
 
     }
