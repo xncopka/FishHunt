@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FishHunt-master.iml" filepath="$PROJECT_DIR$/FishHunt-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FishHuntLast.iml" filepath="$PROJECT_DIR$/FishHuntLast.iml" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import java.util.Random;
@@ -23,7 +26,8 @@ public class Fish extends Entity{
         this.estAttrape = false;
         this.largeur=100;
         this.hauteur=100;
-        System.out.println(vx);
+        this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
+
 
         this.frames = new Image[]{
                 new Image("fish/00.png"),
@@ -36,33 +40,23 @@ public class Fish extends Entity{
                 new Image("fish/07.png")
         };
         this.image = frames[random.nextInt(8)];
+        this.image = ImageHelpers.colorize(image, color);
 
 
         int valeurRandom = random.nextInt(2);
         if (valeurRandom == 0) {    // 0: va à droite
             this.x = -this.largeur; // poisson est à gauche de l'écran
             this.leftOfScreen = true;
-         
+
         } else {                    // 1: va à gauche
             this.x = Jeu.WIDTH;     // poisson est à droite de l'écran
             this.vx *= -1;
             this.leftOfScreen = false;
+            this.image = ImageHelpers.flop(image);
 
             //TODO Inverser image
 
         }
-
-
-        //TODO Couleur aléatoire
-
-
-
-
-
-
-
-
-
     }
 
     public void setImage(Image image) {
@@ -102,17 +96,13 @@ public class Fish extends Entity{
      */
     @Override
     public void update(double dt) {
-
         super.update(dt);
-
-
     }
+
 
 
     @Override
-    public void draw(GraphicsContext context) {
-        context.drawImage(image, x, y, largeur, hauteur);
-    }
+    public void draw(GraphicsContext context) { context.drawImage(image, x, y, largeur, hauteur); }
 
     public boolean estAttrape() {
         return estAttrape;
@@ -122,3 +112,4 @@ public class Fish extends Entity{
         this.estAttrape = estAttrape;
     }
 }
+
