@@ -54,6 +54,8 @@ public class Jeu {
     private boolean modeInvicible;
 
 
+    private boolean stopNewFish = false;
+
 
     private boolean sniperGame;
 
@@ -259,16 +261,22 @@ public class Jeu {
 
     }
 
-    public void newBadFish(int level) {
-
-           Fish fish = new Fish(level, false);
+    public void newBonusFish(int level) {
+        Fish fish;
+        Random random = new Random();
+        int valeurRandom = random.nextInt(2);
+        if (valeurRandom == 0){
+            fish = new Fish(level, false);
             fishes.add(fish);
+        } else{
+            fish = new Sailfish(level);
+            fishes.add(fish);
+        }
+
     }
 
-    public void newFastFish(int level) {
-        Fish fish = new Sailfish(level);
-        fishes.add(fish);
-    }
+
+
 
     public void newItem(){
       /*  Heart heart = new Heart();
@@ -474,7 +482,7 @@ public class Jeu {
 
              if (players[0].getPoints() % 5 == 0 && !firstChangeLevel) {
 
-                 
+                 setStopNewFish(true);
                  afficherLevel=true;
 
                  firstChangeLevel = true;
@@ -614,5 +622,13 @@ public class Jeu {
 
     public void setAfficherLevel(boolean afficherLevel) {
         this.afficherLevel = afficherLevel;
+    }
+
+    public boolean getStopNewFish() {
+        return stopNewFish;
+    }
+
+    public void setStopNewFish(boolean stopNewFish) {
+        this.stopNewFish = stopNewFish;
     }
 }

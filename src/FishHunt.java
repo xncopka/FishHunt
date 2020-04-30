@@ -242,10 +242,9 @@ public class FishHunt extends Application {
             private long firstTime = 0;
             private long firstTime5Sec = 0;
             private long firstTime10Sec = 0;
-            private long firstTime15Sec = 0;
-            //private long firstTimeLevel = 0;
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
+            private long firstTimeNewFish = 0;
 
             private ArrayList<Long> firstTimeLevels = new ArrayList<>();
 
@@ -260,6 +259,7 @@ public class FishHunt extends Application {
                 if (lastTime == 0) {
                     lastTime = now;
                     firstTime = now;
+                    firstTimeNewFish= now;
                     controleur.groupBulles();
                     return;
                 }
@@ -269,15 +269,21 @@ public class FishHunt extends Application {
                 // Si 3 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un groupe de bulles et un poisson
                 if ((now - firstTime) >= ((long)3e+9)) {
+
                     firstTime = now;
                     controleur.groupBulles();
+
+                }
+
+                if(((now - firstTimeNewFish) >= ((long)3e+9)) && (!controleur.getStopNewFish())) {
+                    firstTimeNewFish = now;
                     controleur.newFish(controleur.getLevel());
                     controleur.enableItems();
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
-                if(controleur.getLevel()>=2) {
+                if(controleur.getLevel()>=2 && !controleur.getStopNewFish()) {
                     if ((now - firstTime5Sec) >= ((long) 5e+9)) {
                         firstTime5Sec = now;
                         controleur.newSpecialFish(controleur.getLevel());
@@ -286,21 +292,14 @@ public class FishHunt extends Application {
 
                 // Si 10 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
-                if(controleur.getLevel()>=3) {
+                if(controleur.getLevel()>=3 && !controleur.getStopNewFish()) {
                     if ((now - firstTime10Sec) >= ((long) 10e+9)) {
                         firstTime10Sec = now;
-                        controleur.newBadFish(controleur.getLevel());
+                        controleur.newBonusFish(controleur.getLevel());
                     }
                 }
 
-                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
-                // faire apparaitre un poisson spécial
-                if(controleur.getLevel()>=4) {
-                    if ((now - firstTime15Sec) >= ((long) 10e+9)) {
-                        firstTime15Sec = now;
-                        controleur.newFastFish(controleur.getLevel());
-                    }
-                }
+
 
 
                 if(!controleur.getItem().isEmpty()){
@@ -311,7 +310,7 @@ public class FishHunt extends Application {
                         }
                         if ((now - item.getFirstTime()) >= ((long) 1.5e+9)) {
                             item.setLastTimeActivation(true);
-                        }
+                        }                                                      
                     }
                 }
 
@@ -378,10 +377,13 @@ public class FishHunt extends Application {
                     firstTimeLevel = 0;
                 }*/
 
-                    if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
+                    if ((now - firstTimeLevel) >= ((long)3e+9)) {
                         root.getChildren().remove(level);
                         iterator.remove();
                         firstTimeLevelActivation = false;
+                        controleur.setStopNewFish(false);
+                        firstTimeNewFish=0;
+               
                         
                     }
 

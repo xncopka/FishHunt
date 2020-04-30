@@ -51,12 +51,9 @@ public class Controleur {
         jeu.newSpecialFish(level);
     }
 
-    public void newFastFish(int level){
-        jeu.newFastFish(level);
-    }
 
-    public void newBadFish(int level){
-        jeu.newBadFish(level);
+    public void newBonusFish(int level){
+        jeu.newBonusFish(level);
     }
 
     public ArrayList<Item> getItem(){
@@ -118,9 +115,6 @@ public class Controleur {
         jeu.setModeInvicible(modeInvicible);
     }
 
-    public void setSerie(int serie) {
-        jeu.setSerie(serie);
-    }
 
     public void setGameOver(boolean gameOver) {
         jeu.setGameOver(gameOver);
@@ -159,6 +153,14 @@ public class Controleur {
         jeu.enableItems();
     }
 
+
+    public boolean getStopNewFish() {
+        return jeu.getStopNewFish();
+    }
+
+    public void setStopNewFish(boolean stopNewFish) {
+        jeu.setStopNewFish(stopNewFish);
+    }
 
 
 }
