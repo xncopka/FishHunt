@@ -1,19 +1,21 @@
 import javafx.scene.image.Image;
 
 public class Crab extends Fish {
-    private double xInit;
-    private double tempsInitial;
+
     private double nowTime;
+    private boolean oscille;
+    private boolean sensInverse;
 
 
     public Crab(int level) {
         super(level);
         this.ay = 0;
         this.vy=0;
-        this.xInit = 0;
-        this.tempsInitial = 0;
         this.nowTime = 0 ;
-        this.vx = (100*Math.pow(level, 1.0/3) + 200)*1.3;
+        this.vx = vx*1.3;
+        this.oscille = false;
+        this.sensInverse = false;
+
 
 
         setImage(new Image("/crabe.png"));
@@ -34,16 +36,32 @@ public class Crab extends Fish {
     public void update(double dt) {
 
         nowTime+=dt;
-        int dividerNum = (int) Math.floor(nowTime/0.25);
-        if (dividerNum % 3 == 0){
-            this.vx = Math.abs(vx);
+
+        if (((x >= 0) && (isLeftOfScreen())  && !(oscille)   )  || (!(isLeftOfScreen()) && (x<=Jeu.WIDTH)  && !(oscille))   )  {
+            this.oscille = true;
+            nowTime = 0;
         }
 
-        if(dividerNum % 3 == 2){
-            if(vx>0) {
+        if(oscille) {
+            int finAvance = (int) Math.floor(nowTime / 0.5);
+
+            if (finAvance  == 1  && !sensInverse ) {
                 this.vx *= -1;
+                this.sensInverse = true;
             }
+            int finRecule = (int) Math.floor(nowTime / 0.75);
+            if (finRecule  == 1 && sensInverse) {
+                this.vx *= -1;
+                nowTime = 0;
+                sensInverse = false;
+            }
+            
+
+          
         }
+
+
+
         super.update(dt);
     }
 }
