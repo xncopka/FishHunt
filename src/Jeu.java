@@ -4,6 +4,9 @@ import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -22,6 +25,8 @@ public class Jeu {
     private  ArrayList<Balle> balles = new ArrayList<>();
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<String> meilleursScores = new ArrayList<>();
+
 
 
 
@@ -70,6 +75,16 @@ public class Jeu {
     public void enableItems() {
         itemsEnabled = true;
 
+    }
+
+    public void saveScore() {
+        if(meilleursScores.size()<10) {
+            String score = players[0].getPoints() + "";
+            meilleursScores.add(score);
+        } else {
+
+            //TODO TRIER LES SCORES
+        }
     }
 
 
@@ -188,7 +203,7 @@ public class Jeu {
     /**
      * Constructeur de Jeu
      */
-    public Jeu(int nbPlayers) {
+    public Jeu(int nbPlayers) throws IOException {
 
         modeSolo = nbPlayers == 1;
 
@@ -332,7 +347,9 @@ public class Jeu {
 
 
         if ( players[0].getNbVies() == 0 ) {
+            saveScore();
             gameOver = true;
+
         }
 
 
@@ -433,6 +450,7 @@ public class Jeu {
 
 
                             if(!players[0].isInvicible()) {
+                                saveScore();
                                 gameOver = true;
                             } else {
                                 players[0].setSerie(0);
@@ -495,6 +513,7 @@ public class Jeu {
 
         if(sniperGame){
             if(players[0].getBalles()==0){
+                saveScore();
                 gameOver = true;
             }
         }
