@@ -20,7 +20,7 @@ public class Sailfish extends Fish {
 
 
     public Sailfish(int level) {
-        super(level);
+        super(level, true);
         this.ay=0;
         setImage(new Image("fish/sailfish.png"));
         this.hauteur=150;

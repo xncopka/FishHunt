@@ -6,14 +6,23 @@ import java.util.Random;
 
 public class Fish extends Entity{
 
-    private Image[] frames;
-    private Image image;
-    private Color color;
-    private boolean leftOfScreen;
-    private boolean estAttrape;
+    protected Image[] frames;
+    protected Image image;
+    protected Color color;
+    protected boolean leftOfScreen;
+    protected boolean estAttrape;
+    private boolean isFood;
+
+    public boolean isFood() {
+        return isFood;
+    }
 
 
-    public Fish(int level) {
+
+
+
+
+    public Fish(int level, boolean isFood) {
 
         this.ay = 100;
         this.vx = 100*Math.pow(level, 1.0/3) + 200;
@@ -24,18 +33,23 @@ public class Fish extends Entity{
         this.largeur=100;
         this.hauteur=100;
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
+        this.isFood = isFood;
 
-        this.frames = new Image[]{
-                new Image("fish/00.png"),
-                new Image("fish/01.png"),
-                new Image("fish/02.png"),
-                new Image("fish/03.png"),
-                new Image("fish/04.png"),
-                new Image("fish/05.png"),
-                new Image("fish/06.png"),
-                new Image("fish/07.png")
-        };
-        this.image = frames[random.nextInt(8)];
+        if(isFood) {
+            this.frames = new Image[]{
+                    new Image("fish/00.png"),
+                    new Image("fish/01.png"),
+                    new Image("fish/02.png"),
+                    new Image("fish/03.png"),
+                    new Image("fish/04.png"),
+                    new Image("fish/05.png"),
+                    new Image("fish/06.png"),
+                    new Image("fish/07.png")
+            };
+            this.image = frames[random.nextInt(8)];
+        } else {
+            this.image = new Image("fish/appat.png");
+        }
         this.image = ImageHelpers.colorize(image, color);
 
         int valeurRandom = random.nextInt(2);

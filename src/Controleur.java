@@ -96,6 +96,10 @@ public class Controleur {
         return jeu.getLife();
     }
 
+    public int getSerie() {
+        return jeu.getSerie();
+    }
+
 
 
 
@@ -149,6 +153,10 @@ public class Controleur {
 
     public void setBalles(int balles) {
         jeu.setBalles(balles);
+    }
+
+    public void enableItems() {
+        jeu.enableItems();
     }
 
 

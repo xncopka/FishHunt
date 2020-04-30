@@ -61,9 +61,14 @@ public class Jeu {
 
     private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
 
+    private boolean itemsEnabled;
 
 
 
+    public void enableItems() {
+        itemsEnabled = true;
+
+    }
 
 
 
@@ -85,6 +90,10 @@ public class Jeu {
         }
     }
 
+
+    public int getSerie() {
+        return players[0].getSerie();
+    }
 
 
 
@@ -184,6 +193,7 @@ public class Jeu {
         // Test du mode sniper
         //sniperGame = true;
         sniperGame = false;
+        itemsEnabled = false;
 
 
         modeInvicible = false;
@@ -231,7 +241,7 @@ public class Jeu {
     }
 
     public void newFish(int level) {
-        Fish fish = new Fish(level);
+        Fish fish = new Fish(level, true);
         fishes.add(fish);
     }
 
@@ -251,7 +261,7 @@ public class Jeu {
 
     public void newBadFish(int level) {
 
-           Fish fish = new Appat(level);
+           Fish fish = new Fish(level, false);
             fishes.add(fish);
     }
 
@@ -263,6 +273,7 @@ public class Jeu {
     public void newItem(){
       /*  Heart heart = new Heart();
         items.add(heart);*/
+
         if(sniperGame){
             Random random = new Random();
             int valeurRandom = random.nextInt(6);
@@ -317,16 +328,18 @@ public class Jeu {
         }
 
 
-        Random random = new Random();
-        if(!sniperGame) {
-            int valeurRandom = random.nextInt(1001);
-            if (valeurRandom == 0) {
-                newItem();
-            }
-        } else {
-            int valeurRandom = random.nextInt(201);
-            if (valeurRandom == 0) {
-                newItem();
+        if(itemsEnabled) {
+            Random random = new Random();
+            if (!sniperGame) {
+                int valeurRandom = random.nextInt(1001);
+                if (valeurRandom == 0) {
+                    newItem();
+                }
+            } else {
+                int valeurRandom = random.nextInt(201);
+                if (valeurRandom == 0) {
+                    newItem();
+                }
             }
         }
 
@@ -376,7 +389,7 @@ public class Jeu {
 
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
-                    if(!(fish instanceof Appat)) {
+                    if(!(fish.isFood())) {
                         if(!players[0].isInvicible()) {
                             players[0].setNbVies(players[0].getNbVies() - 1);
                             players[0].setSerie(0);
@@ -407,15 +420,20 @@ public class Jeu {
 
 
                     if (fish.estAttrape()) {
-                        if(fish instanceof Appat) {
+                        if((fish.isFood() == false)) {
+
+
+
                             if(!players[0].isInvicible()) {
                                 gameOver = true;
+                            } else {
+                                players[0].setSerie(0);
                             }
                         } else {
                             players[0].setPoints(players[0].getPoints() + 1);
                             players[0].setSerie(players[0].getSerie()+1);
-                            iterator.remove();
                         }
+                         iterator.remove();
                          balle.setAttrape(true);
                     }
 
@@ -437,8 +455,6 @@ public class Jeu {
 
             if (players[0].getSerie() % 10 == 0) {
                 players[0].setInvicible(true);
-            } else {
-                players[0].setInvicible(false);
             }
 
         }

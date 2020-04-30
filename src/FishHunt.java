@@ -247,7 +247,7 @@ public class FishHunt extends Application {
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
 
-            private ArrayList<Long> firstTimeLevels = new ArrayList<Long>();
+            private ArrayList<Long> firstTimeLevels = new ArrayList<>();
 
 
 
@@ -272,6 +272,7 @@ public class FishHunt extends Application {
                     firstTime = now;
                     controleur.groupBulles();
                     controleur.newFish(controleur.getLevel());
+                    controleur.enableItems();
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
@@ -477,7 +478,7 @@ public class FishHunt extends Application {
      * Cree le texte du level
      */
    public void textDebutInvincible(){
-        invincible = new Text("Serie de 10 atteinte:\ndebut invincibilité");
+        invincible = new Text("Serie de "+ controleur.getSerie() +" atteinte:\ndebut invincibilité");
         invincible.setFill(Color.GREEN);
         invincible.setFont(Font.font(25));
         invincible.setTextAlignment(TextAlignment.CENTER);
