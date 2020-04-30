@@ -19,9 +19,9 @@ public class Jeu {
 
     // Entités dans le jeu
     private Bulle[][] bulles;
-    private  ArrayList<Balle> balles = new ArrayList<Balle>();
-    private ArrayList<Fish> fishes = new ArrayList<Fish>();
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private  ArrayList<Balle> balles = new ArrayList<>();
+    private ArrayList<Fish> fishes = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
 
 
@@ -179,11 +179,7 @@ public class Jeu {
      */
     public Jeu(int nbPlayers) {
 
-        if(nbPlayers == 1){
-            modeSolo = true;
-        } else {
-            modeSolo = false;
-        }
+        modeSolo = nbPlayers == 1;
 
         // Test du mode sniper
         //sniperGame = true;
@@ -296,11 +292,11 @@ public class Jeu {
     public void update(double dt) {
 
         // Pour chaque groupe de bulle
-        for (int i = 0; i < bulles.length; i++) {
+        for (Bulle[] value : bulles) {
             // Pour chaque bulles dans un groupe
             for (int j = 0; j < bulles[0].length; j++) {
                 // mettre a jour la vitesse de la bulle
-                Bulle bulle = bulles[i][j];
+                Bulle bulle = value[j];
                 bulle.update(dt);
             }
         }
@@ -384,12 +380,32 @@ public class Jeu {
                         if(!players[0].isInvicible()) {
                             players[0].setNbVies(players[0].getNbVies() - 1);
                             players[0].setSerie(0);
+
+
+
+                            }
                         }
                     }
-                }
+
 
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
+
+                    for (Fish f: fishes) {
+                        if (f.getX() >= 0 && f.getX() <= Jeu.WIDTH - f.getLargeur()) {
+                            if (f.getY() >= 0 && f.getY() <= Jeu.HEIGHT - f.getHauteur()) {
+                                if (f instanceof Sailfish) {
+                                    if (!((Sailfish) f).isMaxSpeed()) {
+                                        f.setVX(2 * f.getVX());
+                                        ((Sailfish) f).setMaxSpeed(true);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+
                     if (fish.estAttrape()) {
                         if(fish instanceof Appat) {
                             if(!players[0].isInvicible()) {
@@ -440,7 +456,7 @@ public class Jeu {
                  firstChangeLevel = false;
            }
 
-             if (players[0].getPoints() % 5 == 0 && firstChangeLevel==false) {
+             if (players[0].getPoints() % 5 == 0 && !firstChangeLevel) {
 
                  
                  afficherLevel=true;
@@ -450,8 +466,6 @@ public class Jeu {
                  palier = players[0].getPoints();
              }
                                                 
-         } else {
-             // TODO MODE MULTI
          }
 
 
@@ -481,10 +495,10 @@ public class Jeu {
 
 
         // Pour chaque groupe de bulle
-        for (int i = 0; i < bulles.length; i++) {
+        for (Bulle[] value : bulles) {
             // Pour chaque bulles dans un groupe
             for (int j = 0; j < bulles[0].length; j++) {
-                Bulle bulle = bulles[i][j];
+                Bulle bulle = value[j];
                 // dessiner la bulle
                 bulle.draw(context);
             }
@@ -514,7 +528,7 @@ public class Jeu {
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(25));
         context.setFill(Color.WHITE);
-        context.fillText(""+players[0].getPoints(), WIDTH/2 + 20, 60);
+        context.fillText(""+players[0].getPoints(), WIDTH/2.0 + 20, 60);
 
         if(sniperGame){
 
@@ -538,31 +552,31 @@ public class Jeu {
         // dessine les vies restantex
         if (players[0].getNbVies()==3) {
             if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 + 50, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 + 50, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             }
         }
 
         if (players[0].getNbVies()==2) {
             if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             }
         }
 
         if (players[0].getNbVies()==1) {
             if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2 - 50, 80, 30, 30);
+                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
             }
         }
 
