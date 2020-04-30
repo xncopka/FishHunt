@@ -26,6 +26,11 @@ public class Sailfish extends Fish {
         this.hauteur=150;
         this.largeur=150;
         this.maxSpeed = false;
+
+        if(!leftOfScreen){
+            this.image = ImageHelpers.flop(image);
+        }
+
     }
 
 

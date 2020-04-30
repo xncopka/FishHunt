@@ -389,7 +389,7 @@ public class Jeu {
 
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
-                    if(!(fish.isFood())) {
+                    if((fish.isFood())) {
                         if(!players[0].isInvicible()) {
                             players[0].setNbVies(players[0].getNbVies() - 1);
                             players[0].setSerie(0);
