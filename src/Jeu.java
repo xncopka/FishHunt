@@ -4,10 +4,8 @@ import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -25,7 +23,7 @@ public class Jeu {
     private  ArrayList<Balle> balles = new ArrayList<>();
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
-    private ArrayList<String> meilleursScores = new ArrayList<>();
+    private ArrayList<Integer> meilleursScores = new ArrayList<>();
 
 
 
@@ -78,14 +76,12 @@ public class Jeu {
     }
 
     public void saveScore() {
-        if(meilleursScores.size()<10) {
-            String score = players[0].getPoints() + "";
+            int score = players[0].getPoints();
             meilleursScores.add(score);
-        } else {
-
-            //TODO TRIER LES SCORES
-        }
+            Collections.reverse(meilleursScores);
+        
     }
+
 
 
 
@@ -203,7 +199,7 @@ public class Jeu {
     /**
      * Constructeur de Jeu
      */
-    public Jeu(int nbPlayers) throws IOException {
+    public Jeu(int nbPlayers) {
 
         modeSolo = nbPlayers == 1;
 
