@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /**
  * Le poisson le plus rapide de l'océan. Apparait dans le mode de difficiculte le plus difficile
@@ -21,12 +22,12 @@ public class Sailfish extends Fish {
 
     public Sailfish(int level) {
         super(level, true);
-        this.ay=0;
         setImage(new Image("fish/sailfish.png"));
-        this.hauteur=150;
-        this.largeur=150;
+        this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
+        this.image = ImageHelpers.colorize(image, color);
         this.maxSpeed = false;
-
+        this.hauteur = 125;
+        this.largeur = 125;
         if(!leftOfScreen){
             this.image = ImageHelpers.flop(image);
         }
