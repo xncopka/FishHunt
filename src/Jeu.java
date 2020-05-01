@@ -57,6 +57,8 @@ public class Jeu {
     private boolean modeInvicible;
 
 
+
+
     private boolean stopNewFish = false;
 
 
@@ -205,7 +207,7 @@ public class Jeu {
 
         // Test du mode sniper
         //sniperGame = true;
-        sniperGame = false;
+        sniperGame = true;
         itemsEnabled = false;
 
 
@@ -379,11 +381,16 @@ public class Jeu {
                         } else {
                             if (!players[0].isInvicible()) {
                                 players[0].setNbVies(players[0].getNbVies() - 1);
+                                players[0].setSerie(0);
                             }
                         }
                     } else {
                         if(sniperGame){
-                            players[0].setBalles(players[0].getBalles()+2);
+                            if(!players[0].isInvicible()) {
+                                players[0].setBalles(players[0].getBalles() + 2);
+                            } else {
+                                players[0].setBalles(players[0].getBalles() + 1);
+                            }
                         }
                     }
                     item.setUsed(true);
@@ -508,9 +515,11 @@ public class Jeu {
 
 
         if(sniperGame){
-            if(players[0].getBalles()==0){
-                saveScore();
-                gameOver = true;
+            if(!players[0].isInvicible()) {
+                if (players[0].getBalles() == 0) {
+                    saveScore();
+                    gameOver = true;
+                }
             }
         }
 

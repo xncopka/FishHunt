@@ -35,6 +35,8 @@ public class Fish extends Entity{
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
         this.isFood = isFood;
 
+
+
         if(isFood) {
             this.frames = new Image[]{
                     new Image("fish/00.png"),
@@ -65,6 +67,13 @@ public class Fish extends Entity{
 
             //TODO Inverser image
 
+        }
+
+
+        if(!isFood) {
+            vx = 0;
+            y = -hauteur;
+            x = random.nextDouble()*(Jeu.WIDTH-largeur);
         }
 
 
