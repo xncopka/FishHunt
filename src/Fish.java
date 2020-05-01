@@ -13,6 +13,9 @@ public class Fish extends Entity{
     protected boolean estAttrape;
     protected boolean isFood;
 
+
+
+
     public boolean isFood() {
         return isFood;
     }
@@ -34,6 +37,7 @@ public class Fish extends Entity{
         this.hauteur=100;
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
         this.isFood = true;
+       
 
 
 

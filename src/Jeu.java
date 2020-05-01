@@ -24,6 +24,7 @@ public class Jeu {
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private ArrayList<Integer> meilleursScores = new ArrayList<>();
+    private ArrayList<FishBone> squelettes = new ArrayList<>();
 
 
 
@@ -56,6 +57,7 @@ public class Jeu {
 
     private boolean modeInvicible;
 
+ 
 
 
 
@@ -323,6 +325,8 @@ public class Jeu {
      */
     public void update(double dt) {
 
+
+
         // Pour chaque groupe de bulle
         for (Bulle[] value : bulles) {
             // Pour chaque bulles dans un groupe
@@ -455,7 +459,7 @@ public class Jeu {
 
 
                     if (fish.estAttrape()) {
-                        if((fish.isFood() == false)) {
+                        if((!fish.isFood())) {
 
 
 
@@ -469,14 +473,45 @@ public class Jeu {
                             players[0].setPoints(players[0].getPoints() + 1);
                             players[0].setSerie(players[0].getSerie()+1);
                         }
+
+                        FishBone squelette = new FishBone(fish);
+                        squelettes.add(squelette);
                          iterator.remove();
                          balle.setAttrape(true);
+
                     }
 
                 }
             }
         }
 
+
+        if (squelettes != null) {
+            for (Iterator<FishBone> iterator = squelettes.iterator(); iterator.hasNext(); ) {
+                FishBone squelette = iterator.next();
+                squelette.update(dt);
+
+                if(squelette.getY() > Jeu.HEIGHT) {
+                    iterator.remove();
+                }
+
+                for (Balle balle : balles) {
+                    squelette.testCollision(balle);
+
+
+                    if (squelette.estAttrape() && squelette.isEnabled()) {
+                        if(!players[0].isInvicible()) {
+                            players[0].setNbVies(players[0].getNbVies()-1);
+                            iterator.remove();
+                        }
+                    }
+
+                }
+
+              
+
+            }
+        }
 
 
         for (Balle balle : balles) {
@@ -561,10 +596,17 @@ public class Jeu {
 
 
         if (fishes != null) {
-            for (Fish f : fishes) {
-                f.draw(context);
+            for (Fish fish : fishes) {
+                fish.draw(context);
             }
         }
+
+        if (squelettes != null) {
+            for (FishBone fishBone : squelettes) {
+                fishBone.draw(context);
+            }
+        }
+
 
         if (balles != null) {
             for (Balle balle: balles) {
