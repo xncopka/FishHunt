@@ -78,7 +78,7 @@ public class FishHunt extends Application {
 
 
         // icone de la barre de tache
-        Image icone = new Image("/crabe.png");
+        Image icone = new Image("/shark-jaws.png");
 
 
         // racine
