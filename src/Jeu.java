@@ -256,7 +256,7 @@ public class Jeu {
     }
 
     public void newFish(int level) {
-        Fish fish = new Fish(level, true);
+        Fish fish = new Fish(level);
         fishes.add(fish);
     }
 
@@ -279,7 +279,7 @@ public class Jeu {
         Random random = new Random();
         int valeurRandom = random.nextInt(2);
         if (valeurRandom == 0){
-            fish = new Fish(level, false);
+            fish = new Appat(level);
             fishes.add(fish);
         } else{
             fish = new Sailfish(level);
@@ -429,6 +429,13 @@ public class Jeu {
                     }
 
 
+                if(!fish.isFood()){
+                    if(fish.getY() < -fish.getHauteur()){
+                        iterator.remove();
+                    }
+                }
+
+
                 for (Balle balle : balles) {
                     fish.testCollision(balle);
 
@@ -575,7 +582,11 @@ public class Jeu {
         // dessine le score
         context.setTextAlign(TextAlignment.CENTER);
         context.setFont(Font.font(25));
-        context.setFill(Color.WHITE);
+        if(!modeInvicible) {
+            context.setFill(Color.WHITE);
+        } else {
+            context.setFill(Color.rgb(126,211,33));
+        }
         context.fillText(""+players[0].getPoints(), WIDTH/2.0 + 20, 60);
 
         if(sniperGame){

@@ -297,7 +297,7 @@ public class FishHunt extends Application {
                 // Si 10 secondes se sont écoulés depuis le debut de l'animation,
                 // faire apparaitre un poisson spécial
                 if(controleur.getLevel()>=3 && !controleur.getStopNewFish()) {
-                    if ((now - firstTime10Sec) >= ((long) 4e+9)) {
+                    if ((now - firstTime10Sec) >= ((long) 2.5e+9)) {
                         firstTime10Sec = now;
                         controleur.newBonusFish(controleur.getLevel());
                     }
@@ -485,7 +485,7 @@ public class FishHunt extends Application {
      */
    public void textDebutInvincible(){
         invincible = new Text("Serie de "+ controleur.getSerie() +" atteinte:\ndebut invincibilité");
-        invincible.setFill(Color.GREEN);
+        invincible.setFill(Color.rgb(126,211,33));
         invincible.setFont(Font.font(25));
         invincible.setTextAlignment(TextAlignment.CENTER);
         invincible.setX(410);

@@ -8,7 +8,7 @@ public class Crab extends Fish {
 
 
     public Crab(int level) {
-        super(level, true);
+        super(level);
         this.ay = 0;
         this.vy=0;
         this.nowTime = 0 ;

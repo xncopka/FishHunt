@@ -21,7 +21,7 @@ public class Sailfish extends Fish {
 
 
     public Sailfish(int level) {
-        super(level, true);
+        super(level);
         setImage(new Image("fish/sailfish.png"));
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
         this.image = ImageHelpers.colorize(image, color);

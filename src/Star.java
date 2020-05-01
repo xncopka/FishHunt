@@ -6,7 +6,7 @@ public class Star extends Fish {
     private double randomY;
 
     public Star(int level) {
-        super(level, true);
+        super(level);
         Random random= new Random();
         this.ay = 0;
         setImage(new Image("/star.png"));

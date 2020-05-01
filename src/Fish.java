@@ -11,7 +11,7 @@ public class Fish extends Entity{
     protected Color color;
     protected boolean leftOfScreen;
     protected boolean estAttrape;
-    private boolean isFood;
+    protected boolean isFood;
 
     public boolean isFood() {
         return isFood;
@@ -22,7 +22,7 @@ public class Fish extends Entity{
 
 
 
-    public Fish(int level, boolean isFood) {
+    public Fish(int level) {
 
         this.ay = 100;
         this.vx = 100*Math.pow(level, 1.0/3) + 200;
@@ -33,11 +33,11 @@ public class Fish extends Entity{
         this.largeur=100;
         this.hauteur=100;
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
-        this.isFood = isFood;
+        this.isFood = true;
 
 
 
-        if(isFood) {
+
             this.frames = new Image[]{
                     new Image("fish/00.png"),
                     new Image("fish/01.png"),
@@ -49,9 +49,7 @@ public class Fish extends Entity{
                     new Image("fish/07.png")
             };
             this.image = frames[random.nextInt(8)];
-        } else {
-            this.image = new Image("fish/appat.png");
-        }
+
         this.image = ImageHelpers.colorize(image, color);
 
         int valeurRandom = random.nextInt(2);
@@ -70,11 +68,7 @@ public class Fish extends Entity{
         }
 
 
-        if(!isFood) {
-            vx = 0;
-            y = -hauteur;
-            x = random.nextDouble()*(Jeu.WIDTH-largeur);
-        }
+
 
 
         //TODO Couleur aléatoire
