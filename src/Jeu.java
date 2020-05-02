@@ -24,7 +24,7 @@ public class Jeu {
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private ArrayList<Integer> meilleursScores = new ArrayList<>();
-    private ArrayList<FishBone> squelettes = new ArrayList<>();
+
 
 
 
@@ -474,8 +474,7 @@ public class Jeu {
                             players[0].setSerie(players[0].getSerie()+1);
                         }
 
-                        FishBone squelette = new FishBone(fish);
-                        squelettes.add(squelette);
+
                          iterator.remove();
                          balle.setAttrape(true);
 
@@ -486,32 +485,7 @@ public class Jeu {
         }
 
 
-        if (squelettes != null) {
-            for (Iterator<FishBone> iterator = squelettes.iterator(); iterator.hasNext(); ) {
-                FishBone squelette = iterator.next();
-                squelette.update(dt);
 
-                if(squelette.getY() > Jeu.HEIGHT) {
-                    iterator.remove();
-                }
-
-                for (Balle balle : balles) {
-                    squelette.testCollision(balle);
-
-
-                    if (squelette.estAttrape() && squelette.isEnabled()) {
-                        if(!players[0].isInvicible()) {
-                            players[0].setNbVies(players[0].getNbVies()-1);
-                            iterator.remove();
-                        }
-                    }
-
-                }
-
-              
-
-            }
-        }
 
 
         for (Balle balle : balles) {
@@ -601,11 +575,7 @@ public class Jeu {
             }
         }
 
-        if (squelettes != null) {
-            for (FishBone fishBone : squelettes) {
-                fishBone.draw(context);
-            }
-        }
+
 
 
         if (balles != null) {
