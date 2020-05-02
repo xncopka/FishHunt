@@ -163,4 +163,8 @@ public class Controleur {
     }
 
 
+    public void setSerieActivated(boolean serieActivated){
+        jeu.setSerieActivated(serieActivated);
+    }
+
 }

@@ -72,6 +72,12 @@ public class Jeu {
 
     private boolean itemsEnabled;
 
+    public void setSerieActivated(boolean serieActivated) {
+        this.serieActivated = serieActivated;
+    }
+
+    private boolean serieActivated;
+
 
 
     public void enableItems() {
@@ -215,6 +221,8 @@ public class Jeu {
 
         modeInvicible = false;
 
+        serieActivated = false;
+
 
         level = 0;
         firstChangeLevel=false;
@@ -279,14 +287,19 @@ public class Jeu {
     public void newBonusFish(int level) {
         Fish fish;
         Random random = new Random();
-        int valeurRandom = random.nextInt(2);
+        int valeurRandom = random.nextInt(3);
         if (valeurRandom == 0){
             fish = new Appat(level);
             fishes.add(fish);
-        } else{
+        } else if (valeurRandom == 1){
             fish = new Sailfish(level);
             fishes.add(fish);
+        } else {
+            fish = new Predator(level);
+            fishes.add(fish);
         }
+
+
 
     }
 
@@ -413,7 +426,10 @@ public class Jeu {
 
 
 
+
+
         if (fishes != null) {
+            ArrayList<Fish> poubelle = new ArrayList<>();
             for (Iterator<Fish> iterator = fishes.iterator(); iterator.hasNext(); ) {
                 Fish fish = iterator.next();
 
@@ -438,6 +454,30 @@ public class Jeu {
                         iterator.remove();
                     }
                 }
+
+                if(fish instanceof Predator) {
+                    for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext(); ) {
+                        Fish other = iterator2.next();
+                        if(fish != other) {
+                            if(!(other instanceof Appat)) {
+                                if (((Predator)fish).intersects(other) && other.isLeftOfScreen() != ((Predator)fish).isLeftOfScreen() ) {
+                                    poubelle.add(other);
+                                    if(!players[0].isInvicible()){
+                                        players[0].setNbVies(players[0].getNbVies()-1);
+                                    }
+                                    players[0].setSerie(0);
+                                }
+                            }                                             
+
+
+                        }
+
+                    }
+                }
+
+
+
+
 
 
                 for (Balle balle : balles) {
@@ -473,14 +513,15 @@ public class Jeu {
                             players[0].setSerie(players[0].getSerie()+1);
                         }
 
-
-                         iterator.remove();
+                          poubelle.add(fish);
+                         //iterator.remove();
                          balle.setAttrape(true);
 
                     }
 
                 }
             }
+            fishes.removeAll(poubelle);
         }
 
 
@@ -497,8 +538,9 @@ public class Jeu {
 
         if(players[0].getSerie() != 0) {
 
-            if (players[0].getSerie() % 10 == 0) {
+            if ( !serieActivated && players[0].getSerie() % 10  == 0 ||players[0].getSerie() % 11  == 0 ||players[0].getSerie() % 12  == 0) {
                 players[0].setInvicible(true);
+                setSerieActivated(true);
             }
 
         }

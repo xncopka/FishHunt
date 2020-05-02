@@ -335,6 +335,7 @@ public class FishHunt extends Application {
                     if ((now - lastTimeInvicible) >= ((long) 3e+9)) {
                         root.getChildren().remove(invincible);
                         lastTimeInvicible = 0;
+                        controleur.setSerieActivated(false);
                     }
                 }
 
