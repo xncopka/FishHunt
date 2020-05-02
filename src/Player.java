@@ -6,6 +6,7 @@ public class Player {
     private int serie;
     private boolean invicible;
     private int balles;
+    private int coins;
 
 
 
@@ -17,6 +18,7 @@ public class Player {
         this.serie = 0;
         this.invicible = false;
         this.balles = 10;
+        this.coins= 0;
 
     }
 
@@ -77,8 +79,11 @@ public class Player {
     }
 
 
+    public int getNbCoins() {
+        return coins;
+    }
 
-
-
-
+    public void setNbCoins(int coins) {
+        this.coins = coins;
+    }
 }
