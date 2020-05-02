@@ -169,9 +169,7 @@ public class FishHunt extends Application {
 
         // Contexte graphique du canvas
         context = canvas.getGraphicsContext2D();
-        // Background bleu du jeu
-        context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, WIDTH, HEIGHT);
+
 
 
         Image img = new Image("/cible.png");
