@@ -464,8 +464,7 @@ public class Jeu {
 
 
                             if(!players[0].isInvicible()) {
-                                saveScore();
-                                gameOver = true;
+                                players[0].setNbVies(players[0].getNbVies() - 1);
                             } else {
                                 players[0].setSerie(0);
                             }
