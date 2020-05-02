@@ -53,7 +53,7 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean [] firstClics = new boolean[]{false, false, false, false};
+    private boolean [] firstClics = new boolean[]{false, false, false, false, false};
 
 
 
@@ -167,6 +167,11 @@ public class FishHunt extends Application {
                 firstClics[3]=true;
             }
 
+            if (event.getCode() == KeyCode.S && !firstClics[4]) {
+                controleur.setSerie(controleur.getSerie()+1);
+                firstClics[4]=true;
+            }
+
 
 
         });
@@ -194,6 +199,10 @@ public class FishHunt extends Application {
             }
             if (event.getCode() == KeyCode.L){
                 firstClics[3]=false;
+            }
+
+            if (event.getCode() == KeyCode.S){
+                firstClics[4]=false;
             }
            
 

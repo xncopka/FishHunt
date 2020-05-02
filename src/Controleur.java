@@ -97,6 +97,10 @@ public class Controleur {
         return jeu.getSerie();
     }
 
+    public void setSerie(int serie) {
+        jeu.setSerie(serie);
+    }
+
 
 
 

@@ -1,0 +1,44 @@
+BONUS
+
+1- trois nouveau types de poissons:
+
+	a) un Saumon
+
+	Si le requin essaye de manger un poisson dans les parages, le poisson saumon prend peur et tape un sprint pour s'echapper.
+	Pour realiser cela, nous avons dit que des qu'une balle est envoyé sur quelque chose d'autre que le saumon lui meme, et que le voilier se trouve dans la partie
+	visible du jeu alors la vitesse du saumon va se multiplier par 2
+
+	b) un poisson appat
+
+	C'est le poisson dont se serve les pêcheurs pour attraper le requin. Il ne faut donc pas que le requin l'attrape.
+	Sinon le requin perd une vie. Sauf quand notre requin se retrouve invincible (voir plus bas) 
+
+
+	c) un poisson predateur
+
+	Dans la chaine alimentaire du jeu, le requin est le plus grand predateur, suivi du poisson predateur et en tout dernier se retrouvent tous les autres poissons du jeu. Ainsi, si le poisson predateur
+	se retrouve face à un autre poisson il va le manger. Seul les poissons qui arrivent vers le poisson predateur sont mangés par ce dernier. S'il mange un poisson,cela va faire perdre une vie au requin qui rate une proie essentielle a sa survie.  Sauf quand notre requin se retrouve invincible (voir plus bas)
+
+
+2-  Invincibilité apres une serie de 10 poissons attrapes a la suite sans raté
+
+	Notre requin se retrouve alors invincible et tout poisson raté ou perdu ne lui fait pas perdre une vie.  Un poisson raté ou perdu est défini comme rater un poisson, manger un poisson appat, laisser un poisson s'echapper ou laisser un predateur manger un poisson. De plus, bien qu'il ne perd pas de vie, s'il fait un raté cela fait quand meme remettre le compteur de la serie à 0
+
+
+3-	Deux differents types d'objets
+
+	Des objets se retrouvent aléatoirement dans la partie:
+
+	a) des coeurs vert avec un + qui font augmenter la vie du requin de 1
+	   des coeurs rouge avec un - qui font descendre la vie du requin de 1
+
+	b) des balles supplémentaires: present seulement dans le mode sniper (voir plus bas)
+							   permet d'avoir des balles supplementaires pour manger les poissons ou attraper des objets
+
+
+4- Nouveau mode de jeu: Mode Sniper
+					    Ce mode de jeu est la version plus difficile du mode normal
+					    Dans ce mode nous avons un nombre limité de balles au départ
+					    Et nous pouvons seulement recuperer une balle de plus grâce à l'apparition de maniere aleatoire des objets de type balles
+					    A chaque fois qu'on essaye d'attraper quelque chose, le requin perd une munition
+					   	Exception faite lorsque le requin est invincible et dans ce cas il a un nombre illimité de balles jusqu'a la fin de l'invincibilité
