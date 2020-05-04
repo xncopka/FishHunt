@@ -1,27 +1,31 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Orientation;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.ComboBoxListCell;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class FishHunt extends Application {
     // Largeur et hauteur de la fenêtre
@@ -56,6 +60,12 @@ public class FishHunt extends Application {
 
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
+    public static final ObservableList names =
+            FXCollections.observableArrayList();
+    public static final ObservableList data =
+            FXCollections.observableArrayList();
+    private ArrayList <String> username;
+    private ArrayList <Integer> score;
 
     public static void main(String[] args) {
         launch(args);
@@ -137,22 +147,51 @@ public class FishHunt extends Application {
     }
 
     private Scene meilleursScores() {
+        BorderPane mainPane = new BorderPane();
+        mainPane.setPadding(new Insets(50, 50, 50, 50));
+        Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
-        VBox root = new VBox();
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        final ListView listView = new ListView(data);
+        ArrayList username = (ArrayList) scoreSheet()[0];
+        ArrayList score = (ArrayList) scoreSheet()[1];
+
+        for(int i=0; i <username.size(); i++){
+
+            data.add("# "+ (i+1) +"-"+ username.get(i) +
+                    "-" + score.get(i));
+        }
+
+        listView.setItems(data);
+        listView.setCellFactory(ComboBoxListCell.forListView(names));
+
+        StackPane node = new StackPane();
+
+        node.getChildren().add(listView);
+
+
+        HBox node2 = new HBox();
+
         Text titre = new Text("MEILLEURS SCORES");
 
         titre.setFont(Font.font(32));
-        root.getChildren().add(titre);
-        // root.getChildren().add(new Separator());
-        HBox buttonGroup = new HBox();
-        Button gauche = new Button("Gauche");
-        Button centre = new Button("Centre");
-        Button droite = new Button("Droite");
-        buttonGroup.getChildren().add(gauche);
-        buttonGroup.getChildren().add(centre);
-        buttonGroup.getChildren().add(droite);
-        buttonGroup.setAlignment(Pos.CENTER);
+        node2.getChildren().add(titre);
+
+
+        mainPane.setCenter(node);
+        mainPane.setTop(node2);
+        node2.setAlignment(Pos.CENTER);
+
+        Button btn1 = new Button("Menu");
+
+        HBox node3 = new HBox();
+        node3.getChildren().add(btn1);
+        mainPane.setBottom(node3);
+        node3.setAlignment(Pos.CENTER);
+
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
         return scene;
     }
 
@@ -540,5 +579,33 @@ public class FishHunt extends Application {
         invincible.setY(50);
         root.getChildren().add(invincible);
     }
+
+    public Object[] scoreSheet() {
+        try {
+            FileReader fileReader = new FileReader("src/highScore.txt");
+
+            BufferedReader br = new BufferedReader(fileReader);
+            String ligne;
+            username = new ArrayList<String>();
+            score = new ArrayList<Integer>();
+
+            /**
+             * Ajoute tous les mots du fichier a lensemble dictionnaire
+             * Ajoute tous les presques mots du dictionnaire a la liste
+             */
+            while ((ligne = br.readLine()) != null) {
+                String[] nomScore = ligne.split(" ");
+                username.add(nomScore[0]);
+                score.add(Integer.parseInt(nomScore[1]));
+            }
+
+            br.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Object[]{username, score};
+    }
+
 }
 
