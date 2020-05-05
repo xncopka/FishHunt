@@ -594,7 +594,9 @@ public class Jeu {
      */
     public void draw(GraphicsContext context) {
 
-
+// Background bleu du jeu
+        context.setFill(Color.DARKBLUE);
+        context.fillRect(0, 0, WIDTH, HEIGHT);
 
         // Pour chaque groupe de bulle
         for (Bulle[] value : bulles) {

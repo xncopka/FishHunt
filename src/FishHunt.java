@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -21,9 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.ComboBoxListCell;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -58,14 +58,16 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
+    private boolean newGame = false;
+
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
     public static final ObservableList names =
             FXCollections.observableArrayList();
     public static final ObservableList data =
             FXCollections.observableArrayList();
-    private ArrayList <String> username;
-    private ArrayList <Integer> score;
+    private ArrayList<String> username;
+    private ArrayList<Integer> score;
 
     public static void main(String[] args) {
         launch(args);
@@ -113,7 +115,6 @@ public class FishHunt extends Application {
         context.drawImage(new Image("/logo.png"), 100, 40, 440, 300);
 
 
-
         Button btn1 = new Button("Nouvelle Partie");
         btn1.setLayoutX(280);
         btn1.setLayoutY(350);
@@ -132,7 +133,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(meilleursScores());
         });
 
-        Button btn3= new Button("Mode spécial");
+        Button btn3 = new Button("Mode spécial");
         btn3.setLayoutX(280);
         btn3.setLayoutY(410);
         btn3.setPrefWidth(105);
@@ -140,7 +141,6 @@ public class FishHunt extends Application {
             primaryStage.setScene(meilleursScores());
         });
         root.getChildren().addAll(canvas, btn1, btn2, btn3);
-
 
 
         return new Scene(root);
@@ -155,10 +155,11 @@ public class FishHunt extends Application {
         ArrayList username = (ArrayList) scoreSheet()[0];
         ArrayList score = (ArrayList) scoreSheet()[1];
 
-        for(int i=0; i <username.size(); i++){
-
-            data.add("# "+ (i+1) +"-"+ username.get(i) +
-                    "-" + score.get(i));
+        if (!(username.size() == 0)){
+            for (int i = 0; i < username.size(); i++) {
+                data.add("# " + (i + 1) + "-" + username.get(i) +
+                        "-" + score.get(i));
+            }
         }
 
         listView.setItems(data);
@@ -180,11 +181,25 @@ public class FishHunt extends Application {
         mainPane.setCenter(node);
         mainPane.setTop(node2);
         node2.setAlignment(Pos.CENTER);
-
-        Button btn1 = new Button("Menu");
-
         HBox node3 = new HBox();
+        Button btn1 = new Button("Menu");
         node3.getChildren().add(btn1);
+
+        if (newGame) {
+            Label label1 = new Label("Votre nom:");
+            Label label2 = new Label("a fait " + controleur.getScore() + " points!");
+            Button btn2 = new Button("Ajouter!");
+            TextField textField = new TextField();
+            btn2.setOnAction((e) -> {
+                creerAccueil();
+                if (!(textField.getText().equals(""))){
+                    addingScore(textField.getText());
+                }
+            });
+            node3.getChildren().addAll(label1, textField, label2, btn2);
+            node3.setSpacing(10);
+        }
+
         mainPane.setBottom(node3);
         node3.setAlignment(Pos.CENTER);
 
@@ -198,8 +213,9 @@ public class FishHunt extends Application {
 
     private Scene creerFenetreJeu() {
 
+        this.root = new Pane();
 
-        Pane root = new Pane();
+
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         // Fenêtre de jeu
@@ -208,9 +224,6 @@ public class FishHunt extends Application {
 
         // Contexte graphique du canvas
         context = canvas.getGraphicsContext2D();
-        // Background bleu du jeu
-        context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, WIDTH, HEIGHT);
 
 
         Image img = new Image("/cible.png");
@@ -337,6 +350,7 @@ public class FishHunt extends Application {
             //private long firstTimeLevel = 0;
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
+            private long timeGameOver = 0;
 
             private ArrayList<Long> firstTimeLevels = new ArrayList<Long>();
 
@@ -430,15 +444,19 @@ public class FishHunt extends Application {
                     firstTimeInvicible = 0;
                     lastTimeInvicible = now;
                 }
-
-
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
-
                     textOver();
-
-
+                    this.timeGameOver += now;
                 }
+                //Si cela fait plus de 3 secondes que la partie est finie, retourner a l'accueil
+                if (timeGameOver - now >= (long) 3e+9) {
+                    timer.stop();
+                    newGame = true;
+                    primaryStage.setScene(meilleursScores());
+                }
+
+
                 //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
                 if (controleur.getAfficherLevel() & !firstTimeLevelActivation) {
                     firstTimeLevelActivation = true;
@@ -607,5 +625,16 @@ public class FishHunt extends Application {
         return new Object[]{username, score};
     }
 
-}
+    public void addingScore(String newScore) {
+        try {
+            FileWriter fw = new FileWriter("src/highScore.txt");
+            BufferedWriter writer = new BufferedWriter(fw);
+            String s = ""+ newScore + " "+ controleur.getScore();
+            writer.append(s);
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println("Erreur à l’écriture du fichier");
+        }
+    }
 
+}
