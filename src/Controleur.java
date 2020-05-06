@@ -171,4 +171,13 @@ public class Controleur {
         jeu.setSerieActivated(serieActivated);
     }
 
+
+    public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
+        return jeu.checkNewScore(score, meilleursScores);
+    }
+
+
+    public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
+        return jeu.trierScore(score, meilleursScores, name);
+    }
 }

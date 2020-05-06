@@ -23,7 +23,7 @@ public class Jeu {
     private  ArrayList<Balle> balles = new ArrayList<>();
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
-    private ArrayList<Integer> meilleursScores = new ArrayList<>();
+
 
 
 
@@ -85,11 +85,37 @@ public class Jeu {
 
     }
 
-    public void saveScore() {
-            int score = players[0].getPoints();
-            meilleursScores.add(score);
-            Collections.reverse(meilleursScores);
-        
+
+    public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
+        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[2]) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
+            int index = meilleursScores.size();
+            System.out.println("indexTrie1 :" + index);
+            for (int i = 0; i < meilleursScores.size(); i++) {
+                if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[2])) {
+                    meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
+                    index = i;
+                    break;
+                }
+            }
+            if(index == meilleursScores.size()) {
+                meilleursScores.add("#" + (index+1) + " - " + name + " - " +  score);
+            }
+        for (int i = index+1; i <meilleursScores.size() ; i++) {
+            String saveName =  meilleursScores.get(i).split(" - ", 0)[1];
+            String saveScore =  meilleursScores.get(i).split(" - ", 0)[2];
+            meilleursScores.set(i, "#" + (i+1) + " - " + saveName + " - " +   saveScore);
+        }
+            if(meilleursScores.size()==11){
+                meilleursScores.remove(10);
+            }
+            return index;
     }
 
 
@@ -362,9 +388,7 @@ public class Jeu {
 
 
         if ( players[0].getNbVies() == 0 ) {
-            saveScore();
             gameOver = true;
-
         }
 
 
@@ -574,7 +598,6 @@ public class Jeu {
         if(sniperGame){
             if(!players[0].isInvicible()) {
                 if (players[0].getBalles() == 0) {
-                    saveScore();
                     gameOver = true;
                 }
             }

@@ -19,13 +19,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.cell.ComboBoxListCell;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Pattern;
+
 
 public class FishHunt extends Application {
     // Largeur et hauteur de la fenêtre
@@ -58,16 +55,14 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean newGame = false;
+
 
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
-    public static final ObservableList names =
-            FXCollections.observableArrayList();
-    public static final ObservableList data =
-            FXCollections.observableArrayList();
-    private ArrayList<String> username;
-    private ArrayList<Integer> score;
+    private ArrayList<String> meilleursScores = new ArrayList<>();
+
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -151,19 +146,8 @@ public class FishHunt extends Application {
         mainPane.setPadding(new Insets(50, 50, 50, 50));
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
-        final ListView listView = new ListView(data);
-        ArrayList username = (ArrayList) scoreSheet()[0];
-        ArrayList score = (ArrayList) scoreSheet()[1];
-
-        if (!(username.size() == 0)){
-            for (int i = 0; i < username.size(); i++) {
-                data.add("# " + (i + 1) + "-" + username.get(i) +
-                        "-" + score.get(i));
-            }
-        }
-
-        listView.setItems(data);
-        listView.setCellFactory(ComboBoxListCell.forListView(names));
+        ListView<String> listView = new ListView<>();
+        listView.getItems().setAll(meilleursScores);
 
         StackPane node = new StackPane();
 
@@ -185,7 +169,15 @@ public class FishHunt extends Application {
         Button btn1 = new Button("Menu");
         node3.getChildren().add(btn1);
 
-        if (newGame) {
+        FileReader fileReader = null;
+        try {
+             fileReader = new FileReader("src/highScore.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        if (controleur.checkNewScore(controleur.getScore(),getMeilleursScores(fileReader))) {
             Label label1 = new Label("Votre nom:");
             Label label2 = new Label("a fait " + controleur.getScore() + " points!");
             Button btn2 = new Button("Ajouter!");
@@ -193,7 +185,18 @@ public class FishHunt extends Application {
             btn2.setOnAction((e) -> {
                 creerAccueil();
                 if (!(textField.getText().equals(""))){
-                    addingScore(textField.getText());
+
+
+                    FileReader filereader = null;
+                    try {
+                        filereader = new FileReader("src/highScore.txt");
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    this.meilleursScores = getMeilleursScores(filereader);
+                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                   writeScore(indexScore, meilleursScores);
                 }
             });
             node3.getChildren().addAll(label1, textField, label2, btn2);
@@ -350,7 +353,7 @@ public class FishHunt extends Application {
             //private long firstTimeLevel = 0;
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
-            private long timeGameOver = 0;
+            private long firstTimeGameOver;
 
             private ArrayList<Long> firstTimeLevels = new ArrayList<Long>();
 
@@ -447,13 +450,25 @@ public class FishHunt extends Application {
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
                     textOver();
-                    this.timeGameOver += now;
+                    firstTimeGameOver = now;
+                    setGameOver(false);
+
+
+
+
+
+
+
+
+
+
+
                 }
                 //Si cela fait plus de 3 secondes que la partie est finie, retourner a l'accueil
-                if (timeGameOver - now >= (long) 3e+9) {
-                    timer.stop();
-                    newGame = true;
-                    primaryStage.setScene(meilleursScores());
+                if(firstTimeGameOver > 0) {
+                    if (now - firstTimeGameOver >= (long) 3e+9) {
+                        primaryStage.setScene(meilleursScores());
+                    }
                 }
 
 
@@ -598,43 +613,65 @@ public class FishHunt extends Application {
         root.getChildren().add(invincible);
     }
 
-    public Object[] scoreSheet() {
+
+    public ArrayList<String> getMeilleursScores(FileReader fileReader)  {
+        BufferedReader reader;
         try {
-            FileReader fileReader = new FileReader("src/highScore.txt");
+         reader = new BufferedReader(fileReader);
+         String ligne;
+            this.meilleursScores = new ArrayList<>() ;
+        while ((ligne = reader.readLine()) != null) {
 
-            BufferedReader br = new BufferedReader(fileReader);
-            String ligne;
-            username = new ArrayList<String>();
-            score = new ArrayList<Integer>();
-
-            /**
-             * Ajoute tous les mots du fichier a lensemble dictionnaire
-             * Ajoute tous les presques mots du dictionnaire a la liste
-             */
-            while ((ligne = br.readLine()) != null) {
-                String[] nomScore = ligne.split(" ");
-                username.add(nomScore[0]);
-                score.add(Integer.parseInt(nomScore[1]));
-            }
-
-            br.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            meilleursScores.add(ligne);
         }
-        return new Object[]{username, score};
+        reader.close();
+    } catch (IOException ex) {
+        System.out.println("Erreur à l’ouverture du fichier");
     }
 
-    public void addingScore(String newScore) {
+     return meilleursScores;
+    }
+
+
+
+
+    public void writeScore(int indexNewScore, ArrayList<String> meilleursScores) {
         try {
-            FileWriter fw = new FileWriter("src/highScore.txt");
-            BufferedWriter writer = new BufferedWriter(fw);
-            String s = ""+ newScore + " "+ controleur.getScore();
-            writer.append(s);
+            FileWriter filewriter = new FileWriter("src/highScore.txt", false);
+            BufferedWriter writer = new BufferedWriter(filewriter);
+            System.out.println("index = " + indexNewScore);
+
+                for (int i = 0; i < indexNewScore; i++) {
+                    System.out.println("hey");
+                    writer.append(meilleursScores.get(i) + "\n");
+                }
+                writer.append(meilleursScores.get(indexNewScore) + "\n");
+                if(indexNewScore<meilleursScores.size()-1) {
+                for (int i = indexNewScore + 1; i < meilleursScores.size(); i++) {
+                    System.out.println("heyy");
+                    writer.append(meilleursScores.get(i) + "\n");
+                }
+                }
+
             writer.close();
         } catch (IOException ex) {
             System.out.println("Erreur à l’écriture du fichier");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
