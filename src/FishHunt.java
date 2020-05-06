@@ -150,13 +150,15 @@ public class FishHunt extends Application {
         listView.getItems().setAll(meilleursScores);
 
         StackPane node = new StackPane();
+        node.setPadding(new Insets(10, 0, 10, 0));
 
         node.getChildren().add(listView);
 
 
+
         HBox node2 = new HBox();
 
-        Text titre = new Text("MEILLEURS SCORES");
+        Text titre = new Text("Meilleurs scores");
 
         titre.setFont(Font.font(32));
         node2.getChildren().add(titre);
@@ -165,9 +167,11 @@ public class FishHunt extends Application {
         mainPane.setCenter(node);
         mainPane.setTop(node2);
         node2.setAlignment(Pos.CENTER);
-        HBox node3 = new HBox();
+
+
+        VBox node3 = new VBox();
         Button btn1 = new Button("Menu");
-        node3.getChildren().add(btn1);
+
 
         FileReader fileReader = null;
         try {
@@ -178,6 +182,8 @@ public class FishHunt extends Application {
 
 
         if (controleur.checkNewScore(controleur.getScore(),getMeilleursScores(fileReader))) {
+
+            HBox hboxtemp = new HBox();
             Label label1 = new Label("Votre nom:");
             Label label2 = new Label("a fait " + controleur.getScore() + " points!");
             Button btn2 = new Button("Ajouter!");
@@ -199,10 +205,13 @@ public class FishHunt extends Application {
                    writeScore(indexScore, meilleursScores);
                 }
             });
-            node3.getChildren().addAll(label1, textField, label2, btn2);
-            node3.setSpacing(10);
+            hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
+            hboxtemp.setSpacing(10);
+            hboxtemp.setAlignment(Pos.CENTER);
+            node3.getChildren().addAll(hboxtemp);
         }
-
+        node3.getChildren().add(btn1);
+        node3.setSpacing(10);
         mainPane.setBottom(node3);
         node3.setAlignment(Pos.CENTER);
 
