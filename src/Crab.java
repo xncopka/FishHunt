@@ -3,7 +3,6 @@ import javafx.scene.image.Image;
 public class Crab extends Fish {
 
     private double nowTime;
-    private boolean oscille;
     private boolean sensInverse;
 
 
@@ -13,7 +12,6 @@ public class Crab extends Fish {
         this.vy=0;
         this.nowTime = 0 ;
         this.vx = vx*1.3;
-        this.oscille = false;
         this.sensInverse = false;
 
 
@@ -37,28 +35,27 @@ public class Crab extends Fish {
 
         nowTime+=dt;
 
-        if (((x >= 0) && (isLeftOfScreen())  && !(oscille)   )  || (!(isLeftOfScreen()) && (x<=Jeu.WIDTH)  && !(oscille))   )  {
+/*        if (((x >= 0) && (isLeftOfScreen())  && !(oscille)   )  || (!(isLeftOfScreen()) && (x<=Jeu.WIDTH)  && !(oscille))   )  {
             this.oscille = true;
             nowTime = 0;
-        }
+        }*/
 
-        if(oscille) {
-            int finAvance = (int) Math.floor(nowTime / 0.5);
 
-            if (finAvance  == 1  && !sensInverse ) {
+            int cycle = (int) Math.floor(nowTime / 0.25);
+
+            if (cycle % 3  == 2  && !sensInverse ) {
                 this.vx *= -1;
                 this.sensInverse = true;
             }
-            int finRecule = (int) Math.floor(nowTime / 0.75);
-            if (finRecule  == 1 && sensInverse) {
+     
+            if (cycle % 3  == 0 && sensInverse) {
                 this.vx *= -1;
-                nowTime = 0;
                 sensInverse = false;
             }
-            
+
 
           
-        }
+     
 
 
 
