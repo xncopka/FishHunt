@@ -145,7 +145,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerFenetreJeu(false));
         });
 
-        Button btn2 = new Button("Meilleurs scores");
+        Button btn2 = new Button("Meilleurs Scores");
         btn2.setLayoutX(280);
         btn2.setLayoutY(380);
         btn2.setPrefWidth(105);
@@ -154,7 +154,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerSceneScores());
         });
 
-        Button btn3 = new Button("Mode spécial");
+        Button btn3 = new Button("Mode Spécial");
         btn3.setLayoutX(280);
         btn3.setLayoutY(410);
         btn3.setPrefWidth(105);

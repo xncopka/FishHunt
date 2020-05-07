@@ -141,9 +141,7 @@ public class Controleur {
         return jeu.getSniperGame();
     }
 
-    public void setSniperGame(boolean sniperGame) {
-        jeu.setSniperGame(sniperGame);
-    }
+
 
     public int getBalles() {
         return jeu.getBalles();
@@ -184,9 +182,6 @@ public class Controleur {
         return jeu.getChanson();
     }
 
-    public void setChanson(MusicGame chanson) {
-        jeu.setChanson(chanson);
-    }
 
 
 

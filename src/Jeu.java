@@ -6,7 +6,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.Iterator;
 import java.util.Random;
 
@@ -84,10 +84,6 @@ public class Jeu {
         return chanson;
     }
 
-    public void setChanson(MusicGame chanson) {
-        this.chanson = chanson;
-    }
-
 
 
 
@@ -135,9 +131,7 @@ public class Jeu {
         return sniperGame;
     }
 
-    public void setSniperGame(boolean sniperGame) {
-        this.sniperGame = sniperGame;
-    }
+
 
     public int getBalles() {
         return players[0].getBalles();
@@ -156,20 +150,6 @@ public class Jeu {
 
 
 
-
-    /**
-     * Permet de savoir qui est le gagnant de la partie
-     * @return un string
-     */
-    public String getWinner() {
-            Player winner = players[0];
-            for (int i = 0; i < players.length-1; i++) {
-                if (players[i].getPoints() < players[i+1].getPoints()) {
-                    winner = players[i+1];
-                }
-            }
-            return "Player " + winner.getId() + " wins!";
-    }
 
 
     public void setGameOver(boolean gameOver) {
@@ -212,21 +192,8 @@ public class Jeu {
     }
 
 
-    /**
-     * Getter du nombre de vies du Player avec l'id correspondant
-     * @return le nombre de vie restant
-     */
-    public int getNbViesPlayer(int id) {
-        return players[id].getNbVies();
-    }
 
-    /**
-     * Mutateur du nombre de vies du player avec l'id correspondant
-     * @param life nouveau nombre de vies restant
-     */
-    public void setNbViesPlayer(int id, int life) {
-        players[id].setNbVies(life);
-    }
+
 
 
     public boolean isInvicible(){
@@ -693,15 +660,14 @@ public class Jeu {
 
         context.setTextAlign(TextAlignment.LEFT);
 
-        context.setFont(Font.font(20));
+        context.setFont(Font.font(17));
         context.setFill(Color.WHITE);
         context.fillText("Série: "+ players[0].getSerie(), 10, 20);
 
         if(sniperGame){
 
             // dessine les balles restantes
-
-            context.fillText("Balles restantes: "+ players[0].getBalles(), 10, 50);
+            context.fillText("Balles restantes: "+ players[0].getBalles(), 10, 45);
         }
 
 
