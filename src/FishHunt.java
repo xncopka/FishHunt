@@ -1,4 +1,5 @@
 import javafx.animation.AnimationTimer;
+import javafx.animation.StrokeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -57,6 +58,10 @@ public class FishHunt extends Application {
 
     private boolean gameToScore = false;
 
+    private boolean prevGameSpecial;
+
+
+
 
 
 
@@ -64,6 +69,7 @@ public class FishHunt extends Application {
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
     private ArrayList<String> meilleursScores ;
+    private ArrayList<String> meilleursScoresSpecial;
 
 
 
@@ -151,24 +157,36 @@ public class FishHunt extends Application {
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
         FileReader fileReader = null;
-        
+        FileReader fileReader2 = null;
         try {
             fileReader = new FileReader("src/highScore.txt");
-         
+            fileReader2 = new FileReader("src/highScore2.txt");
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
 
+
+        HBox conteneurListView = new HBox();
+        conteneurListView.setSpacing(30);
 
 
         meilleursScores=getMeilleursScores(fileReader) ;
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
 
+
+        
+
+        meilleursScoresSpecial=getMeilleursScores(fileReader2) ;
+        ListView<String> listView2 = new ListView<>();
+        listView2.getItems().setAll(meilleursScoresSpecial);
+        conteneurListView.getChildren().addAll(listView, listView2);
+
         StackPane node = new StackPane();
         node.setPadding(new Insets(10, 0, 10, 0));
 
-        node.getChildren().add(listView);
+        node.getChildren().add(conteneurListView);
 
 
 
@@ -192,7 +210,13 @@ public class FishHunt extends Application {
      
         if(gameToScore) {
 
-            if (controleur.checkNewScore(controleur.getScore(), meilleursScores)) {
+            ArrayList<String> checkArrayList;
+            if (!prevGameSpecial) {
+                checkArrayList = meilleursScores;
+            } else {
+                checkArrayList = meilleursScoresSpecial;
+            }
+            if (controleur.checkNewScore(controleur.getScore(), checkArrayList)) {
                 HBox hboxtemp = new HBox();
                 Label label1 = new Label("Votre nom:");
                 Label label2 = new Label("a fait " + controleur.getScore() + " points!");
@@ -204,14 +228,28 @@ public class FishHunt extends Application {
 
                         FileReader filereader = null;
                         try {
-                            filereader = new FileReader("src/highScore.txt");
+                            if(!prevGameSpecial) {
+                                System.out.println("mode normal");
+                                filereader = new FileReader("src/highScore.txt");
+                            } else {
+                                System.out.println("mode special");
+                                filereader = new FileReader("src/highScore2.txt");
+                            }
                         } catch (FileNotFoundException ex) {
                             ex.printStackTrace();
                         }
 
-                        this.meilleursScores = getMeilleursScores(filereader);
-                        int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
-                        writeScore(indexScore, meilleursScores);
+                        if(!prevGameSpecial) {
+                            System.out.println("mode normal");
+                            this.meilleursScores = getMeilleursScores(filereader);
+                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                            writeScore(indexScore, meilleursScores, "src/highScore.txt");
+                        } else {
+                            System.out.println("mode special");
+                            this.meilleursScoresSpecial = getMeilleursScores(filereader);
+                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
+                            writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
+                        }
                     }
                     primaryStage.setScene(creerAccueil());
 
@@ -474,6 +512,11 @@ public class FishHunt extends Application {
                 }
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
+                    if(controleur.getSniperGame()) {
+                        prevGameSpecial = true;
+                    } else {
+                        prevGameSpecial = false;
+                    }
                     textOver();
                     firstTimeGameOver = now;
                     setGameOver(false);
@@ -645,29 +688,30 @@ public class FishHunt extends Application {
 
     public ArrayList<String> getMeilleursScores(FileReader fileReader)  {
         BufferedReader reader;
+        ArrayList<String> arrayList = new ArrayList<>() ;
         try {
             System.out.println("PLEASE");
          reader = new BufferedReader(fileReader);
          String ligne;
-            this.meilleursScores = new ArrayList<>() ;
         while ((ligne = reader.readLine()) != null) {
 
-            meilleursScores.add(ligne);
+            arrayList.add(ligne);
         }
         reader.close();
+
     } catch (IOException ex) {
         System.out.println("Erreur à l’ouverture du fichier");
     }
 
-     return meilleursScores;
+        return arrayList;
     }
 
 
 
 
-    public void writeScore(int indexNewScore, ArrayList<String> meilleursScores) {
+    public void writeScore(int indexNewScore, ArrayList<String> meilleursScores, String adresse) {
         try {
-            FileWriter filewriter = new FileWriter("src/highScore.txt", false);
+            FileWriter filewriter = new FileWriter(adresse, false);
             BufferedWriter writer = new BufferedWriter(filewriter);
             System.out.println("index = " + indexNewScore);
 
