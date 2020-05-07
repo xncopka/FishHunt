@@ -239,7 +239,7 @@ public class FishHunt extends Application {
 
         HBox node2 = new HBox();
 
-        Text titre = new Text("Meilleurs scores");
+        Text titre = new Text("Meilleurs Scores");
 
         titre.setFont(Font.font(32));
         node2.getChildren().add(titre);
@@ -480,16 +480,16 @@ public class FishHunt extends Application {
         Text instructions = new Text("Vous incarnez un requin qui chasse des poissons " +
                 "pour\n"+ "son souper. Étant un requin gourmand, vous ne pouvez\n" +
                 "pas vous permettre de laisser trop de poissons " +
-                "passer\n Au bout de 3 poissons ratés, la " +
+                "passer\nAu bout de 3 poissons ratés, la " +
                 "partie est perdue." +
-                "Le jeu \n se contrôle à la souris et continue à " +
-                "l’infini, ou jusqu’à \n ce que 3 poissons aient été " +
-                "ratés" + "\nAppuyer sur la touche H pour faire monter le niveau de\n +1, "
-                +"J pour faire monter le score de +1, K pour \nfaire monter le nombre " +
-                "de  poissons restants de +1 et \nL pour faire perdre la partie");
+                " Le jeu \nse contrôle à la souris et continue à " +
+                "l’infini, ou jusqu’à \nce que 3 poissons aient été " +
+                "ratés." + "\n\nAppuyer sur la touche H pour faire monter le niveau de\n+1, "
+                +"J pour faire monter le score de +1, K pour faire\nmonter le nombre " +
+                "de poissons restants de +1 et L pour\nfaire perdre la partie.");
         instructions.setFont(Font.font ("Verdana", 18));
         instructions.setFill(Color.WHITE);
-        instructions.setTextAlignment(TextAlignment.CENTER);
+        instructions.setTextAlignment(TextAlignment.LEFT);
         node.setLayoutX(50);
         node.setLayoutY(80);
         node.setAlignment(Pos.CENTER);
@@ -748,7 +748,7 @@ public class FishHunt extends Application {
 
         timer.stop();
         deltaTime =0;
-        startGame(false);
+        startGame(controleur.getSniperGame());
         newTimer();
 
     }
@@ -784,6 +784,7 @@ public class FishHunt extends Application {
      * Cree le texte du Game Over et l'ajoute à la racine
      */
     public void textOver(){
+        root.getChildren().remove(level);
         over = new Text("GAME OVER");
         over.setFill(Color.RED);
         over.setFont(Font.font(50));
