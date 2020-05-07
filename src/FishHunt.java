@@ -42,8 +42,8 @@ public class FishHunt extends Application {
     // Classe anonyme servant à creer des animations
     private AnimationTimer timer;
 
-    // Conteneur générique
-    private Pane root;
+    // Conteneur
+    private StackPane root;
 
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
@@ -55,8 +55,6 @@ public class FishHunt extends Application {
     private Text over;
 
     private Text level;
-
-    private Text invincible;
 
     private boolean firstTimeLevelActivation = false;
 
@@ -71,6 +69,9 @@ public class FishHunt extends Application {
     private ArrayList<String> meilleursScoresSpecial;
 
     private MusicGame backgroundMusic;
+
+    private HBox debutInvinc;
+    private HBox finInvinc;
 
 
 
@@ -98,7 +99,7 @@ public class FishHunt extends Application {
 
 
         // racine
-        root = new Pane();
+        root = new StackPane();
         this.primaryStage = primaryStage;
 
         // titre de la fenetre
@@ -327,7 +328,7 @@ public class FishHunt extends Application {
 
         backgroundMusic.stopMusic();
 
-        this.root = new Pane();
+        this.root = new StackPane();
 
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
@@ -340,11 +341,13 @@ public class FishHunt extends Application {
         context = canvas.getGraphicsContext2D();
 
 
+        Pane pane = new Pane();
         Image img = new Image("/cible.png");
         ImageView imageView = new ImageView(img);
         imageView.setFitHeight(50);
         imageView.setFitWidth(50);
-        root.getChildren().add(imageView);
+        pane.getChildren().add(imageView);
+        root.getChildren().add(pane);
 
         // Debut du jeu
 
@@ -622,13 +625,13 @@ public class FishHunt extends Application {
 
                 if(firstTimeInvicible>0) {
                     if ((now - firstTimeInvicible) >= ((long) 3e+9)) {
-                        root.getChildren().remove(invincible);
+                        root.getChildren().remove(debutInvinc);
                     }
                 }
 
                 if (lastTimeInvicible>0) {
                     if ((now - lastTimeInvicible) >= ((long) 3e+9)) {
-                        root.getChildren().remove(invincible);
+                        root.getChildren().remove(finInvinc);
                         lastTimeInvicible = 0;
                         controleur.setSerieActivated(false);
                     }
@@ -717,6 +720,8 @@ public class FishHunt extends Application {
             }
 
 
+
+
                 // temps = (temps now - dernier temps) converti en seconde
                 deltaTime = (now - lastTime) * 1e-9;
 
@@ -783,10 +788,10 @@ public class FishHunt extends Application {
         over.setFill(Color.RED);
         over.setFont(Font.font(50));
         over.setTextAlignment(TextAlignment.CENTER);
-        over.setX(200);
-        over.setY(210);
         root.getChildren().add(over);
     }
+
+
 
 
     /**
@@ -795,10 +800,8 @@ public class FishHunt extends Application {
     public void textLevel(){
         level = new Text("Level " + getLevel());
         level.setFill(Color.WHITE);
-        level.setFont(Font.font(100));
+        level.setFont(Font.font(50));
         level.setTextAlignment(TextAlignment.CENTER);
-        level.setX(200);
-        level.setY(210);
         root.getChildren().add(level);
     }
 
@@ -806,13 +809,14 @@ public class FishHunt extends Application {
      * Cree le texte du level
      */
    public void textDebutInvincible(){
-        invincible = new Text("Serie de "+ controleur.getSerie() +" atteinte:\ndebut invincibilité");
+       Text invincible = new Text("Serie de "+ controleur.getSerie() +" atteinte :\ndebut invincibilité");
         invincible.setFill(Color.rgb(126,211,33));
-        invincible.setFont(Font.font(25));
+        invincible.setFont(Font.font(20));
         invincible.setTextAlignment(TextAlignment.CENTER);
-        invincible.setX(410);
-        invincible.setY(50);
-        root.getChildren().add(invincible);
+         debutInvinc = new HBox(invincible);
+       debutInvinc.setAlignment(Pos.TOP_RIGHT);
+       debutInvinc.setPadding(new Insets(10));
+        root.getChildren().add(debutInvinc);
     }
 
 
@@ -820,13 +824,14 @@ public class FishHunt extends Application {
      * Cree le texte du level
      */
     public void textFinInvincible(){
-        invincible = new Text("10 sec écoulées:\nfin invincibilité");
+        Text invincible = new Text("10 sec écoulées :\nfin invincibilité");
         invincible.setFill(Color.RED);
-        invincible.setFont(Font.font(25));
-        invincible.setTextAlignment(TextAlignment.CENTER);
-        invincible.setX(410);
-        invincible.setY(50);
-        root.getChildren().add(invincible);
+        invincible.setFont(Font.font(20));
+        invincible.setTextAlignment(TextAlignment.CENTER);;
+         finInvinc = new HBox(invincible);
+        finInvinc.setAlignment(Pos.TOP_RIGHT);
+        finInvinc.setPadding(new Insets(10));
+        root.getChildren().add(finInvinc);
     }
 
 

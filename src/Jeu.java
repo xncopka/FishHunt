@@ -1,3 +1,4 @@
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.*;
@@ -678,62 +679,54 @@ public class Jeu {
 
         // dessine le score
         context.setTextAlign(TextAlignment.CENTER);
+        context.setTextBaseline(VPos.CENTER);
         context.setFont(Font.font(25));
         if(!modeInvicible) {
             context.setFill(Color.WHITE);
         } else {
             context.setFill(Color.rgb(126,211,33));
         }
-        context.fillText(""+players[0].getPoints(), WIDTH/2.0 + 20, 60);
+        context.fillText(""+players[0].getPoints(), WIDTH/2.0, 60);
+
+
+        // dessine les balles restantes
+
+        context.setTextAlign(TextAlignment.LEFT);
+
+        context.setFont(Font.font(20));
+        context.setFill(Color.WHITE);
+        context.fillText("Série: "+ players[0].getSerie(), 10, 20);
 
         if(sniperGame){
 
             // dessine les balles restantes
-            context.setTextAlign(TextAlignment.CENTER);
-            context.setFont(Font.font(20));
-            context.setFill(Color.WHITE);
-            context.fillText("Balles restantes: "+ players[0].getBalles(), 100, 80);
+
+            context.fillText("Balles restantes: "+ players[0].getBalles(), 10, 50);
         }
 
-        // dessine les balles restantes
-        context.setTextAlign(TextAlignment.CENTER);
-        context.setFont(Font.font(20));
-        context.setFill(Color.WHITE);
-        context.fillText("Série: "+ players[0].getSerie(), 70, 30);
 
 
-
-
+        Image image;
+        if(!modeInvicible) {
+            image = new Image("fish/00.png");
+        } else {
+            image = new Image("fish/invincible.png");
+        }
 
         // dessine les vies restantex
         if (players[0].getNbVies()==3) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 + 50, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(image, (WIDTH / 2.0) - 30/2, 85, 30, 30);
+            context.drawImage(image, (WIDTH / 2.0) - 30/2 + 30 + 20, 85, 30, 30);
+            context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
         }
 
         if (players[0].getNbVies()==2) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0, 80, 30, 30);
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
+            context.drawImage(image, (WIDTH / 2.0) - 30/2, 85, 30, 30);
         }
 
         if (players[0].getNbVies()==1) {
-            if(!modeInvicible) {
-                context.drawImage(new Image("fish/00.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            } else {
-                context.drawImage(new Image("fish/invincible.png"), WIDTH / 2.0 - 50, 80, 30, 30);
-            }
+            context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
         }
 
        
