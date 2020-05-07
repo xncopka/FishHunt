@@ -212,7 +212,7 @@ public class Jeu {
     /**
      * Constructeur de Jeu
      */
-    public Jeu(int nbPlayers, boolean modeSpecial) {
+    public Jeu(int nbPlayers, boolean modeSpecial, boolean speakerOn) {
 
         modeSolo = nbPlayers == 1;
 
@@ -250,9 +250,11 @@ public class Jeu {
 
 
 
-        String filepath = "src/Noisestorm - Crab Rave.mp3";
-        chanson = new MusicGame();
-        chanson.playMusic(filepath);
+        if(speakerOn) {
+            String filepath = "src/Noisestorm - Crab Rave.mp3";
+            chanson = new MusicGame();
+            chanson.playMusic(filepath);
+        }
 
     }
 

@@ -75,6 +75,8 @@ public class FishHunt extends Application {
 
     private boolean printErreur;
 
+    private boolean speakerOn;
+
 
 
 
@@ -105,6 +107,8 @@ public class FishHunt extends Application {
      
         this.primaryStage = primaryStage;
 
+        this.speakerOn = true;
+
         // titre de la fenetre
         primaryStage.setTitle("Fish Hunt");
 
@@ -113,6 +117,10 @@ public class FishHunt extends Application {
         String filepath = "src/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
+
+
+
+
 
 
         // fenetre non resizable
@@ -176,6 +184,8 @@ public class FishHunt extends Application {
         });
 
         root.getChildren().addAll(canvas, btn1, btn2, btn3, btn4);
+
+        speaker(root);
 
 
 
@@ -378,7 +388,7 @@ public class FishHunt extends Application {
 
         // Debut du jeu
 
-        startGame(modeSpecial);
+        startGame(modeSpecial, speakerOn);
         newTimer();
 
 
@@ -545,8 +555,8 @@ public class FishHunt extends Application {
     /**
      *  Reinitialise les valeurs du jeu au debut
      */
-    public void startGame(boolean modeSpecial) {
-        controleur = new Controleur(nbPlayers, modeSpecial);
+    public void startGame(boolean modeSpecial, boolean speakerOn) {
+        controleur = new Controleur(nbPlayers, modeSpecial, speakerOn);
         controleur.draw(context);
         printErreur = false;
     }
@@ -705,11 +715,14 @@ public class FishHunt extends Application {
                         timer.stop();
                         deltaTime = 0;
                         firstTimeGameOver = 0;
-                        controleur.getChanson().stopMusic();
+                        if(controleur.getChanson()!=null) {
+                            controleur.getChanson().stopMusic();
+                            String filepath = "src/Aqua Road - Shining Sea.mp3";
+                            backgroundMusic = new MusicGame();
+                            backgroundMusic.playMusic(filepath);
+                        }
                         primaryStage.setScene(creerSceneScores());
-                        String filepath = "src/Aqua Road - Shining Sea.mp3";
-                        backgroundMusic = new MusicGame();
-                        backgroundMusic.playMusic(filepath);
+
                     }
                 }
 
@@ -776,7 +789,7 @@ public class FishHunt extends Application {
 
         timer.stop();
         deltaTime =0;
-        startGame(controleur.getSniperGame());
+        startGame(controleur.getSniperGame(), speakerOn);
         newTimer();
 
     }
@@ -905,6 +918,41 @@ public class FishHunt extends Application {
         } catch (IOException ex) {
             System.out.println("Erreur à l’écriture du fichier");
         }
+    }
+
+    public void speaker(Pane pane) {
+        Image img;
+        if(speakerOn) {
+            img = new Image(getClass().getResourceAsStream("speaker-on.png"));
+        } else {
+            img = new Image(getClass().getResourceAsStream("speaker-off.png"));
+        }
+
+        Button speaker = new Button();
+        ImageView imageView = new ImageView(img);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+
+        speaker.setGraphic(imageView);
+        speaker.setLayoutX(10);
+        speaker.setLayoutY(10);
+        pane.getChildren().add(speaker);
+
+        speaker.setOnAction((e) -> {
+            if(speakerOn) {
+                backgroundMusic.stopMusic();
+                speakerOn = false;
+                primaryStage.setScene(creerAccueil());
+            } else {
+                String filepath = "src/Aqua Road - Shining Sea.mp3";
+                backgroundMusic = new MusicGame();
+                backgroundMusic.playMusic(filepath);
+                speakerOn = true;
+                primaryStage.setScene(creerAccueil());
+            }
+        });
+
+
     }
 
 

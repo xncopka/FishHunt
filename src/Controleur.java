@@ -12,8 +12,8 @@ public class Controleur {
     /**
      * Constructeur de Controleur
      */
-    public Controleur(int nbPlayers, boolean modeSpecial) {
-        jeu = new Jeu(nbPlayers, modeSpecial);
+    public Controleur(int nbPlayers, boolean modeSpecial, boolean speakerOn) {
+        jeu = new Jeu(nbPlayers, modeSpecial, speakerOn);
     }
 
 
@@ -181,6 +181,8 @@ public class Controleur {
     public MusicGame getChanson() {
         return jeu.getChanson();
     }
+
+
 
 
 
