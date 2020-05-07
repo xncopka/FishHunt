@@ -73,6 +73,8 @@ public class FishHunt extends Application {
     private HBox debutInvinc;
     private HBox finInvinc;
 
+    private boolean printErreur;
+
 
 
 
@@ -273,42 +275,66 @@ public class FishHunt extends Application {
                 Label label2 = new Label("a fait " + controleur.getScore() + " points!");
                 Button btn2 = new Button("Ajouter!");
                 TextField textField = new TextField();
+
                 btn2.setOnAction((e) -> {
-                    if (!(textField.getText().equals(""))) {
+                            if (!(textField.getText().equals(""))) {
+
+                                if (textField.getText().contains(" - ")) {
+                                    printErreur = true;
+                                    primaryStage.setScene(creerSceneScores());
+
+                                } else {
 
 
-                        FileReader filereader = null;
-                        try {
-                            if(!prevGameSpecial) {
+                                FileReader filereader = null;
+                                try {
+                                    if (!prevGameSpecial) {
 
-                                filereader = new FileReader("src/highScore.txt");
-                            } else {
+                                        filereader = new FileReader("src/highScore.txt");
+                                    } else {
 
-                                filereader = new FileReader("src/highScore2.txt");
+                                        filereader = new FileReader("src/highScore2.txt");
+                                    }
+                                } catch (FileNotFoundException ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                if (!prevGameSpecial) {
+
+                                    this.meilleursScores = getMeilleursScores(filereader);
+                                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                                    writeScore(indexScore, meilleursScores, "src/highScore.txt");
+                                } else {
+
+                                    this.meilleursScoresSpecial = getMeilleursScores(filereader);
+                                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
+                                    writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
+                                }
+                                    primaryStage.setScene(creerAccueil());
                             }
-                        } catch (FileNotFoundException ex) {
-                            ex.printStackTrace();
                         }
 
-                        if(!prevGameSpecial) {
-
-                            this.meilleursScores = getMeilleursScores(filereader);
-                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
-                            writeScore(indexScore, meilleursScores, "src/highScore.txt");
-                        } else {
-                      
-                            this.meilleursScoresSpecial = getMeilleursScores(filereader);
-                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
-                            writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
-                        }
-                    }
-                    primaryStage.setScene(creerAccueil());
 
                 });
+
+            /*    if(printErreur == true) {
+                    Label erreur = new Label("Votre nom ne doit pas contenir la séquence \" - \". Veillez réessayer s'il vous plait.");
+
+                }
+*/
+
                 hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
                 hboxtemp.setSpacing(10);
                 hboxtemp.setAlignment(Pos.CENTER);
                 node3.getChildren().addAll(hboxtemp);
+
+                    if(printErreur == true) {
+                    Label erreur = new Label("Votre nom ne doit pas contenir le séparateur \" - \". Veillez réessayer s’il vous plaît.");
+                    erreur.setTextFill(Color.RED);
+                    node3.getChildren().add(erreur);
+
+                }
+
             }
         }
 
@@ -522,6 +548,7 @@ public class FishHunt extends Application {
     public void startGame(boolean modeSpecial) {
         controleur = new Controleur(nbPlayers, modeSpecial);
         controleur.draw(context);
+        printErreur = false;
     }
 
 
