@@ -55,6 +55,10 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
+    private boolean scoreExists = false;
+
+
+
 
 
     private boolean[] firstClics = new boolean[]{false, false, false, false};
@@ -125,7 +129,7 @@ public class FishHunt extends Application {
         btn2.setPrefWidth(105);
 
         btn2.setOnAction((e) -> {
-            primaryStage.setScene(meilleursScores());
+            primaryStage.setScene(creerSceneScores());
         });
 
         Button btn3 = new Button("Mode spécial");
@@ -133,18 +137,28 @@ public class FishHunt extends Application {
         btn3.setLayoutY(410);
         btn3.setPrefWidth(105);
         btn3.setOnAction((e) -> {
-            primaryStage.setScene(meilleursScores());
+            primaryStage.setScene(creerSceneScores());
         });
         root.getChildren().addAll(canvas, btn1, btn2, btn3);
 
-
+        scoreExists = false;
         return new Scene(root);
     }
 
-    private Scene meilleursScores() {
+    private Scene creerSceneScores() {
         BorderPane mainPane = new BorderPane();
         mainPane.setPadding(new Insets(50, 50, 50, 50));
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
+
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader("src/highScore.txt");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        this.meilleursScores = getMeilleursScores(fileReader);
+
 
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
@@ -173,47 +187,47 @@ public class FishHunt extends Application {
         Button btn1 = new Button("Menu");
 
 
-        FileReader fileReader = null;
-        try {
-             fileReader = new FileReader("src/highScore.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+     
+        if(scoreExists) {
+
+            if (controleur.checkNewScore(controleur.getScore(), getMeilleursScores(fileReader))) {
+
+                HBox hboxtemp = new HBox();
+                Label label1 = new Label("Votre nom:");
+                Label label2 = new Label("a fait " + controleur.getScore() + " points!");
+                Button btn2 = new Button("Ajouter!");
+                TextField textField = new TextField();
+                btn2.setOnAction((e) -> {
+                    creerAccueil();
+                    if (!(textField.getText().equals(""))) {
 
 
-        if (controleur.checkNewScore(controleur.getScore(),getMeilleursScores(fileReader))) {
+                        FileReader filereader = null;
+                        try {
+                            filereader = new FileReader("src/highScore.txt");
+                        } catch (FileNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
 
-            HBox hboxtemp = new HBox();
-            Label label1 = new Label("Votre nom:");
-            Label label2 = new Label("a fait " + controleur.getScore() + " points!");
-            Button btn2 = new Button("Ajouter!");
-            TextField textField = new TextField();
-            btn2.setOnAction((e) -> {
-                creerAccueil();
-                if (!(textField.getText().equals(""))){
-
-
-                    FileReader filereader = null;
-                    try {
-                        filereader = new FileReader("src/highScore.txt");
-                    } catch (FileNotFoundException ex) {
-                        ex.printStackTrace();
+                        this.meilleursScores = getMeilleursScores(filereader);
+                        int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                        writeScore(indexScore, meilleursScores);
                     }
-
-                    this.meilleursScores = getMeilleursScores(filereader);
-                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
-                   writeScore(indexScore, meilleursScores);
-                }
-            });
-            hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
-            hboxtemp.setSpacing(10);
-            hboxtemp.setAlignment(Pos.CENTER);
-            node3.getChildren().addAll(hboxtemp);
+                });
+                hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
+                hboxtemp.setSpacing(10);
+                hboxtemp.setAlignment(Pos.CENTER);
+                node3.getChildren().addAll(hboxtemp);
+            }
         }
-        node3.getChildren().add(btn1);
-        node3.setSpacing(10);
-        mainPane.setBottom(node3);
-        node3.setAlignment(Pos.CENTER);
+
+
+
+            node3.getChildren().add(btn1);
+            node3.setSpacing(10);
+            mainPane.setBottom(node3);
+            node3.setAlignment(Pos.CENTER);
+
 
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
@@ -476,7 +490,9 @@ public class FishHunt extends Application {
                 //Si cela fait plus de 3 secondes que la partie est finie, retourner a l'accueil
                 if(firstTimeGameOver > 0) {
                     if (now - firstTimeGameOver >= (long) 3e+9) {
-                        primaryStage.setScene(meilleursScores());
+                        timer.stop();
+                        
+                        primaryStage.setScene(creerSceneScores());
                     }
                 }
 
