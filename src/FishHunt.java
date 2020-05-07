@@ -57,6 +57,7 @@ public class FishHunt extends Application {
 
 
 
+
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
     private ArrayList<String> meilleursScores = new ArrayList<>();
@@ -135,7 +136,17 @@ public class FishHunt extends Application {
         btn3.setOnAction((e) -> {
             primaryStage.setScene(meilleursScores());
         });
-        root.getChildren().addAll(canvas, btn1, btn2, btn3);
+
+        Image question = new Image(getClass().getResourceAsStream("question2.png"));
+        Button btn4 = new Button();
+        btn4.setGraphic(new ImageView(question));
+        btn4.setLayoutX(600);
+        btn4.setLayoutY(10);
+
+        btn4.setOnAction((e) -> {
+            primaryStage.setScene( instructionsJeu());
+        });
+        root.getChildren().addAll(canvas, btn1, btn2, btn3, btn4);
 
 
         return new Scene(root);
@@ -247,6 +258,9 @@ public class FishHunt extends Application {
         startGame();
         timer.start();
 
+        String filepath = "Noisestorm - Crab RaveTrim.mp3";
+        MusicGame chanson = new MusicGame();
+        chanson.playMusic(filepath);
 
         scene.setOnMouseMoved((event) -> {
             double x = event.getX() - 25;
@@ -335,6 +349,56 @@ public class FishHunt extends Application {
 
         return scene;
     }
+    private Scene instructionsJeu() {
+
+        Pane root = new Pane();
+
+        // Fenêtre de jeu
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+
+
+        context = canvas.getGraphicsContext2D();
+        // Background bleu du jeu
+        context.setFill(Color.DARKBLUE);
+        context.fillRect(0, 0, WIDTH, HEIGHT);
+        //context.drawImage(new Image("/logo.png"), 100, 40, 440, 300);
+
+        HBox node = new HBox();
+
+        Text instructions = new Text("Vous incarnez un requin qui chasse des poissons " +
+                "pour\n"+ "son souper. Étant un requin gourmand, vous ne pouvez\n" +
+                "pas vous permettre de laisser trop de poissons " +
+                "passer\n Au bout de 3 poissons ratés, la " +
+                "partie est perdue." +
+                "Le jeu \n se contrôle à la souris et continue à " +
+                "l’infini, ou jusqu’à \n ce que 3 poissons aient été " +
+                "ratés" + "\nAppuyer sur la touche H pour faire monter le niveau de\n +1, "
+                +"J pour faire monter le score de +1, K pour \nfaire monter le nombre " +
+                "de  poissons restants de +1 et \nL pour faire perdre la partie");
+        instructions.setFont(Font.font ("Verdana", 18));
+        instructions.setFill(Color.ORANGERED);
+        instructions.setTextAlignment(TextAlignment.CENTER);
+        node.setLayoutX(50);
+        node.setLayoutY(80);
+        node.setAlignment(Pos.CENTER);
+        node.getChildren().add(instructions);
+
+        Button btn1 = new Button("Menu");
+        btn1.setLayoutX(280);
+        btn1.setLayoutY(350);
+        btn1.setPrefWidth(105);
+
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+
+        root.getChildren().addAll(canvas, node, btn1);
+
+        return new Scene(root);
+    }
+
+
 
     /**
      * Reinitialise les valeurs du jeu au debut
