@@ -180,4 +180,14 @@ public class Controleur {
         return jeu.trierScore(score, meilleursScores, name);
     }
 
+    public MusicGame getChanson() {
+        return jeu.getChanson();
+    }
+
+    public void setChanson(MusicGame chanson) {
+        jeu.setChanson(chanson);
+    }
+
+
+
 }

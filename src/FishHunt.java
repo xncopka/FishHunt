@@ -70,6 +70,8 @@ public class FishHunt extends Application {
     private ArrayList<String> meilleursScores ;
     private ArrayList<String> meilleursScoresSpecial;
 
+    private MusicGame backgroundMusic;
+
 
 
 
@@ -103,6 +105,11 @@ public class FishHunt extends Application {
         primaryStage.setTitle("Fish Hunt");
 
         primaryStage.setScene(creerAccueil());
+
+        String filepath = "src/Aqua Road - Shining Sea.mp3";
+        backgroundMusic = new MusicGame();
+        backgroundMusic.playMusic(filepath);
+
 
         // fenetre non resizable
         primaryStage.setResizable(false);
@@ -271,10 +278,10 @@ public class FishHunt extends Application {
                         FileReader filereader = null;
                         try {
                             if(!prevGameSpecial) {
-                                System.out.println("mode normal");
+
                                 filereader = new FileReader("src/highScore.txt");
                             } else {
-                                System.out.println("mode special");
+
                                 filereader = new FileReader("src/highScore2.txt");
                             }
                         } catch (FileNotFoundException ex) {
@@ -282,12 +289,12 @@ public class FishHunt extends Application {
                         }
 
                         if(!prevGameSpecial) {
-                            System.out.println("mode normal");
+
                             this.meilleursScores = getMeilleursScores(filereader);
                             int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
                             writeScore(indexScore, meilleursScores, "src/highScore.txt");
                         } else {
-                            System.out.println("mode special");
+                      
                             this.meilleursScoresSpecial = getMeilleursScores(filereader);
                             int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
                             writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
@@ -318,6 +325,8 @@ public class FishHunt extends Application {
 
     private Scene creerFenetreJeu(boolean modeSpecial) {
 
+        backgroundMusic.stopMusic();
+
         this.root = new Pane();
 
 
@@ -342,10 +351,9 @@ public class FishHunt extends Application {
         startGame(modeSpecial);
         newTimer();
 
-        String filepath = "src/Noisestorm - Crab RaveTrim.mp3";
-        MusicGame chanson = new MusicGame();
-        chanson.playMusic(filepath);
 
+
+  
 
 
         scene.setOnMouseMoved((event) -> {
@@ -530,7 +538,7 @@ public class FishHunt extends Application {
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
             private long firstTimeNewFish = 0;
-            private long firstTimeGameOver;
+            private long firstTimeGameOver = 0;
 
             private ArrayList<Long> firstTimeLevels = new ArrayList<>();
 
@@ -642,7 +650,9 @@ public class FishHunt extends Application {
 
 
                 // redemarre une partie si la partie est terminée
-                if (getGameOver()) {
+                if (getGameOver() && !gameToScore) {
+
+
 
                     if(controleur.getSniperGame()) {
                         prevGameSpecial = true;
@@ -651,7 +661,7 @@ public class FishHunt extends Application {
                     }
                     textOver();
                     firstTimeGameOver = now;
-                    setGameOver(false);
+                    gameToScore = true;
 
 
 
@@ -664,8 +674,11 @@ public class FishHunt extends Application {
                         timer.stop();
                         deltaTime = 0;
                         firstTimeGameOver = 0;
-                        gameToScore = true;
+                        controleur.getChanson().stopMusic();
                         primaryStage.setScene(creerSceneScores());
+                        String filepath = "src/Aqua Road - Shining Sea.mp3";
+                        backgroundMusic = new MusicGame();
+                        backgroundMusic.playMusic(filepath);
                     }
                 }
 
@@ -821,7 +834,6 @@ public class FishHunt extends Application {
         BufferedReader reader;
         ArrayList<String> arrayList = new ArrayList<>() ;
         try {
-            System.out.println("PLEASE");
             reader = new BufferedReader(fileReader);
             String ligne;
             while ((ligne = reader.readLine()) != null) {
@@ -843,16 +855,14 @@ public class FishHunt extends Application {
         try {
             FileWriter filewriter = new FileWriter(adresse, false);
             BufferedWriter writer = new BufferedWriter(filewriter);
-            System.out.println("index = " + indexNewScore);
+     
 
             for (int i = 0; i < indexNewScore; i++) {
-                System.out.println("hey");
                 writer.append(meilleursScores.get(i) + "\n");
             }
             writer.append(meilleursScores.get(indexNewScore) + "\n");
             if(indexNewScore<meilleursScores.size()-1) {
                 for (int i = indexNewScore + 1; i < meilleursScores.size(); i++) {
-                    System.out.println("heyy");
                     writer.append(meilleursScores.get(i) + "\n");
                 }
             }

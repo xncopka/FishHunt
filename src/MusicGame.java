@@ -1,12 +1,13 @@
 import java.io.File;
-import java.time.Duration;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class MusicGame {
     private static MediaPlayer mediaPlayer;
-    void playMusic(String musicLocation){
+
+    public void playMusic(String musicLocation){
         try{
             File musicPath = new File(musicLocation);
             if (musicPath.exists()){
@@ -14,7 +15,7 @@ public class MusicGame {
                 mediaPlayer = new MediaPlayer(audioInput);
                 mediaPlayer.setOnEndOfMedia(new Runnable() {
                     public void run() {
-                        mediaPlayer.play();
+                        mediaPlayer.seek(Duration.ZERO);
                     }
                 });
                 mediaPlayer.play();
@@ -26,5 +27,12 @@ public class MusicGame {
             exception.printStackTrace();
         }
     }
+
+    public void stopMusic() {
+        mediaPlayer.stop();
+    }
+
+
+
 
 }

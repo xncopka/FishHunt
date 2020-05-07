@@ -26,8 +26,7 @@ public class Jeu {
 
 
 
-
-
+    private MusicGame chanson;
 
 
     // joueurs dans le jeu
@@ -80,6 +79,17 @@ public class Jeu {
 
 
 
+    public MusicGame getChanson() {
+        return chanson;
+    }
+
+    public void setChanson(MusicGame chanson) {
+        this.chanson = chanson;
+    }
+
+
+
+
     public void enableItems() {
         itemsEnabled = true;
 
@@ -95,7 +105,7 @@ public class Jeu {
 
     public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
         int index = meilleursScores.size();
-        System.out.println("indexTrie1 :" + index);
+
         for (int i = 0; i < meilleursScores.size(); i++) {
             if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[2])) {
                 meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
@@ -270,6 +280,11 @@ public class Jeu {
             counter++;
         }
 
+
+
+        String filepath = "src/Noisestorm - Crab Rave.mp3";
+        chanson = new MusicGame();
+        chanson.playMusic(filepath);
 
     }
 
@@ -535,8 +550,11 @@ public class Jeu {
                                 players[0].setSerie(0);
                             }
                         } else {
-                            players[0].setPoints(players[0].getPoints() + 1);
-                            players[0].setSerie(players[0].getSerie()+1);
+                            if(!gameOver) {
+
+                                players[0].setPoints(players[0].getPoints() + 1);
+                                players[0].setSerie(players[0].getSerie() + 1);
+                            }
                         }
 
                           poubelle.add(fish);
@@ -604,6 +622,7 @@ public class Jeu {
                 }
             }
         }
+
 
 
 
