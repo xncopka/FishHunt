@@ -492,21 +492,22 @@ public class FishHunt extends Application {
         Image next = new Image(getClass().getResourceAsStream("next.png"));
         Button btn1 = new Button();
         btn1.setGraphic(new ImageView(next));
-        btn1.setLayoutX(280);
+        btn1.setLayoutX(390);
         btn1.setLayoutY(350);
+        btn1.setPrefHeight(20);
 
         btn1.setOnAction((e) -> {
             primaryStage.setScene(instructions2Jeu());
         });
 
-        Image back = new Image(getClass().getResourceAsStream("back.png"));
-        Button btn2 = new Button();
-        btn2.setGraphic(new ImageView(back));
-        btn2.setLayoutX(600);
-        btn2.setLayoutY(10);
+        Button btn2 = new Button("Menu");
+        btn2.setLayoutX(280);
+        btn2.setLayoutY(350);
+        btn2.setPrefWidth(105);
+        btn2.setPrefHeight(20);
 
         btn2.setOnAction((e) -> {
-            primaryStage.setScene( creerAccueil());
+            primaryStage.setScene(creerAccueil());
         });
 
         root.getChildren().addAll(canvas, node, btn1, btn2);
@@ -542,6 +543,64 @@ public class FishHunt extends Application {
         node.setAlignment(Pos.CENTER);
         node.getChildren().add(label2);
 
+
+        Button btn1 = new Button("Menu");
+        btn1.setLayoutX(280);
+        btn1.setLayoutY(350);
+        btn1.setPrefWidth(105);
+        btn1.setPrefHeight(20);
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Button btn2 = new Button();
+        btn2.setGraphic(new ImageView(next));
+        btn2.setLayoutX(390);
+        btn2.setLayoutY(350);
+        btn2.setPrefHeight(20);
+
+        btn2.setOnAction((e) -> {
+            primaryStage.setScene(instructions3Jeu());
+        });
+
+
+        Image previous = new Image(getClass().getResourceAsStream("back.png"));
+        Button btn3 = new Button();
+        btn3.setGraphic(new ImageView(previous));
+        btn3.setLayoutX(245);
+        btn3.setLayoutY(350);
+        btn3.setPrefHeight(20);
+        btn3.setOnAction((e) -> {
+            primaryStage.setScene( instructionsJeu());
+        });
+        root.getChildren().addAll(canvas, node, btn1, btn2, btn3);
+
+        return new Scene(root);
+    }
+
+    private Scene instructions3Jeu() {
+        Pane root = new Pane();
+
+        // Fenêtre de jeu
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+
+
+        context = canvas.getGraphicsContext2D();
+        // Background bleu du jeu
+        context.setFill(Color.DARKBLUE);
+        context.fillRect(0, 0, WIDTH, HEIGHT);
+        HBox node = new HBox();
+        Label label2 = new Label(
+                "Allo" );
+        label2.setFont(Font.font ("Verdana", 18));
+        label2.setTextFill(Color.WHITE);
+        label2.setTextAlignment(TextAlignment.CENTER);
+        node.setLayoutX(50);
+        node.setLayoutY(80);
+        node.setAlignment(Pos.CENTER);
+        node.getChildren().add(label2);
+
         Button btn1 = new Button("Menu");
         btn1.setLayoutX(280);
         btn1.setLayoutY(350);
@@ -551,12 +610,12 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerAccueil());
         });
 
-        Image back = new Image(getClass().getResourceAsStream("back.png"));
+        Image previous = new Image(getClass().getResourceAsStream("back.png"));
         Button btn2 = new Button();
-        btn2.setGraphic(new ImageView(back));
-        btn2.setLayoutX(600);
-        btn2.setLayoutY(10);
-
+        btn2.setGraphic(new ImageView(previous));
+        btn2.setLayoutX(245);
+        btn2.setLayoutY(350);
+        btn2.setPrefHeight(20);
         btn2.setOnAction((e) -> {
             primaryStage.setScene( instructionsJeu());
         });
@@ -565,8 +624,6 @@ public class FishHunt extends Application {
 
         return new Scene(root);
     }
-    
-    
 
 
     /**
