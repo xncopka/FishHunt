@@ -55,7 +55,7 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean scoreExists = false;
+    private boolean gameToScore = false;
 
 
 
@@ -63,7 +63,7 @@ public class FishHunt extends Application {
 
     private boolean[] firstClics = new boolean[]{false, false, false, false};
     private Stage primaryStage;
-    private ArrayList<String> meilleursScores = new ArrayList<>();
+    private ArrayList<String> meilleursScores ;
 
 
 
@@ -120,7 +120,7 @@ public class FishHunt extends Application {
         btn1.setPrefWidth(105);
 
         btn1.setOnAction((e) -> {
-            primaryStage.setScene(creerFenetreJeu());
+            primaryStage.setScene(creerFenetreJeu(false));
         });
 
         Button btn2 = new Button("Meilleurs scores");
@@ -137,11 +137,11 @@ public class FishHunt extends Application {
         btn3.setLayoutY(410);
         btn3.setPrefWidth(105);
         btn3.setOnAction((e) -> {
-            primaryStage.setScene(creerSceneScores());
+            primaryStage.setScene(creerFenetreJeu(true));
         });
         root.getChildren().addAll(canvas, btn1, btn2, btn3);
 
-        scoreExists = false;
+        gameToScore = false;
         return new Scene(root);
     }
 
@@ -151,15 +151,17 @@ public class FishHunt extends Application {
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
         FileReader fileReader = null;
+        
         try {
             fileReader = new FileReader("src/highScore.txt");
+         
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
 
-        this.meilleursScores = getMeilleursScores(fileReader);
 
 
+        meilleursScores=getMeilleursScores(fileReader) ;
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
 
@@ -188,17 +190,15 @@ public class FishHunt extends Application {
 
 
      
-        if(scoreExists) {
+        if(gameToScore) {
 
-            if (controleur.checkNewScore(controleur.getScore(), getMeilleursScores(fileReader))) {
-
+            if (controleur.checkNewScore(controleur.getScore(), meilleursScores)) {
                 HBox hboxtemp = new HBox();
                 Label label1 = new Label("Votre nom:");
                 Label label2 = new Label("a fait " + controleur.getScore() + " points!");
                 Button btn2 = new Button("Ajouter!");
                 TextField textField = new TextField();
                 btn2.setOnAction((e) -> {
-                    creerAccueil();
                     if (!(textField.getText().equals(""))) {
 
 
@@ -213,6 +213,8 @@ public class FishHunt extends Application {
                         int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
                         writeScore(indexScore, meilleursScores);
                     }
+                    primaryStage.setScene(creerAccueil());
+
                 });
                 hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
                 hboxtemp.setSpacing(10);
@@ -237,7 +239,7 @@ public class FishHunt extends Application {
     }
 
 
-    private Scene creerFenetreJeu() {
+    private Scene creerFenetreJeu(boolean modeSpecial) {
 
         this.root = new Pane();
 
@@ -258,7 +260,7 @@ public class FishHunt extends Application {
         imageView.setFitWidth(50);
         root.getChildren().add(imageView);
 
-        startGame();
+        startGame(modeSpecial);
         timer.start();
 
 
@@ -353,8 +355,8 @@ public class FishHunt extends Application {
     /**
      * Reinitialise les valeurs du jeu au debut
      */
-    public void startGame() {
-        controleur = new Controleur(nbPlayers);
+    public void startGame(boolean modeSpecial) {
+        controleur = new Controleur(nbPlayers, modeSpecial);
         controleur.draw(context);
     }
 
@@ -491,7 +493,9 @@ public class FishHunt extends Application {
                 if(firstTimeGameOver > 0) {
                     if (now - firstTimeGameOver >= (long) 3e+9) {
                         timer.stop();
-                        
+                        deltaTime = 0;
+                        firstTimeGameOver = 0;
+                        gameToScore = true;
                         primaryStage.setScene(creerSceneScores());
                     }
                 }
@@ -555,7 +559,7 @@ public class FishHunt extends Application {
 
         timer.stop();
         deltaTime = 0;
-        startGame();
+        startGame(false);
         newTimer();
 
     }
@@ -642,6 +646,7 @@ public class FishHunt extends Application {
     public ArrayList<String> getMeilleursScores(FileReader fileReader)  {
         BufferedReader reader;
         try {
+            System.out.println("PLEASE");
          reader = new BufferedReader(fileReader);
          String ligne;
             this.meilleursScores = new ArrayList<>() ;

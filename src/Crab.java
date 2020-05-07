@@ -37,10 +37,10 @@ public class Crab extends Fish {
 
         nowTime+=dt;
 
-        if (((x >= 0) && (isLeftOfScreen())  && !(oscille)   )  || (!(isLeftOfScreen()) && (x<=Jeu.WIDTH)  && !(oscille))   )  {
+     /*   if (((x >= 0) && (isLeftOfScreen())  && !(oscille)   )  || (!(isLeftOfScreen()) && (x<=Jeu.WIDTH)  && !(oscille))   )  {
             this.oscille = true;
             nowTime = 0;
-        }
+        }*/
 
         if(oscille) {
             int finAvance = (int) Math.floor(nowTime / 0.5);

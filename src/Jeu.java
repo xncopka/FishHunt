@@ -235,13 +235,13 @@ public class Jeu {
     /**
      * Constructeur de Jeu
      */
-    public Jeu(int nbPlayers) {
+    public Jeu(int nbPlayers, boolean modeSpecial) {
 
         modeSolo = nbPlayers == 1;
 
         // Test du mode sniper
         //sniperGame = true;
-        sniperGame = false;
+        sniperGame = modeSpecial;
         itemsEnabled = false;
 
 
