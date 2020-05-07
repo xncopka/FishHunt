@@ -58,7 +58,7 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean [] firstClics = new boolean[]{false, false, false, false, false, false};
+    private boolean [] firstClics = new boolean[]{false, false, false, false, false, false, false, false, false};
 
     private boolean gameToScore = false;
 
@@ -433,11 +433,6 @@ public class FishHunt extends Application {
             }
 
 
-
-            // Restart la partie en appuyant sur R
-            if (event.getCode() == KeyCode.R) {
-                restart();
-            }
                                                                                                      
             if (event.getCode() == KeyCode.H && !firstClics[0]) {
                 controleur.setLevel(controleur.getLevel()+1);
@@ -474,6 +469,33 @@ public class FishHunt extends Application {
             }
 
 
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.R  && !firstClics[6]) {
+                restart();
+                firstClics[6]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.A && !firstClics[7]) {
+                timer.stop();
+                deltaTime = 0;
+                primaryStage.setScene(creerAccueil());
+                if(speakerOn) {
+                    controleur.getChanson().stopMusic();
+                    String filepath = "src/Aqua Road - Shining Sea.mp3";
+                    backgroundMusic = new MusicGame();
+                    backgroundMusic.playMusic(filepath);
+                }
+                firstClics[7]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.B  && !firstClics[8]) {
+                if(controleur.getSniperGame()) {
+                    controleur.setBalles(controleur.getBalles()+1);
+                }
+                firstClics[8]=true;
+            }
 
 
         });
@@ -510,7 +532,18 @@ public class FishHunt extends Application {
             if (event.getCode() == KeyCode.O){
                 firstClics[5]=false;
             }
-           
+
+            if (event.getCode() == KeyCode.R){
+                firstClics[6]=false;
+            }
+
+            if (event.getCode() == KeyCode.A){
+                firstClics[7]=false;
+            }
+
+            if (event.getCode() == KeyCode.B){
+                firstClics[8]=false;
+            }
 
         });
         return scene;
@@ -894,7 +927,9 @@ public class FishHunt extends Application {
      *  Permet de restart la partie
      */
     public void restart(){
-
+        if(speakerOn) {
+            controleur.getChanson().stopMusic();
+        }
         timer.stop();
         deltaTime =0;
         startGame(controleur.getSniperGame(), speakerOn);
