@@ -12,8 +12,8 @@ public class Controleur {
     /**
      * Constructeur de Controleur
      */
-    public Controleur(int nbPlayers) {
-        jeu = new Jeu(nbPlayers);
+    public Controleur(int nbPlayers, boolean modeSpecial) {
+        jeu = new Jeu(nbPlayers, modeSpecial);
     }
 
 
@@ -169,6 +169,15 @@ public class Controleur {
 
     public void setSerieActivated(boolean serieActivated){
         jeu.setSerieActivated(serieActivated);
+    }
+
+    public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
+        return jeu.checkNewScore(score, meilleursScores);
+    }
+
+
+    public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
+        return jeu.trierScore(score, meilleursScores, name);
     }
 
 }
