@@ -1,10 +1,15 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -435,10 +440,11 @@ public class FishHunt extends Application {
     /**
      *  Reinitialise les valeurs du jeu au debut
      */
-    public void startGame() {
+    public void startGame(boolean modeSpecial) {
         controleur = new Controleur(nbPlayers, modeSpecial);
         controleur.draw(context);
     }
+
 
 
     /**
@@ -657,7 +663,7 @@ public class FishHunt extends Application {
 
         timer.stop();
         deltaTime =0;
-        startGame();
+        startGame(false);
         newTimer();
 
     }
