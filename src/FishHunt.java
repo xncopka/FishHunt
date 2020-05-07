@@ -42,8 +42,8 @@ public class FishHunt extends Application {
     // Classe anonyme servant à creer des animations
     private AnimationTimer timer;
 
-    // Conteneur
     private StackPane root;
+
 
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
@@ -77,6 +77,7 @@ public class FishHunt extends Application {
 
 
 
+
     /** Méthode main de HighSeaTower
      * @param args the command line arguments
      */
@@ -99,7 +100,7 @@ public class FishHunt extends Application {
 
 
         // racine
-        root = new StackPane();
+     
         this.primaryStage = primaryStage;
 
         // titre de la fenetre
@@ -230,10 +231,10 @@ public class FishHunt extends Application {
 
         conteneurListView.getChildren().addAll(listAndTitre, listAndTitre2);
 
-        StackPane node = new StackPane();
-        node.setPadding(new Insets(10, 0, 10, 0));
+        //StackPane node = new StackPane();
+        conteneurListView.setPadding(new Insets(10, 0, 10, 0));
 
-        node.getChildren().add(conteneurListView);
+        //node.getChildren().add(conteneurListView);
 
 
 
@@ -245,11 +246,11 @@ public class FishHunt extends Application {
         node2.getChildren().add(titre);
 
 
-        mainPane.setCenter(node);
+        mainPane.setCenter(conteneurListView);
         mainPane.setTop(node2);
         node2.setAlignment(Pos.TOP_CENTER);
 
-        Insets insets = new Insets(20);
+        Insets insets = new Insets(15);
         BorderPane.setMargin(node2, insets);
 
 
@@ -328,7 +329,7 @@ public class FishHunt extends Application {
 
         backgroundMusic.stopMusic();
 
-        this.root = new StackPane();
+         root = new StackPane();
 
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
