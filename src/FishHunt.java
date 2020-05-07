@@ -607,8 +607,24 @@ public class FishHunt extends Application {
         chansons.setTextAlignment(TextAlignment.LEFT);
         chansons.setAlignment(Pos.CENTER);
 
+        HBox separateur2 = new HBox();
+        separateur2.setPrefHeight(14);
 
-        vbox.getChildren().addAll(realisation, credits, separateur, musique, chansons);
+
+        Label image = new Label("Image :");
+        image.setFont(Font.font ("Verdana", 18));
+        image.setTextFill(Color.WHITE);
+        image.setTextAlignment(TextAlignment.CENTER);
+        image.setAlignment(Pos.CENTER);
+
+        Label site = new Label("Game-icon.net");
+        site.setFont(Font.font ("Verdana", 14));
+        site.setTextFill(Color.WHITE);
+        site.setTextAlignment(TextAlignment.LEFT);
+        site.setAlignment(Pos.CENTER);
+
+
+        vbox.getChildren().addAll(realisation, credits, separateur, musique, chansons, separateur2, image, site);
         
         root.setCenter(vbox);
 
