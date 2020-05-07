@@ -93,7 +93,7 @@ public class Jeu {
     }
 
     public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
-        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[2]) ) {
+        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[meilleursScores.get(9).split(" - ", 0).length-1]) ) {
             return true;
         } else {
             return false;
@@ -104,7 +104,7 @@ public class Jeu {
         int index = meilleursScores.size();
 
         for (int i = 0; i < meilleursScores.size(); i++) {
-            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[2])) {
+            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[meilleursScores.get(i).split(" - ", 0).length-1])) {
                 meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
                 index = i;
                 break;
