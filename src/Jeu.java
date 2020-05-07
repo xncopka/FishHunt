@@ -250,7 +250,7 @@ public class Jeu {
 
 
 
-        String filepath = "src/Noisestorm - Crab Rave.mp3";
+        String filepath = "src/Noisestorm - Crab Rave [Monstercat Release].mp3";
         chanson = new MusicGame();
         chanson.playMusic(filepath);
 
