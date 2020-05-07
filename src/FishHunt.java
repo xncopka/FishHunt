@@ -183,7 +183,15 @@ public class FishHunt extends Application {
             primaryStage.setScene( instructionsJeu());
         });
 
-        root.getChildren().addAll(canvas, btn1, btn2, btn3, btn4);
+        Button btn5 = new Button("Crédits");
+        btn5.setLayoutX(280);
+        btn5.setLayoutY(440);
+        btn5.setPrefWidth(105);
+        btn5.setOnAction((e) -> {
+            primaryStage.setScene(creerCredits());
+        });
+
+        root.getChildren().addAll(canvas, btn1, btn2, btn3, btn4, btn5);
 
         speaker(root);
 
@@ -510,6 +518,7 @@ public class FishHunt extends Application {
         // Background bleu du jeu
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
+       
         //context.drawImage(new Image("/logo.png"), 100, 40, 440, 300);
 
         HBox node = new HBox();
@@ -548,8 +557,80 @@ public class FishHunt extends Application {
     }
 
 
-    
-    
+    private Scene creerCredits() {
+
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+
+        root.setStyle("-fx-background-color: #00008b;");
+        root.setPadding(new Insets(50));
+
+
+
+        Label titre = new Label("Crédits");
+        titre.setTextFill(Color.WHITE);
+        titre.setTextAlignment(TextAlignment.CENTER);
+        titre.setFont(Font.font ("Verdana", 40));
+        root.setTop(titre);
+        BorderPane.setAlignment(titre, Pos.CENTER);
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(50));
+        vbox.setSpacing(2);
+
+
+        Label realisation =  new Label("Réalisation :");
+        realisation.setFont(Font.font ("Verdana", 18));
+        realisation.setTextFill(Color.WHITE);
+        realisation.setTextAlignment(TextAlignment.CENTER);
+        realisation.setAlignment(Pos.CENTER);
+
+
+        Label credits = new Label("Thomas Bui\nVanda Lovejoy");
+        credits.setFont(Font.font ("Verdana", 14));
+        credits.setTextFill(Color.WHITE);
+        credits.setTextAlignment(TextAlignment.LEFT);
+        credits.setAlignment(Pos.CENTER);
+
+        HBox separateur = new HBox();
+        separateur.setPrefHeight(14);
+
+        Label musique = new Label("Musique :");
+        musique.setFont(Font.font ("Verdana", 18));
+        musique.setTextFill(Color.WHITE);
+        musique.setTextAlignment(TextAlignment.CENTER);
+        musique.setAlignment(Pos.CENTER);
+
+        Label chansons = new Label("Background : Aqua Road - Shining Sea\nJeu : Noisestorm - Crab Rave\n");
+        chansons.setFont(Font.font ("Verdana", 14));
+        chansons.setTextFill(Color.WHITE);
+        chansons.setTextAlignment(TextAlignment.LEFT);
+        chansons.setAlignment(Pos.CENTER);
+
+
+        vbox.getChildren().addAll(realisation, credits, separateur, musique, chansons);
+        
+        root.setCenter(vbox);
+
+        Button btn1 = new Button("Menu");
+        btn1.setPrefWidth(105);
+        btn1.setAlignment(Pos.CENTER);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
+
+
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+
+        root.setBottom(btn1);
+
+        return scene;
+    }
+
+
+
+
 
 
     /**
