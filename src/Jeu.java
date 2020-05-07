@@ -371,7 +371,7 @@ public class Jeu {
         }
 
 
-        if ( players[0].getNbVies() == 0 ) {
+        if ( players[0].getNbVies() <= 0 ) {
             gameOver = true;
 
         }
@@ -513,7 +513,7 @@ public class Jeu {
 
 
                             if(!players[0].isInvicible()) {
-                                players[0].setNbVies(players[0].getNbVies() - 1);
+                                players[0].setNbVies(players[0].getNbVies() - 2);
                             } else {
                                 players[0].setSerie(0);
                             }
