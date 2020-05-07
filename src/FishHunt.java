@@ -153,7 +153,7 @@ public class FishHunt extends Application {
 
     private Scene creerSceneScores() {
         BorderPane mainPane = new BorderPane();
-        mainPane.setPadding(new Insets(50, 50, 50, 50));
+        mainPane.setPadding(new Insets(25, 50, 50, 50));
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
         FileReader fileReader = null;
@@ -168,20 +168,38 @@ public class FishHunt extends Application {
 
 
         HBox conteneurListView = new HBox();
-        conteneurListView.setSpacing(30);
+        conteneurListView.setSpacing(25);
+        conteneurListView.setAlignment(Pos.CENTER);
+
+        VBox listAndTitre = new VBox();
+        Text titreListView = new Text("Mode Normal");
 
 
         meilleursScores=getMeilleursScores(fileReader) ;
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
+        listAndTitre.setAlignment(Pos.CENTER);
+        listAndTitre.setSpacing(2);
+
+        listAndTitre.getChildren().setAll(titreListView, listView);
+
+
+        VBox listAndTitre2 = new VBox();
+        Text titreListView2 = new Text("Mode Spécial");
 
 
         
-
         meilleursScoresSpecial=getMeilleursScores(fileReader2) ;
         ListView<String> listView2 = new ListView<>();
         listView2.getItems().setAll(meilleursScoresSpecial);
-        conteneurListView.getChildren().addAll(listView, listView2);
+        listAndTitre2.setAlignment(Pos.CENTER);
+        listAndTitre2.setSpacing(2);
+
+
+        listAndTitre2.getChildren().setAll(titreListView2, listView2);
+
+
+        conteneurListView.getChildren().addAll(listAndTitre, listAndTitre2);
 
         StackPane node = new StackPane();
         node.setPadding(new Insets(10, 0, 10, 0));
@@ -200,7 +218,10 @@ public class FishHunt extends Application {
 
         mainPane.setCenter(node);
         mainPane.setTop(node2);
-        node2.setAlignment(Pos.CENTER);
+        node2.setAlignment(Pos.TOP_CENTER);
+
+        Insets insets = new Insets(20);
+        BorderPane.setMargin(node2, insets);
 
 
         VBox node3 = new VBox();

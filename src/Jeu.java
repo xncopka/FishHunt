@@ -243,6 +243,7 @@ public class Jeu {
         //sniperGame = true;
         sniperGame = modeSpecial;
         itemsEnabled = false;
+        gameOver = false;
 
 
         modeInvicible = false;
@@ -533,8 +534,10 @@ public class Jeu {
                                 players[0].setSerie(0);
                             }
                         } else {
-                            players[0].setPoints(players[0].getPoints() + 1);
-                            players[0].setSerie(players[0].getSerie()+1);
+
+                                players[0].setPoints(players[0].getPoints() + 1);
+                                players[0].setSerie(players[0].getSerie() + 1);
+                            
                         }
 
                           poubelle.add(fish);
