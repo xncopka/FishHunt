@@ -84,6 +84,17 @@ public class Jeu {
         return chanson;
     }
 
+    public void enableChanson(boolean on) {
+        if(on) {
+            String filepath = "src/Noisestorm - Crab Rave.mp3";
+            chanson = new MusicGame();
+            chanson.playMusic(filepath);
+        }  else {
+            chanson.stopMusic();
+        }
+
+    }
+
 
 
 

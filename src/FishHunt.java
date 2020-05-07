@@ -58,7 +58,7 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean [] firstClics = new boolean[]{false, false, false, false, false};
+    private boolean [] firstClics = new boolean[]{false, false, false, false, false, false};
 
     private boolean gameToScore = false;
 
@@ -467,6 +467,13 @@ public class FishHunt extends Application {
                 firstClics[4]=true;
             }
 
+            if (event.getCode() == KeyCode.O && !firstClics[5]) {
+                speakerOn = !speakerOn;
+                controleur.enableChanson(speakerOn);
+                firstClics[5]=true;
+            }
+
+
 
 
         });
@@ -498,6 +505,10 @@ public class FishHunt extends Application {
 
             if (event.getCode() == KeyCode.S){
                 firstClics[4]=false;
+            }
+
+            if (event.getCode() == KeyCode.O){
+                firstClics[5]=false;
             }
            
 
@@ -812,7 +823,7 @@ public class FishHunt extends Application {
                         timer.stop();
                         deltaTime = 0;
                         firstTimeGameOver = 0;
-                        if(controleur.getChanson()!=null) {
+                        if(speakerOn) {
                             controleur.getChanson().stopMusic();
                             String filepath = "src/Aqua Road - Shining Sea.mp3";
                             backgroundMusic = new MusicGame();

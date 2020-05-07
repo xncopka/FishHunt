@@ -182,6 +182,10 @@ public class Controleur {
         return jeu.getChanson();
     }
 
+    public void enableChanson(boolean on) {
+        jeu.enableChanson(on);
+    }
+
 
 
 
