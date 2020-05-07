@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -55,6 +57,13 @@ public class FishHunt extends Application {
 
     private boolean [] firstClics = new boolean[]{false, false, false, false, false};
 
+    private boolean gameToScore = false;
+
+    private boolean prevGameSpecial;
+
+    private Stage primaryStage;
+    private ArrayList<String> meilleursScores ;
+    private ArrayList<String> meilleursScoresSpecial;
 
 
 
@@ -83,11 +92,218 @@ public class FishHunt extends Application {
 
         // racine
         root = new Pane();
+        this.primaryStage = primaryStage;
 
-        //  contenu graphique à afficher dans la fenêtre
+        // titre de la fenetre
+        primaryStage.setTitle("Fish Hunt");
+
+        primaryStage.setScene(creerAccueil());
+
+        // fenetre non resizable
+        primaryStage.setResizable(false);
+        // ajouter l'icone dans la barre des taches
+        primaryStage.getIcons().add(icone);
+
+        primaryStage.show();
+
+
+    }
+
+    private Scene creerAccueil() {
+
+        Pane root = new Pane();
+        // Fenêtre de jeu
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        //root.getChildren().add(canvas);
+
+        context = canvas.getGraphicsContext2D();
+        // Background bleu du jeu
+        context.setFill(Color.DARKBLUE);
+        context.fillRect(0, 0, WIDTH, HEIGHT);
+        context.drawImage(new Image("/logo.png"), 100, 40, 440, 300);
+
+
+        Button btn1 = new Button("Nouvelle Partie");
+        btn1.setLayoutX(280);
+        btn1.setLayoutY(350);
+        btn1.setPrefWidth(105);
+
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerFenetreJeu(false));
+        });
+
+        Button btn2 = new Button("Meilleurs scores");
+        btn2.setLayoutX(280);
+        btn2.setLayoutY(380);
+        btn2.setPrefWidth(105);
+
+        btn2.setOnAction((e) -> {
+            primaryStage.setScene(creerSceneScores());
+        });
+
+        Button btn3 = new Button("Mode spécial");
+        btn3.setLayoutX(280);
+        btn3.setLayoutY(410);
+        btn3.setPrefWidth(105);
+        btn3.setOnAction((e) -> {
+            primaryStage.setScene(creerFenetreJeu(true));
+        });
+        root.getChildren().addAll(canvas, btn1, btn2, btn3);
+
+        gameToScore = false;
+        return new Scene(root);
+    }
+
+    private Scene creerSceneScores() {
+        BorderPane mainPane = new BorderPane();
+        mainPane.setPadding(new Insets(25, 50, 50, 50));
+        Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
+
+        FileReader fileReader = null;
+        FileReader fileReader2 = null;
+        try {
+            fileReader = new FileReader("src/highScore.txt");
+            fileReader2 = new FileReader("src/highScore2.txt");
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+
+        HBox conteneurListView = new HBox();
+        conteneurListView.setSpacing(25);
+        conteneurListView.setAlignment(Pos.CENTER);
+
+        VBox listAndTitre = new VBox();
+        Text titreListView = new Text("Mode Normal");
+
+
+        meilleursScores=getMeilleursScores(fileReader) ;
+        ListView<String> listView = new ListView<>();
+        listView.getItems().setAll(meilleursScores);
+        listAndTitre.setAlignment(Pos.CENTER);
+        listAndTitre.setSpacing(2);
+
+        listAndTitre.getChildren().setAll(titreListView, listView);
+
+
+        VBox listAndTitre2 = new VBox();
+        Text titreListView2 = new Text("Mode Spécial");
+
+
+
+        meilleursScoresSpecial=getMeilleursScores(fileReader2) ;
+        ListView<String> listView2 = new ListView<>();
+        listView2.getItems().setAll(meilleursScoresSpecial);
+        listAndTitre2.setAlignment(Pos.CENTER);
+        listAndTitre2.setSpacing(2);
+
+
+        listAndTitre2.getChildren().setAll(titreListView2, listView2);
+
+
+        conteneurListView.getChildren().addAll(listAndTitre, listAndTitre2);
+
+        StackPane node = new StackPane();
+        node.setPadding(new Insets(10, 0, 10, 0));
+
+        node.getChildren().add(conteneurListView);
+
+
+
+        HBox node2 = new HBox();
+
+        Text titre = new Text("Meilleurs scores");
+
+        titre.setFont(Font.font(32));
+        node2.getChildren().add(titre);
+
+
+        mainPane.setCenter(node);
+        mainPane.setTop(node2);
+        node2.setAlignment(Pos.TOP_CENTER);
+
+        Insets insets = new Insets(20);
+        BorderPane.setMargin(node2, insets);
+
+
+        VBox node3 = new VBox();
+        Button btn1 = new Button("Menu");
+
+
+
+        if(gameToScore) {
+
+            ArrayList<String> checkArrayList;
+            if (!prevGameSpecial) {
+                checkArrayList = meilleursScores;
+            } else {
+                checkArrayList = meilleursScoresSpecial;
+            }
+            if (controleur.checkNewScore(controleur.getScore(), checkArrayList)) {
+                HBox hboxtemp = new HBox();
+                Label label1 = new Label("Votre nom:");
+                Label label2 = new Label("a fait " + controleur.getScore() + " points!");
+                Button btn2 = new Button("Ajouter!");
+                TextField textField = new TextField();
+                btn2.setOnAction((e) -> {
+                    if (!(textField.getText().equals(""))) {
+
+
+                        FileReader filereader = null;
+                        try {
+                            if(!prevGameSpecial) {
+                                System.out.println("mode normal");
+                                filereader = new FileReader("src/highScore.txt");
+                            } else {
+                                System.out.println("mode special");
+                                filereader = new FileReader("src/highScore2.txt");
+                            }
+                        } catch (FileNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        if(!prevGameSpecial) {
+                            System.out.println("mode normal");
+                            this.meilleursScores = getMeilleursScores(filereader);
+                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                            writeScore(indexScore, meilleursScores, "src/highScore.txt");
+                        } else {
+                            System.out.println("mode special");
+                            this.meilleursScoresSpecial = getMeilleursScores(filereader);
+                            int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
+                            writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
+                        }
+                    }
+                    primaryStage.setScene(creerAccueil());
+
+                });
+                hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
+                hboxtemp.setSpacing(10);
+                hboxtemp.setAlignment(Pos.CENTER);
+                node3.getChildren().addAll(hboxtemp);
+            }
+        }
+
+        node3.getChildren().add(btn1);
+        node3.setSpacing(10);
+        mainPane.setBottom(node3);
+        node3.setAlignment(Pos.CENTER);
+
+
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+        return scene;
+    }
+
+    private Scene creerFenetreJeu(boolean modeSpecial) {
+
+        this.root = new Pane();
+
+
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-
-
 
         // Fenêtre de jeu
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -104,7 +320,8 @@ public class FishHunt extends Application {
         root.getChildren().add(imageView);
 
         // Debut du jeu
-        startGame();
+
+        startGame(modeSpecial);
         newTimer();
 
 
@@ -207,33 +424,19 @@ public class FishHunt extends Application {
            
 
         });
-
-
-
-
-        // titre de la fenetre
-        primaryStage.setTitle("Fish Hunt");
-
-        // ajouter la scene
-        primaryStage.setScene(scene);
-
-        // fenetre non resizable
-        primaryStage.setResizable(false);
-
-        // ajouter l'icone dans la barre des taches
-        primaryStage.getIcons().add(icone);
-
-        // afficher
-        primaryStage.show();
+        return scene;
     }
 
+
+
+    
 
 
     /**
      *  Reinitialise les valeurs du jeu au debut
      */
     public void startGame() {
-        controleur = new Controleur(nbPlayers);
+        controleur = new Controleur(nbPlayers, modeSpecial);
         controleur.draw(context);
     }
 
@@ -254,6 +457,7 @@ public class FishHunt extends Application {
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
             private long firstTimeNewFish = 0;
+            private long firstTimeGameOver;
 
             private ArrayList<Long> firstTimeLevels = new ArrayList<>();
 
@@ -281,6 +485,7 @@ public class FishHunt extends Application {
 
                     firstTime = now;
                     controleur.groupBulles();
+                    
 
                 }
 
@@ -366,11 +571,32 @@ public class FishHunt extends Application {
                 // redemarre une partie si la partie est terminée
                 if (getGameOver()) {
 
+                    if(controleur.getSniperGame()) {
+                        prevGameSpecial = true;
+                    } else {
+                        prevGameSpecial = false;
+                    }
                     textOver();
+                    firstTimeGameOver = now;
+                    setGameOver(false);
+
 
 
                 }
-                        //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
+
+
+                //Si cela fait plus de 3 secondes que la partie est finie, retourner a l'accueil
+                if(firstTimeGameOver > 0) {
+                    if (now - firstTimeGameOver >= (long) 3e+9) {
+                        timer.stop();
+                        deltaTime = 0;
+                        firstTimeGameOver = 0;
+                        gameToScore = true;
+                        primaryStage.setScene(creerSceneScores());
+                    }
+                }
+
+                //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
                 if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
                     firstTimeLevelActivation = true;
                     controleur.setAfficherLevel(false);
@@ -518,8 +744,51 @@ public class FishHunt extends Application {
     }
 
 
+    public ArrayList<String> getMeilleursScores(FileReader fileReader)  {
+        BufferedReader reader;
+        ArrayList<String> arrayList = new ArrayList<>() ;
+        try {
+            System.out.println("PLEASE");
+            reader = new BufferedReader(fileReader);
+            String ligne;
+            while ((ligne = reader.readLine()) != null) {
+
+                arrayList.add(ligne);
+            }
+            reader.close();
+
+        } catch (IOException ex) {
+            System.out.println("Erreur à l’ouverture du fichier");
+        }
+
+        return arrayList;
+    }
 
 
+
+    public void writeScore(int indexNewScore, ArrayList<String> meilleursScores, String adresse) {
+        try {
+            FileWriter filewriter = new FileWriter(adresse, false);
+            BufferedWriter writer = new BufferedWriter(filewriter);
+            System.out.println("index = " + indexNewScore);
+
+            for (int i = 0; i < indexNewScore; i++) {
+                System.out.println("hey");
+                writer.append(meilleursScores.get(i) + "\n");
+            }
+            writer.append(meilleursScores.get(indexNewScore) + "\n");
+            if(indexNewScore<meilleursScores.size()-1) {
+                for (int i = indexNewScore + 1; i < meilleursScores.size(); i++) {
+                    System.out.println("heyy");
+                    writer.append(meilleursScores.get(i) + "\n");
+                }
+            }
+
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println("Erreur à l’écriture du fichier");
+        }
+    }
 
 
 
