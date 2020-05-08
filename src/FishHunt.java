@@ -41,8 +41,8 @@ public class FishHunt extends Application {
     // Classe anonyme servant à creer des animations
     private AnimationTimer timer;
 
+    // Conteneurs d’éléments de la fenêtre de jeu
     private StackPane root;
-
 
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
@@ -50,35 +50,44 @@ public class FishHunt extends Application {
     // Texte du Game Over
     private Text over;
 
+    // Texte du niveau
     private Text level;
 
+    // si on affiche pour la premiere fois le level
     private boolean firstTimeLevelActivation = false;
 
+    // si on a cliqué sur une touche faisant parti des raccourcis clavier au nombre de 14
     private boolean [] firstClics = new boolean[14];
 
+    // si on passe de la fenêtre de jeu à celle du score
     private boolean gameToScore = false;
 
+    // si le jeu précédent était un jeu de type spécial
     private boolean prevGameSpecial;
 
+    // Stage principal
     private Stage primaryStage;
+
+    // Arraylists contenant les 10 meilleurs scores pour le mode normal et spécial
     private ArrayList<String> meilleursScores ;
     private ArrayList<String> meilleursScoresSpecial;
 
+    // Musique de l'ecran d'accueil
     private MusicGame backgroundMusic;
 
+    // HBox contenant les textes du début d'invincibilité et de la fin d'invincibilité
     private HBox debutInvinc;
     private HBox finInvinc;
 
+    // Si on doit afficher le message d'erreur du séparateur " - "
     private boolean printErreur;
 
+    // Si il y a du son
     private boolean speakerOn;
 
 
 
-
-
-
-    /** Méthode main de HighSeaTower
+    /** Méthode main de FishHunt
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -99,24 +108,20 @@ public class FishHunt extends Application {
         Image icone = new Image("gui/shark-jaws.png");
 
 
-        // racine
-     
         this.primaryStage = primaryStage;
 
-        this.speakerOn = true;
 
         // titre de la fenetre
         primaryStage.setTitle("Fish Hunt");
 
+        // On est à l'accueil en lancant le jeu
         primaryStage.setScene(creerAccueil());
 
+        // musique de background au lancement du jeu
+        this.speakerOn = true;
         String filepath = "src/music/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
-
-
-
-
 
 
         // fenetre non resizable
@@ -129,38 +134,41 @@ public class FishHunt extends Application {
 
     }
 
+    /**
+     * Cree la scène d'accueil
+     * @return cette scène
+     */
     private Scene creerAccueil() {
 
+        // conteneur générique
         Pane root = new Pane();
-        // Fenêtre de jeu
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        //root.getChildren().add(canvas);
 
-        context = canvas.getGraphicsContext2D();
         // Background bleu du jeu
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        context = canvas.getGraphicsContext2D();
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
         context.drawImage(new Image("gui/logo.png"), 100, 40, 440, 300);
 
-
+        // Bouton pour lancer une nouvelle partie
         Button btn1 = new Button("Nouvelle Partie");
         btn1.setLayoutX(280);
         btn1.setLayoutY(350);
         btn1.setPrefWidth(105);
-
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerFenetreJeu(false));
         });
 
+        // Bouton pour afficher les meilleurs scores
         Button btn2 = new Button("Meilleurs Scores");
         btn2.setLayoutX(280);
         btn2.setLayoutY(380);
         btn2.setPrefWidth(105);
-
         btn2.setOnAction((e) -> {
             primaryStage.setScene(creerSceneScores());
         });
 
+        // Bouton pour lancer une partie du mode spécial
         Button btn3 = new Button("Mode Spécial");
         btn3.setLayoutX(280);
         btn3.setLayoutY(410);
@@ -169,6 +177,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerFenetreJeu(true));
         });
 
+        // Bouton pour afficher la rubrique d'aide
         Image question = new Image(getClass().getResourceAsStream("gui/newQuestion.png"));
         Button btn4 = new Button();
         ImageView imageView = new ImageView(question);
@@ -177,12 +186,11 @@ public class FishHunt extends Application {
         btn4.setLayoutY(10);
         btn4.setPrefHeight(20);
         btn4.setPrefWidth(20);
-        
-
         btn4.setOnAction((e) -> {
             primaryStage.setScene( instructionsJeu());
         });
 
+        // Bouton pour afficer les crédits
         Button btn5 = new Button("Crédits");
         btn5.setLayoutX(280);
         btn5.setLayoutY(440);
@@ -191,40 +199,48 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerCredits());
         });
 
+        // ajouter tous les éléments aux conteneur générique
         root.getChildren().addAll(canvas, btn1, btn2, btn3, btn4, btn5);
 
+        // crée le bouton pour couper ou allumer le son et l'ajoute au conteneur
         speaker(root);
 
-
-
         gameToScore = false;
+
         return new Scene(root);
     }
 
+    /**
+     * Crée la fenêtre des meilleurs scores
+     * @return cette scène
+     */
     private Scene creerSceneScores() {
+
+        // Conteneur avec un top, center et bottom
         BorderPane mainPane = new BorderPane();
         mainPane.setPadding(new Insets(25, 50, 50, 50));
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
+        // Lire les fichiers des meilleurs scores
         FileReader fileReader = null;
         FileReader fileReader2 = null;
         try {
             fileReader = new FileReader("src/scores/highScore.txt");
             fileReader2 = new FileReader("src/scores/highScore2.txt");
-
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
 
-
+        // Hbox des deux listviews contenant les meilleurs scores avec leur titre
         HBox conteneurListView = new HBox();
         conteneurListView.setSpacing(25);
         conteneurListView.setAlignment(Pos.CENTER);
 
+        // Vbox du titre de la listview et de la listview
         VBox listAndTitre = new VBox();
         Text titreListView = new Text("Mode Normal");
 
-
+        // mettre dans l'arraylist les données du fichier pour ensuite les mettre dans la listview
         meilleursScores=getMeilleursScores(fileReader) ;
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
@@ -237,27 +253,20 @@ public class FishHunt extends Application {
         VBox listAndTitre2 = new VBox();
         Text titreListView2 = new Text("Mode Spécial");
 
-
-
         meilleursScoresSpecial=getMeilleursScores(fileReader2) ;
         ListView<String> listView2 = new ListView<>();
         listView2.getItems().setAll(meilleursScoresSpecial);
         listAndTitre2.setAlignment(Pos.CENTER);
         listAndTitre2.setSpacing(2);
 
-
         listAndTitre2.getChildren().setAll(titreListView2, listView2);
-
 
         conteneurListView.getChildren().addAll(listAndTitre, listAndTitre2);
 
-        //StackPane node = new StackPane();
+
         conteneurListView.setPadding(new Insets(10, 0, 10, 0));
 
-        //node.getChildren().add(conteneurListView);
-
-
-
+        // Hbox contenant le titre de la fenêtre
         HBox node2 = new HBox();
 
         Text titre = new Text("Meilleurs Scores");
@@ -335,11 +344,7 @@ public class FishHunt extends Application {
 
                 });
 
-            /*    if(printErreur == true) {
-                    Label erreur = new Label("Votre nom ne doit pas contenir la séquence \" - \". Veillez réessayer s'il vous plait.");
 
-                }
-*/
 
                 hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
                 hboxtemp.setSpacing(10);
