@@ -123,6 +123,7 @@ public class FishHunt extends Application {
 
         String filepath = "src/music/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
+        backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
 
 
@@ -153,7 +154,7 @@ public class FishHunt extends Application {
         context.drawImage(new Image("gui/logo.png"), 100, 40, 440, 300);
 
         // Bouton pour lancer une nouvelle partie
-        Button btn1 = new Button("Nouvelle Partie");
+        Button btn1 = new Button("Nouvelle partie!");
         btn1.setLayoutX(280);
         btn1.setLayoutY(350);
         btn1.setPrefWidth(105);
