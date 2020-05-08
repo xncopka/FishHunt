@@ -21,6 +21,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 
@@ -221,6 +222,21 @@ public class FishHunt extends Application {
         mainPane.setPadding(new Insets(25, 50, 50, 50));
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
 
+
+        // Hbox contenant le titre de la fenêtre
+        HBox node2 = new HBox();
+        Text titre = new Text("Meilleurs Scores");
+        titre.setFont(Font.font(32));
+        node2.getChildren().add(titre);
+
+        // et en faire le top du borderpane
+        mainPane.setTop(node2);
+        node2.setAlignment(Pos.TOP_CENTER);
+        Insets insets = new Insets(15);
+        BorderPane.setMargin(node2, insets);
+
+
+
         // Lire les fichiers des meilleurs scores
         FileReader fileReader = null;
         FileReader fileReader2 = null;
@@ -231,145 +247,118 @@ public class FishHunt extends Application {
             ex.printStackTrace();
         }
 
-        // Hbox des deux listviews contenant les meilleurs scores avec leur titre
-        HBox conteneurListView = new HBox();
-        conteneurListView.setSpacing(25);
-        conteneurListView.setAlignment(Pos.CENTER);
-
-        // Vbox du titre de la listview et de la listview
-        VBox listAndTitre = new VBox();
+        // Titre de la listview pour le mode normal
         Text titreListView = new Text("Mode Normal");
 
-        // mettre dans l'arraylist les données du fichier pour ensuite les mettre dans la listview
+        // mettre dans l'arraylist les données du fichier pour ensuite les mettre dans la listview correspondante
         meilleursScores=getMeilleursScores(fileReader) ;
         ListView<String> listView = new ListView<>();
         listView.getItems().setAll(meilleursScores);
+
+        // mettre le titre et la list view dans un Vbox
+        VBox listAndTitre = new VBox();
         listAndTitre.setAlignment(Pos.CENTER);
         listAndTitre.setSpacing(2);
-
         listAndTitre.getChildren().setAll(titreListView, listView);
 
-
-        VBox listAndTitre2 = new VBox();
+        // Et repeter la meme chose pour le mode spécial
         Text titreListView2 = new Text("Mode Spécial");
 
         meilleursScoresSpecial=getMeilleursScores(fileReader2) ;
         ListView<String> listView2 = new ListView<>();
         listView2.getItems().setAll(meilleursScoresSpecial);
+
+        VBox listAndTitre2 = new VBox();
         listAndTitre2.setAlignment(Pos.CENTER);
         listAndTitre2.setSpacing(2);
-
         listAndTitre2.getChildren().setAll(titreListView2, listView2);
 
+
+        // mettre les deux Vbox dans un Hbox
+        HBox conteneurListView = new HBox();
+        conteneurListView.setSpacing(25);
+        conteneurListView.setAlignment(Pos.CENTER);
+        conteneurListView.setPadding(new Insets(10, 0, 10, 0));
         conteneurListView.getChildren().addAll(listAndTitre, listAndTitre2);
 
-
-        conteneurListView.setPadding(new Insets(10, 0, 10, 0));
-
-        // Hbox contenant le titre de la fenêtre
-        HBox node2 = new HBox();
-
-        Text titre = new Text("Meilleurs Scores");
-
-        titre.setFont(Font.font(32));
-        node2.getChildren().add(titre);
-
-
+        // et en faire le centre du borderpane
         mainPane.setCenter(conteneurListView);
-        mainPane.setTop(node2);
-        node2.setAlignment(Pos.TOP_CENTER);
-
-        Insets insets = new Insets(15);
-        BorderPane.setMargin(node2, insets);
 
 
+        // Vbox contenant le bottom du borderpane
         VBox node3 = new VBox();
-        Button btn1 = new Button("Menu");
-
 
 
         if(gameToScore) {
-
+            // choisir la bonne listview
             ArrayList<String> checkArrayList;
             if (!prevGameSpecial) {
                 checkArrayList = meilleursScores;
             } else {
                 checkArrayList = meilleursScoresSpecial;
             }
+            // vérifier si on doit ajouter un nouveau score à la listview correspondante
             if (controleur.checkNewScore(controleur.getScore(), checkArrayList)) {
-                HBox hboxtemp = new HBox();
+                // Si oui, ajouter un Hbox permettant d'enregistrant le score avec son nom
+                HBox hBoxTemp = new HBox();
                 Label label1 = new Label("Votre nom:");
                 Label label2 = new Label("a fait " + controleur.getScore() + " points!");
                 Button btn2 = new Button("Ajouter!");
                 TextField textField = new TextField();
 
+                // Action du bouton ajouter
                 btn2.setOnAction((e) -> {
-                            if (!(textField.getText().equals(""))) {
+                    if (!(textField.getText().equals(""))) {
 
-                                if (textField.getText().contains(" - ")) {
-                                    printErreur = true;
-                                    primaryStage.setScene(creerSceneScores());
+                        // Si le nom ajouté par le joueur contient le séparateur " - "
+                        if (textField.getText().contains(" - ")) {
+                            // alors le message d'erreur doit être affiché
+                            printErreur = true;
+                            primaryStage.setScene(creerSceneScores());
 
-                                } else {
-
-
-                                FileReader filereader = null;
-                                try {
-                                    if (!prevGameSpecial) {
-
-                                        filereader = new FileReader("src/scores/highScore.txt");
-                                    } else {
-
-                                        filereader = new FileReader("src/scores/highScore2.txt");
-                                    }
-                                } catch (FileNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-
-                                if (!prevGameSpecial) {
-
-                                    this.meilleursScores = getMeilleursScores(filereader);
-                                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
-                                    writeScore(indexScore, meilleursScores, "src/scores/highScore.txt");
-                                } else {
-
-                                    this.meilleursScoresSpecial = getMeilleursScores(filereader);
-                                    int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
-                                    writeScore(indexScore, meilleursScoresSpecial, "src/scores/highScore2.txt");
-                                }
-                                    primaryStage.setScene(creerAccueil());
+                        } else {
+                            // trier l'arraylist avec l'ajout du nouveau score et écrire l'arraylist trié dans
+                            // le fichier
+                            if (!prevGameSpecial) {
+                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                                writeScore(indexScore, meilleursScores, "src/scores/highScore.txt");
+                            } else {
+                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
+                                writeScore(indexScore, meilleursScoresSpecial, "src/scores/highScore2.txt");
                             }
+                            // retour à l'accueil
+                            primaryStage.setScene(creerAccueil());
                         }
-
-
+                    }
                 });
+                // ajouter tous les éléments à l'Hbox
+                hBoxTemp.getChildren().addAll(label1, textField, label2, btn2);
+                hBoxTemp.setSpacing(10);
+                hBoxTemp.setAlignment(Pos.CENTER);
+                // ajouter le Hbox au Vbox
+                node3.getChildren().addAll(hBoxTemp);
 
-
-
-                hboxtemp.getChildren().addAll(label1, textField, label2, btn2);
-                hboxtemp.setSpacing(10);
-                hboxtemp.setAlignment(Pos.CENTER);
-                node3.getChildren().addAll(hboxtemp);
-
-                    if(printErreur == true) {
+                // Si le message d'erreur doit être affiché, un nouveau label doit être ajouté au Vbox
+                if(printErreur == true) {
                     Label erreur = new Label("Votre nom ne doit pas contenir le séparateur \" - \". Veillez réessayer s’il vous plaît.");
                     erreur.setTextFill(Color.RED);
                     node3.getChildren().add(erreur);
-
                 }
-
             }
         }
 
+        // Bouton pour revenir au menu
+        Button btn1 = new Button("Menu");
+        // ajouter ce menu au Vbox
         node3.getChildren().add(btn1);
         node3.setSpacing(10);
-        mainPane.setBottom(node3);
         node3.setAlignment(Pos.CENTER);
-
-
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
+
+        // faire du Vbox le bottom du borderpane
+        mainPane.setBottom(node3);
 
         return scene;
     }
@@ -378,8 +367,7 @@ public class FishHunt extends Application {
 
         backgroundMusic.stopMusic();
 
-         root = new StackPane();
-
+        root = new StackPane();
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
@@ -390,7 +378,7 @@ public class FishHunt extends Application {
         // Contexte graphique du canvas
         context = canvas.getGraphicsContext2D();
 
-
+        // Cible
         Pane pane = new Pane();
         Image img = new Image("gui/cible.png");
         ImageView imageView = new ImageView(img);
@@ -400,15 +388,10 @@ public class FishHunt extends Application {
         root.getChildren().add(pane);
 
         // Debut du jeu
-
         startGame(modeSpecial, speakerOn);
         newTimer();
 
-
-
-  
-
-
+        // deplace la cible quand on deplace la souris
         scene.setOnMouseMoved((event) -> {
             double x = event.getX() - 25;
             double y = event.getY() - 25;
@@ -417,6 +400,7 @@ public class FishHunt extends Application {
             
         });
 
+        // lance une balle quand on clique sur la souris et fait perdre une balle
         scene.setOnMouseClicked((event) -> {
             controleur.newBall(event.getX(), event.getY());
             if(controleur.getSniperGame()) {
@@ -425,7 +409,6 @@ public class FishHunt extends Application {
                 }
             }
         });
-
 
 
 
@@ -438,7 +421,7 @@ public class FishHunt extends Application {
             }
 
 
-                                                                                                     
+            // Faire monter le niveau de +1 si on appuie sur H
             if (event.getCode() == KeyCode.H && !firstClics[0]) {
                 controleur.setLevel(controleur.getLevel()+1);
                 controleur.setAfficherLevel(true);
@@ -446,41 +429,44 @@ public class FishHunt extends Application {
 
             }
 
+            // Faire monter le score de +1 si on appuie sur J
             if (event.getCode() == KeyCode.J && !firstClics[1]) {
                 controleur.setScore(controleur.getScore()+1);
                 firstClics[1]=true;
             }
 
+            // Faire monter le nombre de poissons restants de +1 si on appuie sur K
             if (event.getCode() == KeyCode.K && !firstClics[2]) {
                 controleur.setLife(controleur.getLife()+1);
                 firstClics[2]=true;
             }
 
-
+            // Faire perdre la partie si on appuie sur L
             if (event.getCode() == KeyCode.L && !firstClics[3]) {
-                setGameOver(true);
+                controleur.setGameOver(true);
                 firstClics[3]=true;
             }
 
+            // Faire monter la série en cours de +1 si on appuie sur S
             if (event.getCode() == KeyCode.S && !firstClics[4]) {
                 controleur.setSerie(controleur.getSerie()+1);
                 firstClics[4]=true;
             }
 
+            // Couper ou allumer le son si on appuie sur O
             if (event.getCode() == KeyCode.O && !firstClics[5]) {
                 speakerOn = !speakerOn;
                 controleur.enableChanson(speakerOn);
                 firstClics[5]=true;
             }
 
-
-            // Restart la partie en appuyant sur R
+            // Redémarrer la partie si on appuie sur R
             if (event.getCode() == KeyCode.R  && !firstClics[6]) {
                 restart();
                 firstClics[6]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Revenir à l'accueil si on appuie sur A
             if (event.getCode() == KeyCode.A && !firstClics[7]) {
                 timer.stop();
                 deltaTime = 0;
@@ -494,7 +480,7 @@ public class FishHunt extends Application {
                 firstClics[7]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire monter le nombre de balles restantes de +1 si on appuie sur B
             if (event.getCode() == KeyCode.B  && !firstClics[8]) {
                 if(controleur.getSniperGame()) {
                     controleur.setBalles(controleur.getBalles()+1);
@@ -502,31 +488,31 @@ public class FishHunt extends Application {
                 firstClics[8]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire apparaître un appat si on appuie sur T
             if (event.getCode() == KeyCode.T  && !firstClics[9]) {
                 controleur.newAppat(controleur.getLevel());
                 firstClics[9]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire apparaître un crabe si on appuie sur C
             if (event.getCode() == KeyCode.C  && !firstClics[10]) {
                 controleur.newCrab(controleur.getLevel());
                 firstClics[10]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire apparaître une étoile de mer si on appuie sur E
             if (event.getCode() == KeyCode.E  && !firstClics[11]) {
                 controleur.newStar(controleur.getLevel());
                 firstClics[11]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire apparaître un saumon si on appuie sur S
             if (event.getCode() == KeyCode.V  && !firstClics[12]) {
                 controleur.newSalmon(controleur.getLevel());
                 firstClics[12]=true;
             }
 
-            // Restart la partie en appuyant sur R
+            // Faire apparaître un prédateur si on appuie sur P
             if (event.getCode() == KeyCode.P  && !firstClics[13]) {
                 controleur.newPredator(controleur.getLevel());
                 firstClics[13]=true;
@@ -537,7 +523,7 @@ public class FishHunt extends Application {
 
 
         // Actions sur le clavier en relachant la touche
-        // Interdit le spammage de touches
+        // Interdit le déclenchement à la suite des raccourcis du clavier en maintenant enfoncé la touche
         scene.setOnKeyReleased((event) -> {
 
 
@@ -606,13 +592,22 @@ public class FishHunt extends Application {
     }
 
 
+    /**
+     * Crée la 1ere page de la rubrique d'aide
+     * Cette page décrit de manière brève le jeu
+     * @return la scène
+     */
     private Scene instructionsJeu() {
+
+        // Conteneur qui contient un top, un right, un center et un bottom
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
+        // Background bleu
         root.setStyle("-fx-background-color: #00008b;");
         root.setPadding(new Insets(25));
 
+        // Le top est le titre
         Label titre = new Label("Description :");
         titre.setTextFill(Color.WHITE);
         titre.setTextAlignment(TextAlignment.CENTER);
@@ -621,8 +616,7 @@ public class FishHunt extends Application {
         BorderPane.setAlignment(titre, Pos.CENTER);
 
 
-
-
+        // Le center est le texte
         Label label = new Label("Vous incarnez un requin qui chasse des poissons pour son souper.\n\n" +
                 "Étant un requin gourmand, vous ne pouvez pas vous permettre de laisser trop de poissons passer... Au bout de 3 poissons ratés, la\n" +
                 "partie est perdue.\n\n" +
@@ -636,15 +630,17 @@ public class FishHunt extends Application {
         root.setCenter(label);
         BorderPane.setAlignment(label, Pos.CENTER_LEFT);
 
-
-
+        // Le bouton du menu est le bottom
         Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
         btn1.setPrefHeight(20);
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
+        root.setBottom(btn1);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
 
+        // Le bouton pour passer à la page suivante est le right
         Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
@@ -655,24 +651,29 @@ public class FishHunt extends Application {
         });
 
 
-
-        root.setBottom(btn1);
         root.setRight(btn2);
-
-        BorderPane.setAlignment(btn1, Pos.CENTER);
         BorderPane.setAlignment(btn2, Pos.BOTTOM_RIGHT);
 
 
         return scene;
     }
 
+    /**
+     * Crée la 2nde page de la rubrique d'aide
+     * Cette page explique les différents poissons spéciaux du jeu
+     * @return la scène
+     */
     private Scene instructions2Jeu() {
+
+        // Conteneur qui contient un top, un left, un right, un center et un bottom
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
+        // Background bleu
         root.setStyle("-fx-background-color: #00008b;");
         root.setPadding(new Insets(25));
 
+        // Le top est le titre
         Label titre = new Label("Poissons Spéciaux :");
         titre.setTextFill(Color.WHITE);
         titre.setTextAlignment(TextAlignment.CENTER);
@@ -680,7 +681,7 @@ public class FishHunt extends Application {
         root.setTop(titre);
         BorderPane.setAlignment(titre, Pos.CENTER);
 
-
+        // Le center est le texte
         Label label = new Label(
                 "Le crabe et l'étoile de mer ont une façon différente des autres de se déplacer." +
                         " Le crabe avance en oscillant horizontalement." +
@@ -698,16 +699,18 @@ public class FishHunt extends Application {
         root.setCenter(label);
         BorderPane.setAlignment(label, Pos.CENTER_LEFT);
 
-
-
-       
+        // Le bouton du menu est le bottom
         Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
         btn1.setPrefHeight(20);
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
+        root.setBottom(btn1);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
 
+
+        // Le bouton pour passer à la page suivante est le right
         Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
@@ -717,7 +720,11 @@ public class FishHunt extends Application {
             primaryStage.setScene(instructions3Jeu());
         });
 
+        root.setRight(btn2);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_RIGHT);
 
+
+        //  Le bouton pour passer à la page précédente est le left
         Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn3 = new Button();
         btn3.setGraphic(new ImageView(previous));
@@ -726,36 +733,36 @@ public class FishHunt extends Application {
             primaryStage.setScene( instructionsJeu());
         });
 
-
-        root.setBottom(btn1);
         root.setLeft(btn3);
-        root.setRight(btn2);
-
-        BorderPane.setAlignment(btn1, Pos.CENTER);
-        BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
-        BorderPane.setAlignment(btn3, Pos.BOTTOM_RIGHT);
+        BorderPane.setAlignment(btn3, Pos.BOTTOM_LEFT);
 
         return scene;
     }
 
+
+    /**
+     * Crée la 3ème page de la rubrique d'aide
+     * Cette page explique les objets et l'effet d'invincibilité après une série de poissons attrapés d'affilés
+     * @return la scène
+     */
     private Scene instructions3Jeu() {
+
+        // Conteneur qui contient un top, un left, un right, un center et un bottom
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
+        // Background bleu
         root.setStyle("-fx-background-color: #00008b;");
         root.setPadding(new Insets(25));
 
+        // Le titre est le top
         Label titre = new Label("Objets et Série :");
         titre.setTextFill(Color.WHITE);
         titre.setFont(Font.font ("Verdana", 32));
         root.setTop(titre);
         BorderPane.setAlignment(titre, Pos.CENTER);
 
-
-
-
-
-
+        // Le texte est le center
         Label label = new Label(
                 "Divers objets aparraissent de manière aléatoire durant la partie. Il vous est possible de les attraper." +
                         " Les coeurs vert avec un + " +
@@ -766,8 +773,6 @@ public class FishHunt extends Application {
                         " pertes ou blessures pendant 10 secondes.");
 
 
-
-
         label.setFont(Font.font ("Verdana", 14));
         label.setTextFill(Color.WHITE);
         label.setTextAlignment(TextAlignment.JUSTIFY);
@@ -775,19 +780,18 @@ public class FishHunt extends Application {
         root.setCenter(label);
         BorderPane.setAlignment(label, Pos.CENTER_LEFT);
 
-
-
-     /*   HBox navigation = new HBox();
-        navigation.setAlignment(Pos.CENTER);
-        navigation.setSpacing(10);*/
-
+        // Le bouton du menu est le bottom
         Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
         btn1.setPrefHeight(20);
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
+        root.setBottom(btn1);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
 
+
+        // Le bouton pour passer à la page suivante est le right
         Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
@@ -796,8 +800,11 @@ public class FishHunt extends Application {
         btn2.setOnAction((e) -> {
             primaryStage.setScene(instructions4Jeu());
         });
+        root.setRight(btn2);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_RIGHT);
 
 
+        // Le bouton pour passer à la page précédente est le left
         Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn3 = new Button();
         btn3.setGraphic(new ImageView(previous));
@@ -806,28 +813,29 @@ public class FishHunt extends Application {
             primaryStage.setScene( instructions2Jeu());
         });
 
-
-        root.setBottom(btn1);
         root.setLeft(btn3);
-        root.setRight(btn2);
-
-        BorderPane.setAlignment(btn1, Pos.CENTER);
-        BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
-        BorderPane.setAlignment(btn3, Pos.BOTTOM_RIGHT);
-
-
+        BorderPane.setAlignment(btn3, Pos.BOTTOM_LEFT);
 
         return scene;
     }
 
 
+    /**
+     * Crée la derniere page de la rubrique d'aide
+     * Cette page explique les raccourcis claviers possible du jeu
+     * @return la scène
+     */
     private Scene instructions4Jeu() {
+
+        // Conteneur qui contient un top, un left, un center et un bottom
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
+        // Background bleu
         root.setStyle("-fx-background-color: #00008b;");
         root.setPadding(new Insets(25));
 
+        // Le titre est le top
         Label titre = new Label("Raccourcis Clavier :");
         titre.setTextFill(Color.WHITE);
         titre.setFont(Font.font ("Verdana", 32));
@@ -835,10 +843,7 @@ public class FishHunt extends Application {
         BorderPane.setAlignment(titre, Pos.CENTER);
 
 
-
-
-
-
+        // Le texte est le center
         Label label = new Label(
                 "Les raccourcis suivants sont disponibles durant la partie :\n\n" +
                         "- H pour faire monter le niveau de +1 \n" +
@@ -848,7 +853,7 @@ public class FishHunt extends Application {
                         "- B pour faire monter le nombre de balles restantes de +1 \n" +
                         "- C pour faire apparaître un crabe\n"+
                         "- E pour faire apparaître une étoile de mer\n"+
-                        "- C pour faire apparaître un saumon\n"+
+                        "- V pour faire apparaître un saumon\n"+
                         "- T pour faire apparaître un appat\n"+
                         "- P pour faire apparaître un prédateur\n"+
                         "- O pour couper ou allumer le son\n" +
@@ -866,57 +871,49 @@ public class FishHunt extends Application {
         BorderPane.setAlignment(label, Pos.CENTER_LEFT);
 
 
-     /*   HBox navigation = new HBox();
-        navigation.setAlignment(Pos.CENTER);
-        navigation.setSpacing(10);
-*/
+        // Le bouton du menu est le bottom
         Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
 
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
+        root.setBottom(btn1);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
 
+        // Le bouton pour passer à la page précédente est le left
         Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(previous));
-
         btn2.setPrefHeight(20);
         btn2.setOnAction((e) -> {
             primaryStage.setScene( instructions3Jeu());
         });
 
-
-        root.setBottom(btn1);
         root.setLeft(btn2);
-        BorderPane.setAlignment(btn1, Pos.CENTER);
         BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
-
-     /*   navigation.getChildren().addAll(btn2, btn1);
-
-        root.setBottom(navigation);
-        BorderPane.setAlignment(navigation, Pos.CENTER);*/
-
-
 
 
         return scene;
     }
 
 
-
-
-
+    /**
+     * Crée la scène des crédits spécifiant les auteurs, les images utilisés et la musique utilisée
+     * @return la scène
+     */
     private Scene creerCredits() {
 
+        // Borderpane qui contient un top, un center et un bottom
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
+        // Background bleu
         root.setStyle("-fx-background-color: #00008b;");
         root.setPadding(new Insets(50));
 
 
-
+        // Le titre est le top
         Label titre = new Label("Crédits");
         titre.setTextFill(Color.WHITE);
         titre.setTextAlignment(TextAlignment.CENTER);
@@ -924,17 +921,17 @@ public class FishHunt extends Application {
         root.setTop(titre);
         BorderPane.setAlignment(titre, Pos.CENTER);
 
+
+        // Vbox qui contient le center
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(50));
         vbox.setSpacing(2);
-
 
         Label realisation =  new Label("Réalisation :");
         realisation.setFont(Font.font ("Verdana", 18));
         realisation.setTextFill(Color.WHITE);
         realisation.setTextAlignment(TextAlignment.CENTER);
         realisation.setAlignment(Pos.CENTER);
-
 
         Label credits = new Label("Thomas Bui\nVanda Lovejoy");
         credits.setFont(Font.font ("Verdana", 14));
@@ -960,7 +957,6 @@ public class FishHunt extends Application {
         HBox separateur2 = new HBox();
         separateur2.setPrefHeight(14);
 
-
         Label image = new Label("Image :");
         image.setFont(Font.font ("Verdana", 18));
         image.setTextFill(Color.WHITE);
@@ -973,29 +969,23 @@ public class FishHunt extends Application {
         site.setTextAlignment(TextAlignment.LEFT);
         site.setAlignment(Pos.CENTER);
 
-
         vbox.getChildren().addAll(realisation, credits, separateur, musique, chansons, separateur2, image, site);
-        
         root.setCenter(vbox);
 
+        // Le bouton du menu est le bottom
         Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
         btn1.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(btn1, Pos.CENTER);
 
-
         btn1.setOnAction((e) -> {
             primaryStage.setScene(creerAccueil());
         });
-
 
         root.setBottom(btn1);
 
         return scene;
     }
-
-
-
 
 
 
@@ -1006,11 +996,8 @@ public class FishHunt extends Application {
         controleur = new Controleur(modeSpecial, speakerOn);
         controleur.draw(context);
         printErreur = false;
-        for (int i = 0; i < firstClics.length; i++) {
-            firstClics[i] = false;
-        }
+        Arrays.fill(firstClics, false);
     }
-
 
 
     /**
@@ -1141,7 +1128,7 @@ public class FishHunt extends Application {
 
 
                 // redemarre une partie si la partie est terminée
-                if (getGameOver() && !gameToScore) {
+                if (controleur.getGameOver() && !gameToScore) {
 
 
 
@@ -1192,11 +1179,6 @@ public class FishHunt extends Application {
 
 
 
-                /*if ((now - firstTimeLevel) >= ((long)0.5e+9)) {
-                    root.getChildren().remove(level);
-                    firstTimeLevel = 0;
-                }*/
-
                     if ((now - firstTimeLevel) >= ((long)3e+9)) {
                         root.getChildren().remove(level);
                         iterator.remove();
@@ -1246,32 +1228,6 @@ public class FishHunt extends Application {
 
     }
 
-    /**
-     * Methode qui renvoit si la partie est terminée
-     * @return un boolean
-     */
-    public boolean getGameOver() {
-        return controleur.getGameOver();
-    }
-
-    public void setGameOver(boolean gameOver) {
-        controleur.setGameOver(gameOver);
-    }
-
-
-
-    /**
-     * Methode qui renvoit si la partie est terminée
-     * @return un boolean
-     */
-    public int getLevel() {
-        return controleur.getLevel();
-    }
-
-
-
-
-
 
     /**
      * Cree le texte du Game Over et l'ajoute à la racine
@@ -1286,13 +1242,11 @@ public class FishHunt extends Application {
     }
 
 
-
-
     /**
-     * Cree le texte du level
+     * Cree le texte du level et l'ajoute à la racine
      */
     public void textLevel(){
-        level = new Text("Level " + getLevel());
+        level = new Text("Level " + controleur.getLevel());
         level.setFill(Color.WHITE);
         level.setFont(Font.font(50));
         level.setTextAlignment(TextAlignment.CENTER);
@@ -1300,7 +1254,7 @@ public class FishHunt extends Application {
     }
 
     /**
-     * Cree le texte du level
+     * Cree le texte de début d'invincibilité et l'ajoute à la racine
      */
    public void textDebutInvincible(){
        Text invincible = new Text("Serie de "+ controleur.getSerie() +" atteinte :\ndebut invincibilité");
@@ -1315,7 +1269,7 @@ public class FishHunt extends Application {
 
 
     /**
-     * Cree le texte du level
+     * Cree le texte de fin d'invincibilité et l'ajoute à la racine
      */
     public void textFinInvincible(){
         Text invincible = new Text("10 sec écoulées :\nfin invincibilité");
@@ -1329,6 +1283,11 @@ public class FishHunt extends Application {
     }
 
 
+    /**
+     * Met les données du fichier dans un Arraylist
+     * @param fileReader le fichier
+     * @return l'arraylist
+     */
     public ArrayList<String> getMeilleursScores(FileReader fileReader)  {
         BufferedReader reader;
         ArrayList<String> arrayList = new ArrayList<>() ;
@@ -1349,7 +1308,12 @@ public class FishHunt extends Application {
     }
 
 
-
+    /**
+     * Ecrit le nouveau fichier avec l'insertion du nouveau score
+     * @param indexNewScore index du nouveau score
+     * @param meilleursScores arraylist des meilleurs scores
+     * @param adresse  adresse du fichier
+     */
     public void writeScore(int indexNewScore, ArrayList<String> meilleursScores, String adresse) {
         try {
             FileWriter filewriter = new FileWriter(adresse, false);
@@ -1372,6 +1336,10 @@ public class FishHunt extends Application {
         }
     }
 
+    /**
+     * Ajoute au pane le bouton du volume
+     * @param pane conteneur
+     */
     public void speaker(Pane pane) {
         Image img;
         if(speakerOn) {
@@ -1382,8 +1350,7 @@ public class FishHunt extends Application {
 
         Button speaker = new Button();
         ImageView imageView = new ImageView(img);
-        //imageView.setFitHeight(30);
-        //imageView.setFitWidth(30);
+
 
         speaker.setGraphic(imageView);
         speaker.setLayoutX(10);
