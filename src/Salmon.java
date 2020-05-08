@@ -2,7 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 /**
- * Le poisson le plus rapide de l'océan. Apparait dans le mode de difficiculte le plus difficile
+ * Classe qui représente le poisson le plus rapide de l'océan. Apparait dans le niveau du jeu le plus difficile
  */
 
 
@@ -18,8 +18,10 @@ public class Salmon extends Fish {
 
     private boolean maxSpeed;
 
-
-
+    /**
+     * Constructeur du saulmon
+     * @param level niveau du jeu
+     */
     public Salmon(int level) {
         super(level);
         setImage(new Image("fish/sailfish.png"));
@@ -31,11 +33,6 @@ public class Salmon extends Fish {
         if(!leftOfScreen){
             this.image = ImageHelpers.flop(image);
         }
-
     }
-
-
-
-
 
 }

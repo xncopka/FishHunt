@@ -2,10 +2,17 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
+/**
+ * Classe qui représente un appat dans l'océan
+ */
 public class Appat extends Fish {
 
     private boolean sensDirect;
 
+    /**
+     * Constructeur de l'appat qui enlève des vies au joueur si celui-ci lance une balle sur l'appat
+     * @param level niveau du jeu
+     */
 
     public Appat(int level) {
         super(level);
@@ -25,7 +32,10 @@ public class Appat extends Fish {
         }
     }
 
-
+    /**
+     * Met a jour les donnes du jeu
+     * @param dt Temps écoulé depuis le dernier update() en secondes
+     */
     @Override
     public void update(double dt) {
         super.update(dt);
@@ -34,7 +44,6 @@ public class Appat extends Fish {
             vy *= -1;
             sensDirect = false;
         }
-
 
     }
 

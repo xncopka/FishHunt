@@ -12,7 +12,9 @@ import java.util.Random;
 
 public class Heart extends Item {
 
-
+    /**
+     * Classe qui représente un coeur dans le jeu
+     */
 
 
     public Heart() {
@@ -35,12 +37,5 @@ public class Heart extends Item {
         lastTimeActivation = false;
         isUsed = false;
     }
-
-
-
-
-
-
-
 
 }

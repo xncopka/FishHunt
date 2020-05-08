@@ -1,3 +1,7 @@
+/**
+ * Classe qui représente le joueur
+ */
+
 public class Player {
 
 
@@ -7,10 +11,9 @@ public class Player {
     private boolean invicible;
     private int balles;
 
-
-
-
-
+    /**
+     * Constructeur du joueur
+     */
     public Player() {
 
         this.life = 3;
@@ -18,8 +21,6 @@ public class Player {
         this.serie = 0;
         this.invicible = false;
         this.balles = 10;
-
-
     }
 
     /**
@@ -37,10 +38,18 @@ public class Player {
     public void setNbVies(int life) { this.life = life;
     }
 
+    /**
+     * Getter du nombre des points accumulés par le joueur
+     * @return le nombre de points
+     */
     public int getPoints() {
         return this.points;
     }
 
+    /**
+     * Mutateur des points accumulés par le joueur
+     * @param points points du jeu
+     */
     public void setPoints(int points) {
         this.points = points;
     }
@@ -62,13 +71,19 @@ public class Player {
         this.invicible = invicible;
     }
 
+    /**
+     * Getter des balles du jeu
+     * @return les balles du jeu
+     */
     public int getBalles() {
         return balles;
     }
 
+    /**
+     * Mutateur des balles
+     * @param balles du jeu
+     */
     public void setBalles(int balles) {
         this.balles = balles;
     }
-
-
 }
