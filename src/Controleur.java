@@ -186,6 +186,25 @@ public class Controleur {
         jeu.enableChanson(on);
     }
 
+    public void newCrab(int level) {
+        jeu.newCrab(level);
+    }
+
+    public void newStar(int level) {
+        jeu.newStar(level);
+    }
+
+    public void newSalmon(int level) {
+        jeu.newSalmon(level);
+    }
+
+    public void newPredator(int level) {
+        jeu.newPredator(level);
+    }
+
+    public void newAppat(int level) {
+        jeu.newAppat(level);
+    }
 
 
 

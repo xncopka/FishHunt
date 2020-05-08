@@ -54,7 +54,7 @@ public class FishHunt extends Application {
 
     private boolean firstTimeLevelActivation = false;
 
-    private boolean [] firstClics = new boolean[]{false, false, false, false, false, false, false, false, false};
+    private boolean [] firstClics = new boolean[14];
 
     private boolean gameToScore = false;
 
@@ -497,6 +497,36 @@ public class FishHunt extends Application {
                 firstClics[8]=true;
             }
 
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.T  && !firstClics[9]) {
+                controleur.newAppat(controleur.getLevel());
+                firstClics[9]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.C  && !firstClics[10]) {
+                controleur.newCrab(controleur.getLevel());
+                firstClics[10]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.E  && !firstClics[11]) {
+                controleur.newStar(controleur.getLevel());
+                firstClics[11]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.V  && !firstClics[12]) {
+                controleur.newSalmon(controleur.getLevel());
+                firstClics[12]=true;
+            }
+
+            // Restart la partie en appuyant sur R
+            if (event.getCode() == KeyCode.P  && !firstClics[13]) {
+                controleur.newPredator(controleur.getLevel());
+                firstClics[13]=true;
+            }
+
 
         });
 
@@ -545,6 +575,27 @@ public class FishHunt extends Application {
                 firstClics[8]=false;
             }
 
+            if (event.getCode() == KeyCode.T){
+                firstClics[9]=false;
+            }
+
+            if (event.getCode() == KeyCode.C){
+                firstClics[10]=false;
+            }
+
+            if (event.getCode() == KeyCode.E){
+                firstClics[11]=false;
+            }
+
+            if (event.getCode() == KeyCode.V){
+                firstClics[12]=false;
+            }
+
+            if (event.getCode() == KeyCode.P){
+                firstClics[13]=false;
+            }
+
+
         });
         return scene;
     }
@@ -555,7 +606,7 @@ public class FishHunt extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         root.setStyle("-fx-background-color: #00008b;");
-        root.setPadding(new Insets(50));
+        root.setPadding(new Insets(25));
 
         Label titre = new Label("Description :");
         titre.setTextFill(Color.WHITE);
@@ -615,7 +666,7 @@ public class FishHunt extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         root.setStyle("-fx-background-color: #00008b;");
-        root.setPadding(new Insets(50));
+        root.setPadding(new Insets(25));
 
         Label titre = new Label("Poissons Spéciaux :");
         titre.setTextFill(Color.WHITE);
@@ -687,7 +738,7 @@ public class FishHunt extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         root.setStyle("-fx-background-color: #00008b;");
-        root.setPadding(new Insets(50));
+        root.setPadding(new Insets(25));
 
         Label titre = new Label("Objets et Série :");
         titre.setTextFill(Color.WHITE);
@@ -770,7 +821,7 @@ public class FishHunt extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         root.setStyle("-fx-background-color: #00008b;");
-        root.setPadding(new Insets(50));
+        root.setPadding(new Insets(25));
 
         Label titre = new Label("Raccourcis Clavier :");
         titre.setTextFill(Color.WHITE);
@@ -790,6 +841,11 @@ public class FishHunt extends Application {
                         "- K pour faire monter le nombre de poissons restants de +1\n" +
                         "- S pour faire monter la série en cours de +1\n" +
                         "- B pour faire monter le nombre de balles restantes de +1 \n" +
+                        "- C pour faire apparaître un crabe\n"+
+                        "- E pour faire apparaître une étoile de mer\n"+
+                        "- C pour faire apparaître un saumon\n"+
+                        "- T pour faire apparaître un appat\n"+
+                        "- P pour faire apparaître un prédateur\n"+
                         "- O pour couper ou allumer le son\n" +
                         "- R pour faire redémarrer la partie\n" +
                         "- L pour faire perdre la partie\n" +
@@ -945,6 +1001,9 @@ public class FishHunt extends Application {
         controleur = new Controleur(modeSpecial, speakerOn);
         controleur.draw(context);
         printErreur = false;
+        for (int i = 0; i < firstClics.length; i++) {
+            firstClics[i] = false;
+        }
     }
 
 

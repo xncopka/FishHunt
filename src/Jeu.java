@@ -205,7 +205,7 @@ public class Jeu {
 
 
         level = 0;
-        firstChangeLevel=false;
+        firstChangeLevel=true;
         afficherLevel = false;
         palier = 0;
 
@@ -270,6 +270,57 @@ public class Jeu {
         Fish fish = new Fish(level);
         fishes.add(fish);
     }
+
+    /**
+     * Initialise un crabe
+     * @param level niveau du jeu
+     */
+    public void newCrab(int level) {
+        Crab crabe = new Crab(level);
+        fishes.add(crabe);
+    }
+
+
+
+
+
+    /**
+     * Initialise une étoile de mer
+     * @param level niveau du jeu
+     */
+    public void newStar(int level) {
+        Star star = new Star(level);
+        fishes.add(star);
+    }
+
+    /**
+     * Initialise un saumon
+     * @param level niveau du jeu
+     */
+    public void newSalmon(int level) {
+        Salmon salmon = new Salmon(level);
+        fishes.add(salmon);
+    }
+
+
+    /**
+     * Initialise un prédateur
+     * @param level niveau du jeu
+     */
+    public void newPredator(int level) {
+        Predator predator = new Predator(level);
+        fishes.add(predator);
+    }
+
+    /**
+     * Initialise un appât
+     * @param level niveau du jeu
+     */
+    public void newAppat(int level) {
+        Appat appat = new Appat(level);
+        fishes.add(appat);
+    }
+
 
     /**
      * Initialise un crabe ou une étoile avec 50% de probabilité
@@ -612,14 +663,14 @@ public class Jeu {
 
         // Si on a atteint un palier de 5, on est prêt à changer de niveau
         if (player.getPoints()  == palier + 5) {
-            firstChangeLevel = false;
+            firstChangeLevel = true;
         }
         // On affiche le nouveau level en faisant arrêter l'apparition de nouveaux poissons et en établissant le
         // prochain palier de 5
-        if (player.getPoints() % 5 == 0 && !firstChangeLevel) {
+        if ( player.getPoints() % 5 == 0 && firstChangeLevel) {
             setStopNewFish(true);
             afficherLevel=true;
-            firstChangeLevel = true;
+            firstChangeLevel = false;
             level +=  1;
             palier = player.getPoints();
         }
