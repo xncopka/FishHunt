@@ -1018,7 +1018,6 @@ public class FishHunt extends Application {
         // Création de l'animation
         timer = new AnimationTimer() {
 
-
             // Initialiser dernier temps et premier temps
             private long lastTime = 0;
             private long firstTime = 0;

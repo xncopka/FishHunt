@@ -4,8 +4,7 @@ import javafx.scene.paint.Color;
 /**
  * Classe qui représente la balle qui est lancée par le joueur
  */
-public class Balle extends Item  {
-
+public class Balle extends Item {
 
     private double rayon;
     private boolean isPossessed;

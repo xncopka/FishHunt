@@ -7,7 +7,7 @@ public class Player {
 
     private int life;
     private int points; // points en nombre de poissons attrapés
-    private int serie;
+    private int serie; // nombre de poisson touches de facon consecutive
     private boolean invicible;
     private int balles;
 
@@ -53,20 +53,33 @@ public class Player {
     public void setPoints(int points) {
         this.points = points;
     }
-
+/**
+ * Getter du nombre de poisson touche par une balle de facon consecutive
+ */
     public int getSerie() {
         return serie;
     }
 
+    /**
+     * Mutateur du u nombre de poisson touche par une balle de facon consecutive
+     * @param serie nombre de poisson touche de facon consecutive
+     */
     public void setSerie(int serie) {
         this.serie = serie;
     }
 
-
+    /**
+     * Booleen qui dit si le joueur est invincible ou non
+     * @return vrai ou faux
+     */
     public boolean isInvicible() {
         return invicible;
     }
 
+    /**
+     * Mutateur de linvincibilite du joueur
+     * @param invicible
+     */
     public void setInvicible(boolean invicible) {
         this.invicible = invicible;
     }
