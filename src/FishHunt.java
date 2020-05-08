@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-/** 8 Mai 2020
+/** 8 mai 2020
  * Jeu en interface graphique,ou le joueur incarne un requin qui chasse des poissons
  * pour son souper.Au bout de 3 poissons ratés, la partie est perdue.
  * Le jeu se contrôle à la souris et continue à l’infini, ou jusqu’à ce que 3 poissons
