@@ -9,7 +9,7 @@ public class Star extends Fish {
         super(level);
         Random random= new Random();
         this.ay = 0;
-        setImage(new Image("/star.png"));
+        setImage(new Image("fish/star.png"));
         this.nowTime = 0;
         randomY= random.nextDouble()*(4.0*Jeu.HEIGHT/5 - 1.0*Jeu.HEIGHT/5) + 1.0*Jeu.HEIGHT/5;
 

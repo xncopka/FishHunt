@@ -96,7 +96,7 @@ public class FishHunt extends Application {
 
 
         // icone de la barre de tache
-        Image icone = new Image("/shark-jaws.png");
+        Image icone = new Image("gui/shark-jaws.png");
 
 
         // racine
@@ -110,7 +110,7 @@ public class FishHunt extends Application {
 
         primaryStage.setScene(creerAccueil());
 
-        String filepath = "src/Aqua Road - Shining Sea.mp3";
+        String filepath = "src/music/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
 
@@ -140,7 +140,7 @@ public class FishHunt extends Application {
         // Background bleu du jeu
         context.setFill(Color.DARKBLUE);
         context.fillRect(0, 0, WIDTH, HEIGHT);
-        context.drawImage(new Image("/logo.png"), 100, 40, 440, 300);
+        context.drawImage(new Image("gui/logo.png"), 100, 40, 440, 300);
 
 
         Button btn1 = new Button("Nouvelle Partie");
@@ -169,7 +169,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerFenetreJeu(true));
         });
 
-        Image question = new Image(getClass().getResourceAsStream("newQuestion.png"));
+        Image question = new Image(getClass().getResourceAsStream("gui/newQuestion.png"));
         Button btn4 = new Button();
         ImageView imageView = new ImageView(question);
         btn4.setGraphic(imageView);
@@ -209,8 +209,8 @@ public class FishHunt extends Application {
         FileReader fileReader = null;
         FileReader fileReader2 = null;
         try {
-            fileReader = new FileReader("src/highScore.txt");
-            fileReader2 = new FileReader("src/highScore2.txt");
+            fileReader = new FileReader("src/scores/highScore.txt");
+            fileReader2 = new FileReader("src/scores/highScore2.txt");
 
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -308,10 +308,10 @@ public class FishHunt extends Application {
                                 try {
                                     if (!prevGameSpecial) {
 
-                                        filereader = new FileReader("src/highScore.txt");
+                                        filereader = new FileReader("src/scores/highScore.txt");
                                     } else {
 
-                                        filereader = new FileReader("src/highScore2.txt");
+                                        filereader = new FileReader("src/scores/highScore2.txt");
                                     }
                                 } catch (FileNotFoundException ex) {
                                     ex.printStackTrace();
@@ -321,12 +321,12 @@ public class FishHunt extends Application {
 
                                     this.meilleursScores = getMeilleursScores(filereader);
                                     int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
-                                    writeScore(indexScore, meilleursScores, "src/highScore.txt");
+                                    writeScore(indexScore, meilleursScores, "src/scores/highScore.txt");
                                 } else {
 
                                     this.meilleursScoresSpecial = getMeilleursScores(filereader);
                                     int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
-                                    writeScore(indexScore, meilleursScoresSpecial, "src/highScore2.txt");
+                                    writeScore(indexScore, meilleursScoresSpecial, "src/scores/highScore2.txt");
                                 }
                                     primaryStage.setScene(creerAccueil());
                             }
@@ -387,7 +387,7 @@ public class FishHunt extends Application {
 
 
         Pane pane = new Pane();
-        Image img = new Image("/cible.png");
+        Image img = new Image("gui/cible.png");
         ImageView imageView = new ImageView(img);
         imageView.setFitHeight(50);
         imageView.setFitWidth(50);
@@ -482,7 +482,7 @@ public class FishHunt extends Application {
                 primaryStage.setScene(creerAccueil());
                 if(speakerOn) {
                     controleur.getChanson().stopMusic();
-                    String filepath = "src/Aqua Road - Shining Sea.mp3";
+                    String filepath = "src/music/Aqua Road - Shining Sea.mp3";
                     backgroundMusic = new MusicGame();
                     backgroundMusic.playMusic(filepath);
                 }
@@ -589,7 +589,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerAccueil());
         });
 
-        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
         btn2.setPrefHeight(20);
@@ -652,7 +652,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerAccueil());
         });
 
-        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
         btn2.setPrefHeight(20);
@@ -662,7 +662,7 @@ public class FishHunt extends Application {
         });
 
 
-        Image previous = new Image(getClass().getResourceAsStream("back.png"));
+        Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn3 = new Button();
         btn3.setGraphic(new ImageView(previous));
         btn3.setPrefHeight(20);
@@ -732,7 +732,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerAccueil());
         });
 
-        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Image next = new Image(getClass().getResourceAsStream("gui/next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
         btn2.setPrefHeight(20);
@@ -742,7 +742,7 @@ public class FishHunt extends Application {
         });
 
 
-        Image previous = new Image(getClass().getResourceAsStream("back.png"));
+        Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn3 = new Button();
         btn3.setGraphic(new ImageView(previous));
         btn3.setPrefHeight(20);
@@ -816,7 +816,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerAccueil());
         });
 
-        Image previous = new Image(getClass().getResourceAsStream("back.png"));
+        Image previous = new Image(getClass().getResourceAsStream("gui/back.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(previous));
 
@@ -1103,7 +1103,7 @@ public class FishHunt extends Application {
                         firstTimeGameOver = 0;
                         if(speakerOn) {
                             controleur.getChanson().stopMusic();
-                            String filepath = "src/Aqua Road - Shining Sea.mp3";
+                            String filepath = "src/music/Aqua Road - Shining Sea.mp3";
                             backgroundMusic = new MusicGame();
                             backgroundMusic.playMusic(filepath);
                         }
@@ -1311,9 +1311,9 @@ public class FishHunt extends Application {
     public void speaker(Pane pane) {
         Image img;
         if(speakerOn) {
-            img = new Image(getClass().getResourceAsStream("speaker-on.png"));
+            img = new Image(getClass().getResourceAsStream("gui/speaker-on.png"));
         } else {
-            img = new Image(getClass().getResourceAsStream("speaker-off.png"));
+            img = new Image(getClass().getResourceAsStream("gui/speaker-off.png"));
         }
 
         Button speaker = new Button();
@@ -1332,7 +1332,7 @@ public class FishHunt extends Application {
                 speakerOn = false;
                 primaryStage.setScene(creerAccueil());
             } else {
-                String filepath = "src/Aqua Road - Shining Sea.mp3";
+                String filepath = "src/music/Aqua Road - Shining Sea.mp3";
                 backgroundMusic = new MusicGame();
                 backgroundMusic.playMusic(filepath);
                 speakerOn = true;

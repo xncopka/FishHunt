@@ -182,7 +182,7 @@ public class Jeu {
 
     public void enableChanson(boolean on) {
         if(on) {
-            String filepath = "src/Noisestorm - Crab Rave [Monstercat Release].mp3";
+            String filepath = "src/music/Noisestorm - Crab Rave [Monstercat Release].mp3";
             chanson = new MusicGame();
             chanson.playMusic(filepath);
         }  else {
@@ -238,7 +238,7 @@ public class Jeu {
 
 
         if(speakerOn) {
-            String filepath = "src/Noisestorm - Crab Rave [Monstercat Release].mp3";
+            String filepath = "src/music/Noisestorm - Crab Rave [Monstercat Release].mp3";
             chanson = new MusicGame();
             chanson.playMusic(filepath);
         }

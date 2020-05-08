@@ -16,7 +16,7 @@ public class Crab extends Fish {
 
 
 
-        setImage(new Image("/crabe.png"));
+        setImage(new Image("fish/crabe.png"));
 
 
 
