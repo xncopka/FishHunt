@@ -19,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,9 +46,6 @@ public class FishHunt extends Application {
 
     // Temps qui s’est écoulé depuis le dernier appel de la fonction handle
     private double deltaTime;
-
-    // nombre de joueurs dans le jeu
-    private int nbPlayers = 1; // à changer une fois que le mode multi est implenté
 
     // Texte du Game Over
     private Text over;

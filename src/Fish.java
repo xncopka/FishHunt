@@ -67,15 +67,13 @@ public class Fish extends Entity{
             this.leftOfScreen = false;
             this.image = ImageHelpers.flop(image);
 
-            //TODO Inverser image
+
 
         }
 
 
 
 
-
-        //TODO Couleur aléatoire
 
 
 
@@ -140,7 +138,5 @@ public class Fish extends Entity{
         return estAttrape;
     }
 
-    public void setEstAttrape(boolean estAttrape) {
-        this.estAttrape = estAttrape;
-    }
+
 }

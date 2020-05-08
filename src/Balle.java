@@ -21,9 +21,7 @@ public class Balle extends Item  {
         return rayon;
     }
 
-    public void setRayon(double rayon) {
-        this.rayon = rayon;
-    }
+
 
 
 
