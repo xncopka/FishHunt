@@ -151,8 +151,8 @@ public class Controleur {
         jeu.setBalles(balles);
     }
 
-    public void enableItems() {
-        jeu.enableItems();
+    public void setEnableItems(boolean enable) {
+        jeu.setItemsEnabled(enable);
     }
 
 

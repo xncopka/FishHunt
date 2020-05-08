@@ -1000,7 +1000,7 @@ public class FishHunt extends Application {
                 if(((now - firstTimeNewFish) >= ((long)3e+9)) && (!controleur.getStopNewFish())) {
                     firstTimeNewFish = now;
                     controleur.newFish(controleur.getLevel());
-                    controleur.enableItems();
+                    controleur.setEnableItems(true);
                 }
 
                 // Si 5 secondes se sont écoulés depuis le debut de l'animation,
