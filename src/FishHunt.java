@@ -115,11 +115,12 @@ public class FishHunt extends Application {
         // titre de la fenetre
         primaryStage.setTitle("Fish Hunt");
 
+        this.speakerOn = true;
         // On est à l'accueil en lancant le jeu
         primaryStage.setScene(creerAccueil());
 
         // musique de background au lancement du jeu
-        this.speakerOn = true;
+
         String filepath = "src/music/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
