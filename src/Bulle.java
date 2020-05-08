@@ -4,10 +4,9 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 
 /**
- * Represente une bulle dans l'océan
+ * Classe qui représente une bulle dans l'océan
  */
 public class Bulle extends Entity {
-
 
     private double rayon;
 

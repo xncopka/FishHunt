@@ -16,30 +16,7 @@ public class ImageHelpers {
      */
     private ImageHelpers() {
     }
-
-    /**
-     * Inversion verticale d'une image.
-     *
-     * @param img L'image à inverser
-     * @return Une nouvelle image contenant une inversion verticale des pixels
-     * de l'image originale
-     */
-    public static Image flip(Image img) {
-        int h = (int) img.getHeight();
-        WritableImage output = new WritableImage((int) img.getWidth(), h);
-
-        PixelReader reader = img.getPixelReader();
-        PixelWriter writer = output.getPixelWriter();
-
-        for (int y = 0; y < img.getHeight(); y++) {
-            for (int x = 0; x < img.getWidth(); x++) {
-                Color color = reader.getColor(x, y);
-                writer.setColor(x, h - 1 - y, color);
-            }
-        }
-
-        return output;
-    }
+    
 
     /**
      * Inversion verticale d'une image.

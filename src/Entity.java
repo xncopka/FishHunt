@@ -7,7 +7,6 @@ public abstract class Entity {
 
     protected double largeur, hauteur;
     protected double x, y;
-
     protected double vx, vy;
     protected double ax, ay; 
 
@@ -16,15 +15,10 @@ public abstract class Entity {
      * @param dt Temps écoulé depuis le dernier update() en secondes
      */
     public void update(double dt) {
-
         vx += dt * ax;
         vy += dt * ay;
         x += dt * vx;
         y += dt * vy;
-
-     
-
-
     }
 
     /**
@@ -32,14 +26,6 @@ public abstract class Entity {
      * @param context contexte graphique du canvas
      */
     public abstract void draw(GraphicsContext context);
-
-
-
-    // Getters et Setters (pas obligatoire comme les attributs sont protected)
-    // Mais par question de style et pour respecter l'encapsulation,
-    // on a utilise un acces direct aux attributs dans les classes filles de Entity
-    // et des getters et setters dans la classe de la logique interne de l'application Jeu.
-
 
     /**
      * Accesseur de la position x du modèle
@@ -85,34 +71,6 @@ public abstract class Entity {
         return this.vx;
     }
 
-
-    /**
-     * Accesseur de la composante y de la vitesse du modèle
-     * @return  composante y de la vitesse
-     */
-    public double getVY() {
-        return this.vy;
-    }
-
-
-    /**
-     * Accesseur de l'accélération en x du modèle
-     * @return  composante x de l'accélération
-     */
-    public double getAX() {
-        return this.ax;
-    }
-
-
-    /**
-     * Accesseur de l'accélération en y du modèle
-     * @return composante y de l'accélération
-     */
-    public double getAY() {
-        return this.ay;
-    }
-
-
     /**
      * Mutateur de la position x du modèle
      * @param x position x du modèle
@@ -147,25 +105,5 @@ public abstract class Entity {
     public void setVX(double vx) {
         this.vx = vx;
     }
-
-
-    /**
-     * Mutateur de la composante y de la vitesse du modèle
-     * @param vy composante x de la vitesse
-     */
-    public void setVY(double vy) {
-        this.vy = vy;
-    }
-
-
-    /**
-     * Mutateur de la composante x de l'accélération du modèle
-     * @param ax composante x de l'accélération
-     */
-    public void setAX(double ax) {
-        this.ax = ax;
-    }
-
-
 
 }

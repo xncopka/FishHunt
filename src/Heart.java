@@ -5,14 +5,17 @@ import java.util.Random;
 
 
 /**
- *  Objets dans le jeu qui permet de faire gagner 1 vie supplémentaire au requin qui apparait aléatoirement
+ * Classe qui représente un coeur dans le jeu
+ *  Le coeur permet de faire gagner 1 vie supplémentaire au requin qui apparait aléatoirement
  *  apres que le requin mange un poisson et apparait au même endroit ou le requin mange ce dernier
  */
 
 
 public class Heart extends Item {
 
-
+    /**
+     * Constructeur du coeur
+     */
 
 
     public Heart() {
@@ -35,12 +38,5 @@ public class Heart extends Item {
         lastTimeActivation = false;
         isUsed = false;
     }
-
-
-
-
-
-
-
 
 }

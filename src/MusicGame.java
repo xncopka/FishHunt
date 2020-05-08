@@ -4,9 +4,16 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+/**
+ * Classe qui représente la musique dans le jeu
+ */
 public class MusicGame {
     private static MediaPlayer mediaPlayer;
 
+    /**
+     * Méthode qui joue de la musique
+     * @param musicLocation String qui contient le path de la chanson
+     */
     public void playMusic(String musicLocation){
         try{
             File musicPath = new File(musicLocation);
@@ -28,13 +35,10 @@ public class MusicGame {
         }
     }
 
+    /**
+     * Methode qui arrete la musique
+     */
     public void stopMusic() {
         mediaPlayer.stop();
     }
-
-
-
-
-
-
 }

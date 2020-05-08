@@ -1,8 +1,10 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Balle extends Item  {
-
+/**
+ * Classe qui représente la balle qui est lancée par le joueur
+ */
+public class Balle extends Item {
 
     private double rayon;
     private boolean isPossessed;
@@ -21,9 +23,12 @@ public class Balle extends Item  {
         return rayon;
     }
 
-
-
-
+    /**
+     * Constructeur de Balle, object qui est utilisé pour toucher les poissons
+     * @param x position x de la balle
+     * @param y position y de balle
+     * @param isPossessed une balle est possédée par le joueur ou non
+     */
 
 
     public Balle(double x, double y, boolean isPossessed) {
@@ -35,7 +40,6 @@ public class Balle extends Item  {
         if(!isPossessed){
             this.rayon = 20;
         }
-
 
     }
 
@@ -51,16 +55,15 @@ public class Balle extends Item  {
         }
     }
 
+    /**
+     * Méthode qui dessine la balle selon le contexte graphique
+     * @param context contexte graphique du jeu
+     */
     @Override
     public void draw(GraphicsContext context) {
         context.setFill(Color.BLACK);
-
         context.fillOval(x-rayon, y-rayon, rayon*2, rayon*2);
-
     }
-
-
-
 
 
     /**
@@ -77,24 +80,4 @@ public class Balle extends Item  {
 
         return deltaX * deltaX + deltaY * deltaY < rayon * rayon;
     }
-
-
-    public void testCollision(Entity other) {
-        if(other instanceof Fish){
-            ((Fish) other).testCollision(this);
-        }
-        if (other instanceof Item){
-            ((Item) other).testCollision(this);
-        }
-
-    }
-
-
-
-
-
-
-
-
-
 }

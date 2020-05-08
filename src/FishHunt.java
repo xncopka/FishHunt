@@ -25,7 +25,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-/**
+/** 8 mai 2020
+ * Jeu en interface graphique,ou le joueur incarne un requin qui chasse des poissons
+ * pour son souper.Au bout de 3 poissons ratés, la partie est perdue.
+ * Le jeu se contrôle à la souris et continue à l’infini, ou jusqu’à ce que 3 poissons
+ * aient été ratés
+ * @author Thomas Bui
+ * @author Vanda Gaonac'h-Lovejoy, 1018781
  * Classe qui sert à définir ce qui doit être affiché (Vue)
  */
 public class FishHunt extends Application {
@@ -365,6 +371,11 @@ public class FishHunt extends Application {
         return scene;
     }
 
+    /**
+     * Créer la scene pour le jeu
+     * @param modeSpecial booléen qui vérifie si c'est un mode spécial du jeu ou non
+     * @return la scène
+     */
     private Scene creerFenetreJeu(boolean modeSpecial) {
 
         backgroundMusic.stopMusic();
@@ -1009,7 +1020,6 @@ public class FishHunt extends Application {
         // Création de l'animation
         timer = new AnimationTimer() {
 
-
             // Initialiser dernier temps et premier temps
             private long lastTime = 0;
             private long firstTime = 0;
@@ -1337,7 +1347,6 @@ public class FishHunt extends Application {
         Button speaker = new Button();
         ImageView imageView = new ImageView(img);
 
-
         speaker.setGraphic(imageView);
         speaker.setLayoutX(10);
         speaker.setLayoutY(10);
@@ -1357,9 +1366,5 @@ public class FishHunt extends Application {
             }
         });
 
-
     }
-
-
-
 }

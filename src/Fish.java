@@ -4,6 +4,9 @@ import javafx.scene.paint.Color;
 
 import java.util.Random;
 
+/**
+ * Classe qui représente les poissons dans le jeu
+ * */
 public class Fish extends Entity{
 
     protected Image[] frames;
@@ -14,15 +17,10 @@ public class Fish extends Entity{
     protected boolean isFood;
 
 
-
-
-    public boolean isFood() {
-        return isFood;
-    }
-
-
-
-
+    /**
+     * Constructeur de poisson
+     * @param level niveau du jeu
+     */
 
 
     public Fish(int level) {
@@ -39,20 +37,17 @@ public class Fish extends Entity{
         this.isFood = true;
        
 
-
-
-
-            this.frames = new Image[]{
-                    new Image("fish/00.png"),
-                    new Image("fish/01.png"),
-                    new Image("fish/02.png"),
-                    new Image("fish/03.png"),
-                    new Image("fish/04.png"),
-                    new Image("fish/05.png"),
-                    new Image("fish/06.png"),
-                    new Image("fish/07.png")
-            };
-            this.image = frames[random.nextInt(8)];
+        this.frames = new Image[]{
+                new Image("fish/00.png"),
+                new Image("fish/01.png"),
+                new Image("fish/02.png"),
+                new Image("fish/03.png"),
+                new Image("fish/04.png"),
+                new Image("fish/05.png"),
+                new Image("fish/06.png"),
+                new Image("fish/07.png")
+        };
+        this.image = frames[random.nextInt(8)];
 
         this.image = ImageHelpers.colorize(image, color);
 
@@ -66,39 +61,28 @@ public class Fish extends Entity{
             this.vx *= -1;
             this.leftOfScreen = false;
             this.image = ImageHelpers.flop(image);
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
+/**
+ * Méthode qui va mettre en place l'image du poisson
+ */
     public void setImage(Image image) {
         this.image = image;
     }
 
+    /**
+     * Méthode qui vérifie si le poisson est à gauche de l'écran
+     * @return booléen qui renvoit si cela est vrai ou faux
+     */
     public boolean isLeftOfScreen() {
         return leftOfScreen;
     }
 
-    public void setLeftOfScreen(boolean leftOfScreen) {
-        this.leftOfScreen = leftOfScreen;
-    }
-
-
-
+    /**
+     * Méthode qui vérifie si la balle intercepte un poisson
+     * @param other balle
+     * @return un booléen vrai ou faux
+     */
     public boolean intersects(Balle other) {
         return other.intersects(this);
     }
@@ -112,31 +96,39 @@ public class Fish extends Entity{
         if (intersects(other)) {
             estAttrape = true;
         }
-
     }
 
-
+    /**
+     * Verifie si le poisson est un appat ou non
+     * @return booléen qui retourne vrai ou faux
+     */
+    public boolean isFood() {
+        return isFood;
+    }
     /**
      * Met à jour la position du poisson
      * @param dt Temps écoulé depuis le dernier update() en secondes
      */
     @Override
     public void update(double dt) {
-
         super.update(dt);
-
-
     }
 
-
+    /**
+     * Une méthode qui dessine un poisson selon le contexte du jeu
+     * @param context contexte graphique du canvas
+     */
     @Override
     public void draw(GraphicsContext context) {
         context.drawImage(image, x, y, largeur, hauteur);
     }
 
+    /**
+     * Méthode qui vérifie si le poisson est attrapé par le prédateur ou un requin
+     * @return booléen vrai ou faux
+     */
     public boolean estAttrape() {
         return estAttrape;
     }
-
 
 }
