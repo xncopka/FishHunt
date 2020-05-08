@@ -505,48 +505,52 @@ public class Jeu {
 
         // Pour tous les objets du jeu, si une balle envoyé par le requin rentre en collision avec un item alors les
         // effets de l'objet s'appliquent.
-        for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
-            Item item = iterator.next();
-            item.update(dt);
-            for (Balle balle : balles) {
-                item.testCollision(balle);
-                if (item.estAttrape() && !item.isUsed()) {
-                    if(item instanceof Heart) {
-                        //Si c'est un coeur vert, rajouter une vie au joueur si sa vie n'est pas au max.
-                        if (item.getId().equals("vie bonus")) {
-                            if (player.getNbVies() < 3) {
-                                player.setNbVies(player.getNbVies() + 1);
+        if(items != null) {
+            ArrayList<Item> poubelle = new ArrayList<>();
+            for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
+                Item item = iterator.next();
+                item.update(dt);
+                for (Balle balle : balles) {
+                    item.testCollision(balle);
+                    if (item.estAttrape() && !item.isUsed()) {
+                        if (item instanceof Heart) {
+                            //Si c'est un coeur vert, rajouter une vie au joueur si sa vie n'est pas au max.
+                            if (item.getId().equals("vie bonus")) {
+                                if (player.getNbVies() < 3) {
+                                    player.setNbVies(player.getNbVies() + 1);
+                                }
+                            } else {
+                                // Si c'est un coeur rouge, faire perdre une vie au joueur et remettre a 0 la serie en
+                                // cours de poissons attrapés d'affilés.
+                                if (!player.isInvicible()) {
+                                    player.setNbVies(player.getNbVies() - 1);
+                                    player.setSerie(0);
+                                }
                             }
                         } else {
-                            // Si c'est un coeur rouge, faire perdre une vie au joueur et remettre a 0 la serie en
-                            // cours de poissons attrapés d'affilés.
-                            if (!player.isInvicible()) {
-                                player.setNbVies(player.getNbVies() - 1);
-                                player.setSerie(0);
+                            // Si c'est une balle,
+                            if (sniperGame) {
+                                if (!player.isInvicible()) {
+                                    // augmenter le nombre de balles du joueur de 2 pour compenser la balle perdu en
+                                    // attrapant l'objet
+                                    player.setBalles(player.getBalles() + 2);
+                                } else {
+                                    // augmenter seulement le nombre de balle de 1 parce que on ne perd aucune balle si
+                                    // invincibile
+                                    player.setBalles(player.getBalles() + 1);
+                                }
                             }
                         }
-                    } else {
-                        // Si c'est une balle,
-                        if(sniperGame){
-                            if(!player.isInvicible()) {
-                                // augmenter le nombre de balles du joueur de 2 pour compenser la balle perdu en
-                                // attrapant l'objet
-                                player.setBalles(player.getBalles() + 2);
-                            } else {
-                                // augmenter seulement le nombre de balle de 1 parce que on ne perd aucune balle si
-                                // invincibile
-                                player.setBalles(player.getBalles() + 1);
-                            }
-                        }
+                        item.setUsed(true);
+                        balle.setAttrape(true);
+                        poubelle.add(item); // supprimer l'objet après son utilisation
                     }
-                    item.setUsed(true);
-                    balle.setAttrape(true);
-                    iterator.remove(); // supprimer l'objet après son utilisation
+                }
+                if (item.getLastTimeActivation()) { // si le requin n'a pas attrapé l'objet, il disparait au bout d'un
+                    poubelle.add(item);            // certain temps.
                 }
             }
-            if(item.getLastTimeActivation()){ // si le requin n'a pas attrapé l'objet, il disparait au bout d'un
-                iterator.remove();            // certain temps.
-            }
+            items.removeAll(poubelle);
         }
 
 

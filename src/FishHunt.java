@@ -61,7 +61,7 @@ public class FishHunt extends Application {
     private Text level;
 
     // si on affiche pour la premiere fois le level
-    private boolean firstTimeLevelActivation = false;
+    private boolean firstTimeLevelActivation;
 
     // si on a cliqué sur une touche faisant parti des raccourcis clavier au nombre de 14
     private boolean [] firstClics = new boolean[14];
@@ -1018,6 +1018,7 @@ public class FishHunt extends Application {
         controleur = new Controleur(modeSpecial, speakerOn);
         controleur.draw(context);
         printErreur = false;
+        firstTimeLevelActivation = false;
         Arrays.fill(firstClics, false);
     }
 
@@ -1048,6 +1049,8 @@ public class FishHunt extends Application {
             @Override
             public void handle(long now) {
 
+
+
                 // Si dernier temps = 0, faire apparaitre le groupe de bulles
                 if (lastTime == 0) {
                     lastTime = now;
@@ -1066,6 +1069,8 @@ public class FishHunt extends Application {
 
                 }
 
+
+                
                 // faire apparaitre un poisson normal à chaque 3 secondes apres le debut du niveau
                 if(((now - firstTimeNewFish) >= ((long)3e+9)) && (!controleur.getStopNewFish())) {
                     firstTimeNewFish = now;
@@ -1142,6 +1147,8 @@ public class FishHunt extends Application {
                 }
 
 
+
+
                 // afficher le texte du level
                 if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
                     firstTimeLevelActivation = true;
@@ -1149,19 +1156,20 @@ public class FishHunt extends Application {
                     long firstTimeLevel = now;
                     firstTimeLevels.add(firstTimeLevel);
                     textLevel();
+
                 }
 
                 // fait disparaitre les textes du level (si on appuie en repete sur H par exemple)
                 if(!firstTimeLevels.isEmpty()){
                     for (Iterator<Long> iterator = firstTimeLevels.iterator(); iterator.hasNext(); ) {
                         long firstTimeLevel = iterator.next();
-
                         if ((now - firstTimeLevel) >= ((long)3e+9)) {
                             root.getChildren().remove(level);
                             iterator.remove();
                             firstTimeLevelActivation = false;
                             controleur.setStopNewFish(false);
                             firstTimeNewFish=0;
+
                         }
                     }
                 }
