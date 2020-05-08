@@ -634,7 +634,7 @@ public class FishHunt extends Application {
                         " Le crabe avance en oscillant horizontalement." +
                         " L'étoile de mer avance en oscillant verticalement.\n\n" +
                         "Le saumon prend peur et accélere quand le requin essaye d'attraper quelque chose dans les parages.\n\n"+
-                        "Un poisson noir aux yeux rouges sévit dans l'océan et attrape les poissons qu'ils rencontrent. " +
+                        "Un requin noir aux yeux rouges sévit dans l'océan et attrape les poissons qu'ils rencontrent. " +
                         "Ne laissez pas ce prédateur manger ces poissons. Vous perdrez une vie pour chaque poisson qu'il mange!\n\n"+
                         "Certains poissons sont trompeurs. Ce sont des appâts qu'utilisent les pêcheurs pour vous attraper. " +
                         "Ne les attrapez pas sinon ils vous feront perdre 2 vies! "
