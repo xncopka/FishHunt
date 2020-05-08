@@ -662,17 +662,25 @@ public class Jeu {
         }
 
         // Si on a atteint un palier de 5, on est prêt à changer de niveau
-        if (player.getPoints()  == palier + 5) {
+        // Dans de rares cas, on attrape 2 ou 3 poissons d'un coup pour passer au niveau suivant alors il faut aussi
+        // traiter les paliers de 6 et 7 pour s'assurer que le niveau change.
+        if (player.getPoints()  == palier + 5 || player.getPoints()  == palier + 6 || player.getPoints()  == palier + 7) {
             firstChangeLevel = true;
         }
         // On affiche le nouveau level en faisant arrêter l'apparition de nouveaux poissons et en établissant le
-        // prochain palier de 5
-        if ( player.getPoints() % 5 == 0 && firstChangeLevel) {
+        // prochain palier de 5 dependemment de comment on a atteint ce niveau
+        if ( (player.getPoints() % 5 == 0 || player.getPoints() % 5 == 1 || player.getPoints() % 5 == 2) && firstChangeLevel) {
             setStopNewFish(true);
             afficherLevel=true;
             firstChangeLevel = false;
             level +=  1;
-            palier = player.getPoints();
+            if(player.getPoints() % 5 == 0) {
+                palier = player.getPoints();
+            } else if (player.getPoints() % 5 == 1) {
+                palier = player.getPoints()-1;
+            } else {
+                palier = player.getPoints()-2;
+            }
         }
 
         // Si on n'a plus de balles disponibles, la partie est terminée.
