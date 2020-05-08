@@ -8,7 +8,6 @@ import java.util.Random;
  */
 public class Bulle extends Entity {
 
-
     private double rayon;
 
     public static double vitesseMax = 450;
