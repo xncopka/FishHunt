@@ -173,7 +173,7 @@ public class FishHunt extends Application {
             primaryStage.setScene(creerFenetreJeu(true));
         });
 
-        Image question = new Image(getClass().getResourceAsStream("question2.png"));
+        Image question = new Image(getClass().getResourceAsStream("newQuestion.png"));
         Button btn4 = new Button();
         btn4.setGraphic(new ImageView(question));
         btn4.setLayoutX(600);
@@ -1154,8 +1154,8 @@ public class FishHunt extends Application {
 
         Button speaker = new Button();
         ImageView imageView = new ImageView(img);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
+        //imageView.setFitHeight(30);
+        //imageView.setFitWidth(30);
 
         speaker.setGraphic(imageView);
         speaker.setLayoutX(10);
