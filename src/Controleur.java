@@ -12,8 +12,8 @@ public class Controleur {
     /**
      * Constructeur de Controleur
      */
-    public Controleur(int nbPlayers, boolean modeSpecial, boolean speakerOn) {
-        jeu = new Jeu(nbPlayers, modeSpecial, speakerOn);
+    public Controleur(boolean modeSpecial, boolean speakerOn) {
+        jeu = new Jeu(modeSpecial, speakerOn);
     }
 
 

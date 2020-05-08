@@ -946,7 +946,7 @@ public class FishHunt extends Application {
      *  Reinitialise les valeurs du jeu au debut
      */
     public void startGame(boolean modeSpecial, boolean speakerOn) {
-        controleur = new Controleur(nbPlayers, modeSpecial, speakerOn);
+        controleur = new Controleur(modeSpecial, speakerOn);
         controleur.draw(context);
         printErreur = false;
     }

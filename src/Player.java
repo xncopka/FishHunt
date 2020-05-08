@@ -1,6 +1,6 @@
 public class Player {
 
-    private int id;
+
     private int life;
     private int points; // points en nombre de poissons attrapés
     private int serie;
@@ -11,8 +11,8 @@ public class Player {
 
 
 
-    public Player(int id) {
-        this.id = id;
+    public Player() {
+
         this.life = 3;
         this.points = 0;
         this.serie = 0;
@@ -43,14 +43,6 @@ public class Player {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getSerie() {

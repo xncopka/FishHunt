@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
  */
 
 
-public class Sailfish extends Fish {
+public class Salmon extends Fish {
 
     public boolean isMaxSpeed() {
         return maxSpeed;
@@ -20,7 +20,7 @@ public class Sailfish extends Fish {
 
 
 
-    public Sailfish(int level) {
+    public Salmon(int level) {
         super(level);
         setImage(new Image("fish/sailfish.png"));
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);

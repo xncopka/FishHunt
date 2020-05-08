@@ -4,9 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.Random;
 
@@ -15,6 +13,10 @@ import java.util.Random;
  * Classe reprentant le jeu et la logique interne de l’application (modèle)
  */
 public class Jeu {
+
+    /**
+     *  Attributs
+     */
 
     // Largeur, hauteur du niveau
     public static final int WIDTH = 640, HEIGHT = 480;
@@ -25,27 +27,110 @@ public class Jeu {
     private ArrayList<Fish> fishes = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
 
-
-
+    // Chanson du jeu
     private MusicGame chanson;
 
-
     // joueurs dans le jeu
-    private Player[] players;
-
-
+    private Player player;
 
     // niveau du jeu
     private int level;
+
+    // si on a changé de niveau
     private boolean firstChangeLevel;
 
     // si la partie est terminée
     private boolean gameOver;
 
-
+    // palier de changement de niveau
     private int palier;
 
+    // si le niveau doit être affiché
     private boolean afficherLevel;
+
+    // si on est invincible
+    private boolean modeInvicible;
+
+    // si on arrête de faire apparaitre des poissons
+    private boolean stopNewFish = false;
+
+    // si on est dans le mode spécial
+    private boolean sniperGame;
+
+    // si les objets sont activés
+    private boolean itemsEnabled;
+
+    // Si on a attrapé une série de poissons
+    private boolean serieActivated;
+
+// --------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Getters & Setters
+     */
+
+    public void setSerieActivated(boolean serieActivated) {
+        this.serieActivated = serieActivated;
+    }
+
+    public MusicGame getChanson() {
+        return chanson;
+    }
+
+
+    public boolean getSniperGame() {
+        return sniperGame;
+    }
+
+    public int getBalles() {
+        return player.getBalles();
+    }
+
+    public void setBalles(int balles) {
+        if(player.getBalles()!=0) {
+            player.setBalles(balles);
+        }
+    }
+
+
+    public int getSerie() {
+        return player.getSerie();
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    
+    public boolean getGameOver() {
+        return this.gameOver;
+    }
+
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getScore() {
+        return player.getPoints();
+    }
+
+    public void setScore(int score) {
+
+        player.setPoints(score);
+
+    }
+
+    public void setLife(int life) {
+        if(getLife()<3) {
+            player.setNbVies(life);
+        }
+    }
+
+    public int getLife() {
+        return player.getNbVies();
+    }
+
 
     public boolean getModeInvicible() {
         return modeInvicible;
@@ -55,34 +140,45 @@ public class Jeu {
         this.modeInvicible = modeInvicible;
     }
 
-    private boolean modeInvicible;
-
- 
 
 
-
-    private boolean stopNewFish = false;
-
-
-    private boolean sniperGame;
-
-
-
-    private boolean modeSolo;   // Si oui on est en mode solo sinon on est en mode multi
-
-    private boolean itemsEnabled;
-
-    public void setSerieActivated(boolean serieActivated) {
-        this.serieActivated = serieActivated;
+    public boolean isInvicible(){
+        return player.isInvicible();
+    }
+    public void setInvicible (boolean isInvicible){
+        player.setInvicible(isInvicible);
     }
 
-    private boolean serieActivated;
 
-
-
-    public MusicGame getChanson() {
-        return chanson;
+    public void setSerie(int serie) {
+        player.setSerie(serie);
     }
+
+    public ArrayList<Item> getItem(){
+        return this.items;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+    
+    public boolean getAfficherLevel() {
+        return afficherLevel;
+    }
+
+    public void setAfficherLevel(boolean afficherLevel) {
+        this.afficherLevel = afficherLevel;
+    }
+
+    public boolean getStopNewFish() {
+        return stopNewFish;
+    }
+
+    public void setStopNewFish(boolean stopNewFish) {
+        this.stopNewFish = stopNewFish;
+    }
+
+
 
     public void enableChanson(boolean on) {
         if(on) {
@@ -94,138 +190,23 @@ public class Jeu {
         }
 
     }
-
-
-
+    
 
     public void enableItems() {
         itemsEnabled = true;
 
     }
 
-    public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
-        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[meilleursScores.get(9).split(" - ", 0).length-1]) ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+  
 
-    public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
-        int index = meilleursScores.size();
-
-        for (int i = 0; i < meilleursScores.size(); i++) {
-            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[meilleursScores.get(i).split(" - ", 0).length-1])) {
-                meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
-                index = i;
-                break;
-            }
-        }
-        if(index == meilleursScores.size()) {
-            meilleursScores.add("#" + (index+1) + " - " + name + " - " +  score);
-        }
-        for (int i = index+1; i <meilleursScores.size() ; i++) {
-            String saveName =  meilleursScores.get(i).split(" - ", 0)[1];
-            String saveScore =  meilleursScores.get(i).split(" - ", 0)[2];
-            meilleursScores.set(i, "#" + (i+1) + " - " + saveName + " - " +   saveScore);
-        }
-        if(meilleursScores.size()==11){
-            meilleursScores.remove(10);
-        }
-        return index;
-    }
-
-
-
-
-    public boolean getSniperGame() {
-        return sniperGame;
-    }
-
-
-
-    public int getBalles() {
-        return players[0].getBalles();
-    }
-
-    public void setBalles(int balles) {
-        if(players[0].getBalles()!=0) {
-            players[0].setBalles(balles);
-        }
-    }
-
-
-    public int getSerie() {
-        return players[0].getSerie();
-    }
-
-
-
-
-
-    public void setGameOver(boolean gameOver) {
-       this.gameOver = gameOver;
-    }
-
-
-
-    /**
-     * Savoir si le jeu est terminée
-     * @return un boolean
-     */
-    public boolean getGameOver() {
-        return this.gameOver;
-    }
-
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getScore() {
-        return players[0].getPoints();
-    }
-
-    public void setScore(int score) {
-
-            players[0].setPoints(score);
-
-    }
-
-    public void setLife(int life) {
-        if(getLife()<3) {
-            players[0].setNbVies(life);
-        }
-    }
-
-    public int getLife() {
-        return players[0].getNbVies();
-    }
-
-
-
-
-
-
-    public boolean isInvicible(){
-        return players[0].isInvicible();
-    }
-    public void setInvicible (boolean isInvicible){
-        players[0].setInvicible(isInvicible);
-    }
-
-
-    public void setSerie(int serie) {
-        players[0].setSerie(serie);
-    }
 
 
     /**
      * Constructeur de Jeu
      */
-    public Jeu(int nbPlayers, boolean modeSpecial, boolean speakerOn) {
+    public Jeu(boolean modeSpecial, boolean speakerOn) {
 
-        modeSolo = nbPlayers == 1;
+        
 
         // Test du mode sniper
         //sniperGame = true;
@@ -251,13 +232,8 @@ public class Jeu {
 
       
 
-        players = new Player[nbPlayers];
+        player = new Player();
 
-        int counter = 1;
-        for (int i = 0; i < players.length ; i++) {
-            players[i] = new Player(counter);
-            counter++;
-        }
 
 
 
@@ -315,7 +291,7 @@ public class Jeu {
             fish = new Appat(level);
             fishes.add(fish);
         } else if (valeurRandom == 1){
-            fish = new Sailfish(level);
+            fish = new Salmon(level);
             fishes.add(fish);
         } else {
             fish = new Predator(level);
@@ -325,8 +301,7 @@ public class Jeu {
 
 
     }
-
-
+    
 
 
     public void newItem(){
@@ -348,9 +323,50 @@ public class Jeu {
         }
     }
 
-    public ArrayList<Item> getItem(){
-        return this.items;
+
+
+
+
+
+
+    public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
+        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[meilleursScores.get(9).split(" - ", 0).length-1]) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    public int trierScore (int score, ArrayList<String> meilleursScores, String name) {
+        int index = meilleursScores.size();
+
+        for (int i = 0; i < meilleursScores.size(); i++) {
+            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[meilleursScores.get(i).split(" - ", 0).length-1])) {
+                meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
+                index = i;
+                break;
+            }
+        }
+        if(index == meilleursScores.size()) {
+            meilleursScores.add("#" + (index+1) + " - " + name + " - " +  score);
+        }
+        for (int i = index+1; i <meilleursScores.size() ; i++) {
+            String saveName =  meilleursScores.get(i).split(" - ", 0)[1];
+            String saveScore =  meilleursScores.get(i).split(" - ", 0)[2];
+            meilleursScores.set(i, "#" + (i+1) + " - " + saveName + " - " +   saveScore);
+        }
+        if(meilleursScores.size()==11){
+            meilleursScores.remove(10);
+        }
+        return index;
+    }
+
+
+
+
+
+
+
 
 
 
@@ -384,7 +400,7 @@ public class Jeu {
         }
 
 
-        if ( players[0].getNbVies() <= 0 ) {
+        if ( player.getNbVies() <= 0 ) {
             gameOver = true;
 
         }
@@ -414,21 +430,21 @@ public class Jeu {
                 if (item.estAttrape() && !item.isUsed()) {
                     if(item instanceof Heart) {
                         if (item.getId().equals("vie bonus")) {
-                            if (players[0].getNbVies() < 3) {
-                                players[0].setNbVies(players[0].getNbVies() + 1);
+                            if (player.getNbVies() < 3) {
+                                player.setNbVies(player.getNbVies() + 1);
                             }
                         } else {
-                            if (!players[0].isInvicible()) {
-                                players[0].setNbVies(players[0].getNbVies() - 1);
-                                players[0].setSerie(0);
+                            if (!player.isInvicible()) {
+                                player.setNbVies(player.getNbVies() - 1);
+                                player.setSerie(0);
                             }
                         }
                     } else {
                         if(sniperGame){
-                            if(!players[0].isInvicible()) {
-                                players[0].setBalles(players[0].getBalles() + 2);
+                            if(!player.isInvicible()) {
+                                player.setBalles(player.getBalles() + 2);
                             } else {
-                                players[0].setBalles(players[0].getBalles() + 1);
+                                player.setBalles(player.getBalles() + 1);
                             }
                         }
                     }
@@ -460,9 +476,9 @@ public class Jeu {
                 if((fish.getX()<-fish.largeur)||(fish.getX()>Jeu.WIDTH)){
                     iterator.remove();
                     if((fish.isFood())) {
-                        if(!players[0].isInvicible()) {
-                            players[0].setNbVies(players[0].getNbVies() - 1);
-                            players[0].setSerie(0);
+                        if(!player.isInvicible()) {
+                            player.setNbVies(player.getNbVies() - 1);
+                            player.setSerie(0);
 
 
 
@@ -484,10 +500,10 @@ public class Jeu {
                             if(!(other instanceof Appat)) {
                                 if (((Predator)fish).intersects(other) && other.isLeftOfScreen() != ((Predator)fish).isLeftOfScreen() ) {
                                     poubelle.add(other);
-                                    if(!players[0].isInvicible()){
-                                        players[0].setNbVies(players[0].getNbVies()-1);
+                                    if(!player.isInvicible()){
+                                        player.setNbVies(player.getNbVies()-1);
                                     }
-                                    players[0].setSerie(0);
+                                    player.setSerie(0);
                                 }
                             }                                             
 
@@ -508,10 +524,10 @@ public class Jeu {
                     for (Fish f: fishes) {
                         if (f.getX() >= 0 && f.getX() <= Jeu.WIDTH - f.getLargeur()) {
                             if (f.getY() >= 0 && f.getY() <= Jeu.HEIGHT - f.getHauteur()) {
-                                if (f instanceof Sailfish) {
-                                    if (!((Sailfish) f).isMaxSpeed()) {
+                                if (f instanceof Salmon) {
+                                    if (!((Salmon) f).isMaxSpeed()) {
                                         f.setVX(2 * f.getVX());
-                                        ((Sailfish) f).setMaxSpeed(true);
+                                        ((Salmon) f).setMaxSpeed(true);
                                     }
                                 }
                             }
@@ -525,16 +541,16 @@ public class Jeu {
 
 
 
-                            if(!players[0].isInvicible()) {
-                                players[0].setNbVies(players[0].getNbVies() - 2);
+                            if(!player.isInvicible()) {
+                                player.setNbVies(player.getNbVies() - 2);
                             } else {
-                                players[0].setSerie(0);
+                                player.setSerie(0);
                             }
                         } else {
                             if(!gameOver) {
 
-                                players[0].setPoints(players[0].getPoints() + 1);
-                                players[0].setSerie(players[0].getSerie() + 1);
+                                player.setPoints(player.getPoints() + 1);
+                                player.setSerie(player.getSerie() + 1);
                             }
                         }
 
@@ -555,16 +571,16 @@ public class Jeu {
 
         for (Balle balle : balles) {
             if(!balle.aAttrape()){
-                players[0].setSerie(0);
+                player.setSerie(0);
             }
         }
 
 
 
-        if(players[0].getSerie() != 0) {
+        if(player.getSerie() != 0) {
 
-            if ( !serieActivated && players[0].getSerie() % 10  == 0 ||players[0].getSerie() % 11  == 0 ||players[0].getSerie() % 12  == 0) {
-                players[0].setInvicible(true);
+            if ( !serieActivated && player.getSerie() % 10  == 0 ||player.getSerie() % 11  == 0 ||player.getSerie() % 12  == 0) {
+                player.setInvicible(true);
                 setSerieActivated(true);
             }
 
@@ -577,28 +593,28 @@ public class Jeu {
 
 
 
-         if(modeSolo) {
+        
 
-             if (players[0].getPoints()  == palier + 5) {
+             if (player.getPoints()  == palier + 5) {
                  firstChangeLevel = false;
            }
 
-             if (players[0].getPoints() % 5 == 0 && !firstChangeLevel) {
+             if (player.getPoints() % 5 == 0 && !firstChangeLevel) {
 
                  setStopNewFish(true);
                  afficherLevel=true;
 
                  firstChangeLevel = true;
                  level +=  1;
-                 palier = players[0].getPoints();
+                 palier = player.getPoints();
              }
                                                 
-         }
+         
 
 
         if(sniperGame){
-            if(!players[0].isInvicible()) {
-                if (players[0].getBalles() == 0) {
+            if(!player.isInvicible()) {
+                if (player.getBalles() == 0) {
                     gameOver = true;
                 }
             }
@@ -666,7 +682,7 @@ public class Jeu {
         } else {
             context.setFill(Color.rgb(126,211,33));
         }
-        context.fillText(""+players[0].getPoints(), WIDTH/2.0, 60);
+        context.fillText(""+player.getPoints(), WIDTH/2.0, 60);
 
 
         // dessine les balles restantes
@@ -675,12 +691,12 @@ public class Jeu {
 
         context.setFont(Font.font(17));
         context.setFill(Color.WHITE);
-        context.fillText("Série: "+ players[0].getSerie(), 10, 20);
+        context.fillText("Série: "+ player.getSerie(), 10, 20);
 
         if(sniperGame){
 
             // dessine les balles restantes
-            context.fillText("Balles restantes: "+ players[0].getBalles(), 10, 45);
+            context.fillText("Balles restantes: "+ player.getBalles(), 10, 45);
         }
 
 
@@ -693,18 +709,18 @@ public class Jeu {
         }
 
         // dessine les vies restantex
-        if (players[0].getNbVies()==3) {
+        if (player.getNbVies()==3) {
             context.drawImage(image, (WIDTH / 2.0) - 30/2, 85, 30, 30);
             context.drawImage(image, (WIDTH / 2.0) - 30/2 + 30 + 20, 85, 30, 30);
             context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
         }
 
-        if (players[0].getNbVies()==2) {
+        if (player.getNbVies()==2) {
             context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
             context.drawImage(image, (WIDTH / 2.0) - 30/2, 85, 30, 30);
         }
 
-        if (players[0].getNbVies()==1) {
+        if (player.getNbVies()==1) {
             context.drawImage(image, (WIDTH / 2.0) - 30/2 - 30 - 20, 85, 30, 30);
         }
 
@@ -715,24 +731,5 @@ public class Jeu {
 
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-
-    public boolean getAfficherLevel() {
-        return afficherLevel;
-    }
-
-    public void setAfficherLevel(boolean afficherLevel) {
-        this.afficherLevel = afficherLevel;
-    }
-
-    public boolean getStopNewFish() {
-        return stopNewFish;
-    }
-
-    public void setStopNewFish(boolean stopNewFish) {
-        this.stopNewFish = stopNewFish;
-    }
+   
 }

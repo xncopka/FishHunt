@@ -19,6 +19,10 @@ public class Appat extends Fish {
         this.image = ImageHelpers.colorize(image, color);
         this.sensDirect = true;
 
+        int valeurRandom = random.nextInt(2);
+        if (valeurRandom == 0){
+            this.image = ImageHelpers.flop(image);
+        }
     }
 
 
