@@ -1012,7 +1012,7 @@ public class FishHunt extends Application {
             private long lastTime = 0;
             private long firstTime = 0;
             private long firstTime5Sec = 0;
-            private long firstTime10Sec = 0;
+            private long firstTimeBonusFish = 0;
             private long firstTimeInvicible = 0;
             private long lastTimeInvicible = 0;
             private long firstTimeNewFish = 0;
@@ -1038,24 +1038,22 @@ public class FishHunt extends Application {
 
 
 
-                // Si 3 secondes se sont écoulés depuis le debut de l'animation,
-                // faire apparaitre un groupe de bulles et un poisson
+                // Si 3 secondes se sont écoulés depuis le debut de l'animation, faire apparaitre un groupe de bulles
                 if ((now - firstTime) >= ((long)3e+9)) {
-
                     firstTime = now;
                     controleur.groupBulles();
-                    
 
                 }
 
+                // faire apparaitre un poisson normal à chaque 3 secondes apres le debut du niveau
                 if(((now - firstTimeNewFish) >= ((long)3e+9)) && (!controleur.getStopNewFish())) {
                     firstTimeNewFish = now;
                     controleur.newFish(controleur.getLevel());
                     controleur.setEnableItems(true);
                 }
 
-                // Si 5 secondes se sont écoulés depuis le debut de l'animation,
-                // faire apparaitre un poisson spécial
+
+                // faire apparaitre un poisson spécial à chaque 5 seconde apres le debut d'un niveau
                 if(controleur.getLevel()>=2 && !controleur.getStopNewFish()) {
                     if ((now - firstTime5Sec) >= ((long) 5e+9)) {
                         firstTime5Sec = now;
@@ -1063,47 +1061,48 @@ public class FishHunt extends Application {
                     }
                 }
 
+
                 if(controleur.getLevel()>=3 && controleur.getStopNewFish()) {
-                    firstTime10Sec = now;
+                    firstTimeBonusFish = now;
                 }
 
-                // Si 10 secondes se sont écoulés depuis le debut de l'animation,
-                // faire apparaitre un poisson spécial
+                // faire apparaitre un nouveau poisson special
                 if(controleur.getLevel()>=3 && !controleur.getStopNewFish()) {
-                    if ((now - firstTime10Sec) >= ((long) 2.5e+9)) {
-                        firstTime10Sec = now;
+                    if ((now - firstTimeBonusFish) >= ((long) 2.5e+9)) {
+                        firstTimeBonusFish = now;
                         controleur.newBonusFish(controleur.getLevel());
                     }
                 }
 
-
-
-
+                // faire apparaitre un objet
                 if(!controleur.getItem().isEmpty()){
                     for (Item item: controleur.getItem()) {
                         if(!item.getFirstTimeActivation()) {
                             item.setFirstTime(now);
                             item.setFirstTimeActivation(true);
                         }
+                        // faire disparaitre un objet
                         if ((now - item.getFirstTime()) >= ((long) 1.5e+9)) {
                             item.setLastTimeActivation(true);
                         }                                                      
                     }
                 }
 
-
+                // faire apparaitre le texte de début d'invincibilité
                 if(controleur.isInvicible() & !controleur.getModeInvicible()){
                     firstTimeInvicible = now;
                     controleur.setModeInvicible(true);
                     textDebutInvincible();
                 }
 
+                // faire disparaitre le texte de début d'invincibilité
                 if(firstTimeInvicible>0) {
                     if ((now - firstTimeInvicible) >= ((long) 3e+9)) {
                         root.getChildren().remove(debutInvinc);
                     }
                 }
 
+                // faire apparaitre le texte de fin d'invincibilité
                 if (lastTimeInvicible>0) {
                     if ((now - lastTimeInvicible) >= ((long) 3e+9)) {
                         root.getChildren().remove(finInvinc);
@@ -1112,8 +1111,7 @@ public class FishHunt extends Application {
                     }
                 }
 
-
-
+                // faire disparaitre le texte de début d'invincibilité
                 if(now-firstTimeInvicible >= ((long) 10e+9) && controleur.getModeInvicible()) {
                     controleur.setInvicible(false);
                     controleur.setModeInvicible(false);
@@ -1122,15 +1120,34 @@ public class FishHunt extends Application {
                     lastTimeInvicible = now;
                 }
 
-             
+
+                // afficher le texte du level
+                if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
+                    firstTimeLevelActivation = true;
+                    controleur.setAfficherLevel(false);
+                    long firstTimeLevel = now;
+                    firstTimeLevels.add(firstTimeLevel);
+                    textLevel();
+                }
+
+                // fait disparaitre les textes du level (si on appuie en repete sur H par exemple)
+                if(!firstTimeLevels.isEmpty()){
+                    for (Iterator<Long> iterator = firstTimeLevels.iterator(); iterator.hasNext(); ) {
+                        long firstTimeLevel = iterator.next();
+
+                        if ((now - firstTimeLevel) >= ((long)3e+9)) {
+                            root.getChildren().remove(level);
+                            iterator.remove();
+                            firstTimeLevelActivation = false;
+                            controleur.setStopNewFish(false);
+                            firstTimeNewFish=0;
+                        }
+                    }
+                }
 
 
-
-
-                // redemarre une partie si la partie est terminée
+                // faire apparaitre le texte du Game Over
                 if (controleur.getGameOver() && !gameToScore) {
-
-
 
                     if(controleur.getSniperGame()) {
                         prevGameSpecial = true;
@@ -1141,12 +1158,10 @@ public class FishHunt extends Application {
                     firstTimeGameOver = now;
                     gameToScore = true;
 
-
-
                 }
 
 
-                //Si cela fait plus de 3 secondes que la partie est finie, retourner a l'accueil
+                //Si cela fait plus de 3 secondes que la partie est finie, allez aux meilleurs scores
                 if(firstTimeGameOver > 0) {
                     if (now - firstTimeGameOver >= (long) 3e+9) {
                         timer.stop();
@@ -1162,37 +1177,6 @@ public class FishHunt extends Application {
 
                     }
                 }
-
-                //players[0].getPoints() % 5 == 0 && firstChangeLevel==false
-                if (controleur.getAfficherLevel() & !firstTimeLevelActivation){
-                    firstTimeLevelActivation = true;
-                    controleur.setAfficherLevel(false);
-                    //firstTimeLevel = now;
-                    long firstTimeLevel = now;
-                    firstTimeLevels.add(firstTimeLevel);
-                    textLevel();
-                }
-
-                if(!firstTimeLevels.isEmpty()){
-                for (Iterator<Long> iterator = firstTimeLevels.iterator(); iterator.hasNext(); ) {
-                    long firstTimeLevel = iterator.next();
-
-
-
-                    if ((now - firstTimeLevel) >= ((long)3e+9)) {
-                        root.getChildren().remove(level);
-                        iterator.remove();
-                        firstTimeLevelActivation = false;
-                        controleur.setStopNewFish(false);
-                        firstTimeNewFish=0;
-               
-                        
-                    }
-
-                }
-            }
-
-
 
 
                 // temps = (temps now - dernier temps) converti en seconde
@@ -1373,9 +1357,6 @@ public class FishHunt extends Application {
 
 
     }
-
-
-
 
 
 
