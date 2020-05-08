@@ -313,7 +313,7 @@ public class FishHunt extends Application {
                     if (!(textField.getText().equals(""))) {
 
                         // Si le nom ajouté par le joueur contient le séparateur " - "
-                        if (textField.getText().contains(" - ")) {
+                        if (textField.getText().contains(" -") || textField.getText().contains("- ")) {
                             // alors le message d'erreur doit être affiché
                             printErreur = true;
                             primaryStage.setScene(creerSceneScores());
