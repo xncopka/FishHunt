@@ -175,9 +175,13 @@ public class FishHunt extends Application {
 
         Image question = new Image(getClass().getResourceAsStream("question2.png"));
         Button btn4 = new Button();
-        btn4.setGraphic(new ImageView(question));
+        ImageView imageView = new ImageView(question);
+        btn4.setGraphic(imageView);
         btn4.setLayoutX(600);
         btn4.setLayoutY(10);
+        btn4.setPrefHeight(20);
+        btn4.setPrefWidth(20);
+        
 
         btn4.setOnAction((e) -> {
             primaryStage.setScene( instructionsJeu());
@@ -551,93 +555,38 @@ public class FishHunt extends Application {
 
 
     private Scene instructionsJeu() {
-        Pane root = new Pane();
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        // Fenêtre de jeu
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        root.setStyle("-fx-background-color: #00008b;");
+        root.setPadding(new Insets(50));
 
-
-        context = canvas.getGraphicsContext2D();
-        // Background bleu du jeu
-        context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, WIDTH, HEIGHT);
-        HBox node = new HBox();
-        Label label1 = new Label("Vous incarnez un requin qui chasse des poissons " +
-                "pour\n"+ "son souper. Étant un requin gourmand, vous ne pouvez\n" +
-                "pas vous permettre de laisser trop de poissons " +
-                "passer\nAu bout de 3 poissons ratés, la " +
-                "partie est perdue." +
-                " Le jeu \nse contrôle à la souris et continue à " +
-                "l’infini, ou jusqu’à \nce que 3 poissons aient été " +
-                "ratés." + "\n\nAppuyer sur la touche H pour faire monter le niveau de\n+1, "
-                +"J pour faire monter le score de +1, K pour faire\nmonter le nombre " +
-                "de poissons restants de +1 et L pour\nfaire perdre la partie.");
-        label1.setFont(Font.font ("Verdana", 18));
-        label1.setTextFill(Color.WHITE);
-        label1.setTextAlignment(TextAlignment.CENTER);
-        node.setLayoutX(50);
-        node.setLayoutY(80);
-        node.setAlignment(Pos.CENTER);
-        node.getChildren().add(label1);
-
-        Image next = new Image(getClass().getResourceAsStream("next.png"));
-        Button btn1 = new Button();
-        btn1.setGraphic(new ImageView(next));
-        btn1.setLayoutX(390);
-        btn1.setLayoutY(350);
-        btn1.setPrefHeight(20);
-
-        btn1.setOnAction((e) -> {
-            primaryStage.setScene(instructions2Jeu());
-        });
-
-        Button btn2 = new Button("Menu");
-        btn2.setLayoutX(280);
-        btn2.setLayoutY(350);
-        btn2.setPrefWidth(105);
-        btn2.setPrefHeight(20);
-
-        btn2.setOnAction((e) -> {
-            primaryStage.setScene(creerAccueil());
-        });
-
-        root.getChildren().addAll(canvas, node, btn1, btn2);
-
-        return new Scene(root);
-    }
-
-    private Scene instructions2Jeu() {
-        Pane root = new Pane();
-
-        // Fenêtre de jeu
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        Label titre = new Label("Description :");
+        titre.setTextFill(Color.WHITE);
+        titre.setTextAlignment(TextAlignment.CENTER);
+        titre.setFont(Font.font ("Verdana", 32));
+        root.setTop(titre);
+        BorderPane.setAlignment(titre, Pos.CENTER);
 
 
-        context = canvas.getGraphicsContext2D();
-        // Background bleu du jeu
-        context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, WIDTH, HEIGHT);
-        HBox node = new HBox();
-        Label label2 = new Label(
-                "Les appats sont à éviter, ils vous feront perdre 2 vies. " +
-                        "\n Ne Laissez pas le requin manger les poissons... \nVous " +
-                        "perdrez une vie pour chaque poisson qu'il mange!!"+
-                        "\n\n Si vous vous sentez courageux, vous pouvez faire le mode\n spécial."+
-                        " Mais attention! Vous aurez un nombre limité de \nballes!" +
-                        " Vous pourrez recharger votre quantité de balle en \ncliquant"+
-                        " sur les balles noires dans le jeu!" );
-        label2.setFont(Font.font ("Verdana", 18));
-        label2.setTextFill(Color.WHITE);
-        label2.setTextAlignment(TextAlignment.CENTER);
-        node.setLayoutX(50);
-        node.setLayoutY(80);
-        node.setAlignment(Pos.CENTER);
-        node.getChildren().add(label2);
+
+
+        Label label = new Label("Vous incarnez un requin qui chasse des poissons pour son souper.\n\n" +
+                "Étant un requin gourmand, vous ne pouvez pas vous permettre de laisser trop de poissons passer... Au bout de 3 poissons ratés, la\n" +
+                "partie est perdue.\n\n" +
+                "Le jeu se contrôle à la souris et continue à l’infini, ou jusqu’à ce que 3 poissons aient été ratés (selon lequel arrive en premier)."+
+                "\n\nSi vous vous sentez courageux, vous pouvez faire le mode spécial."+
+                        " Mais attention! Vous aurez un nombre limité de balles!" );
+        label.setFont(Font.font ("Verdana", 14));
+        label.setTextFill(Color.WHITE);
+        label.setTextAlignment(TextAlignment.JUSTIFY);
+        label.setWrapText(true);
+        root.setCenter(label);
+        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+
 
 
         Button btn1 = new Button("Menu");
-        btn1.setLayoutX(280);
-        btn1.setLayoutY(350);
         btn1.setPrefWidth(105);
         btn1.setPrefHeight(20);
         btn1.setOnAction((e) -> {
@@ -647,8 +596,69 @@ public class FishHunt extends Application {
         Image next = new Image(getClass().getResourceAsStream("next.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(next));
-        btn2.setLayoutX(390);
-        btn2.setLayoutY(350);
+        btn2.setPrefHeight(20);
+
+        btn2.setOnAction((e) -> {
+            primaryStage.setScene(instructions2Jeu());
+        });
+
+
+
+        root.setBottom(btn1);
+        root.setRight(btn2);
+
+        BorderPane.setAlignment(btn1, Pos.CENTER);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_RIGHT);
+
+
+        return scene;
+    }
+
+    private Scene instructions2Jeu() {
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+
+        root.setStyle("-fx-background-color: #00008b;");
+        root.setPadding(new Insets(50));
+
+        Label titre = new Label("Poissons Spéciaux :");
+        titre.setTextFill(Color.WHITE);
+        titre.setTextAlignment(TextAlignment.CENTER);
+        titre.setFont(Font.font ("Verdana", 32));
+        root.setTop(titre);
+        BorderPane.setAlignment(titre, Pos.CENTER);
+
+
+        Label label = new Label(
+                "Le crabe et l'étoile de mer ont une façon différente des autres de se déplacer." +
+                        " Le crabe avance en oscillant horizontalement." +
+                        " L'étoile de mer avance en oscillant verticalement.\n\n" +
+                        "Le saumon prend peur et accélere quand le requin essaye d'attraper quelque chose dans les parages.\n\n"+
+                        "Un poisson noir aux yeux rouges sévit dans l'océan et attrape les poissons qu'ils rencontrent. " +
+                        "Ne laissez pas ce prédateur manger ces poissons. Vous perdrez une vie pour chaque poisson qu'il mange!\n\n"+
+                        "Certains poissons sont trompeurs. Ce sont des appâts qu'utilisent les pêcheurs pour vous attraper. " +
+                        "Ne les attrapez pas sinon ils vous feront perdre 2 vies! "
+        );
+        label.setFont(Font.font ("Verdana", 14));
+        label.setTextFill(Color.WHITE);
+        label.setTextAlignment(TextAlignment.JUSTIFY);
+        label.setWrapText(true);
+        root.setCenter(label);
+        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+
+
+
+       
+        Button btn1 = new Button("Menu");
+        btn1.setPrefWidth(105);
+        btn1.setPrefHeight(20);
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Button btn2 = new Button();
+        btn2.setGraphic(new ImageView(next));
         btn2.setPrefHeight(20);
 
         btn2.setOnAction((e) -> {
@@ -659,42 +669,151 @@ public class FishHunt extends Application {
         Image previous = new Image(getClass().getResourceAsStream("back.png"));
         Button btn3 = new Button();
         btn3.setGraphic(new ImageView(previous));
-        btn3.setLayoutX(245);
-        btn3.setLayoutY(350);
         btn3.setPrefHeight(20);
         btn3.setOnAction((e) -> {
             primaryStage.setScene( instructionsJeu());
         });
-        root.getChildren().addAll(canvas, node, btn1, btn2, btn3);
 
-        return new Scene(root);
+
+        root.setBottom(btn1);
+        root.setLeft(btn3);
+        root.setRight(btn2);
+
+        BorderPane.setAlignment(btn1, Pos.CENTER);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
+        BorderPane.setAlignment(btn3, Pos.BOTTOM_RIGHT);
+
+        return scene;
     }
 
     private Scene instructions3Jeu() {
-        Pane root = new Pane();
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        // Fenêtre de jeu
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        root.setStyle("-fx-background-color: #00008b;");
+        root.setPadding(new Insets(50));
+
+        Label titre = new Label("Objets et Série :");
+        titre.setTextFill(Color.WHITE);
+        titre.setFont(Font.font ("Verdana", 32));
+        root.setTop(titre);
+        BorderPane.setAlignment(titre, Pos.CENTER);
 
 
-        context = canvas.getGraphicsContext2D();
-        // Background bleu du jeu
-        context.setFill(Color.DARKBLUE);
-        context.fillRect(0, 0, WIDTH, HEIGHT);
-        HBox node = new HBox();
-        Label label2 = new Label(
-                "Allo" );
-        label2.setFont(Font.font ("Verdana", 18));
-        label2.setTextFill(Color.WHITE);
-        label2.setTextAlignment(TextAlignment.CENTER);
-        node.setLayoutX(50);
-        node.setLayoutY(80);
-        node.setAlignment(Pos.CENTER);
-        node.getChildren().add(label2);
+
+
+
+
+        Label label = new Label(
+                "Divers objets aparraissent de manière aléatoire durant la partie. Il vous est possible de les attraper." +
+                        " Les coeurs vert avec un + " +
+                        "fait gagner une vie tandis que les coeurs rouge avec un - en fait perdre une.\n" +
+                        "Des balles noires apparaissent de manière régulière durant le mode spécial. Attrapez-lez sinon vous" +
+                        " allez être à cours de munitions très rapidement!\n\n" +
+                        "Visez juste et vous allez être récompensé! A la suite d'une série de 10 poissons attrapés d'affilés, le requin devient invincible à d'eventuelles" +
+                        " pertes ou blessures pendant 10 secondes.");
+
+
+
+
+        label.setFont(Font.font ("Verdana", 14));
+        label.setTextFill(Color.WHITE);
+        label.setTextAlignment(TextAlignment.JUSTIFY);
+        label.setWrapText(true);
+        root.setCenter(label);
+        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+
+
+
+     /*   HBox navigation = new HBox();
+        navigation.setAlignment(Pos.CENTER);
+        navigation.setSpacing(10);*/
 
         Button btn1 = new Button("Menu");
-        btn1.setLayoutX(280);
-        btn1.setLayoutY(350);
+        btn1.setPrefWidth(105);
+        btn1.setPrefHeight(20);
+        btn1.setOnAction((e) -> {
+            primaryStage.setScene(creerAccueil());
+        });
+
+        Image next = new Image(getClass().getResourceAsStream("next.png"));
+        Button btn2 = new Button();
+        btn2.setGraphic(new ImageView(next));
+        btn2.setPrefHeight(20);
+
+        btn2.setOnAction((e) -> {
+            primaryStage.setScene(instructions4Jeu());
+        });
+
+
+        Image previous = new Image(getClass().getResourceAsStream("back.png"));
+        Button btn3 = new Button();
+        btn3.setGraphic(new ImageView(previous));
+        btn3.setPrefHeight(20);
+        btn3.setOnAction((e) -> {
+            primaryStage.setScene( instructions2Jeu());
+        });
+
+
+        root.setBottom(btn1);
+        root.setLeft(btn3);
+        root.setRight(btn2);
+
+        BorderPane.setAlignment(btn1, Pos.CENTER);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
+        BorderPane.setAlignment(btn3, Pos.BOTTOM_RIGHT);
+
+
+
+        return scene;
+    }
+
+
+    private Scene instructions4Jeu() {
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+
+        root.setStyle("-fx-background-color: #00008b;");
+        root.setPadding(new Insets(50));
+
+        Label titre = new Label("Raccourcis Clavier :");
+        titre.setTextFill(Color.WHITE);
+        titre.setFont(Font.font ("Verdana", 32));
+        root.setTop(titre);
+        BorderPane.setAlignment(titre, Pos.CENTER);
+
+
+
+
+
+
+        Label label = new Label(
+                "Les raccourcis suivants sont disponibles durant la partie :\n\n" +
+                        "- H pour faire monter le niveau de +1 \n" +
+                        "- J pour faire monter le score de +1  \n" +
+                        "- K pour faire monter le nombre de poissons restants de +1\n" +
+                        "- S pour faire monter la série en cours de +1\n" +
+                        "- B pour faire monter le nombre de balles restantes de +1 \n" +
+                        "- O pour couper ou allumer le son\n" +
+                        "- R pour faire redémarrer la partie\n" +
+                        "- L pour faire perdre la partie\n" +
+                        "- A pour revenir à l'accueil \n" +
+                        "- ECHAP pour quitter le jeu"
+
+
+        );
+        label.setFont(Font.font ("Verdana", 14));
+        label.setTextFill(Color.WHITE);
+        label.setTextAlignment(TextAlignment.LEFT);
+        root.setCenter(label);
+        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+
+
+     /*   HBox navigation = new HBox();
+        navigation.setAlignment(Pos.CENTER);
+        navigation.setSpacing(10);
+*/
+        Button btn1 = new Button("Menu");
         btn1.setPrefWidth(105);
 
         btn1.setOnAction((e) -> {
@@ -704,17 +823,31 @@ public class FishHunt extends Application {
         Image previous = new Image(getClass().getResourceAsStream("back.png"));
         Button btn2 = new Button();
         btn2.setGraphic(new ImageView(previous));
-        btn2.setLayoutX(245);
-        btn2.setLayoutY(350);
+
         btn2.setPrefHeight(20);
         btn2.setOnAction((e) -> {
-            primaryStage.setScene( instructionsJeu());
+            primaryStage.setScene( instructions3Jeu());
         });
 
-        root.getChildren().addAll(canvas, node, btn1, btn2);
 
-        return new Scene(root);
+        root.setBottom(btn1);
+        root.setLeft(btn2);
+        BorderPane.setAlignment(btn1, Pos.CENTER);
+        BorderPane.setAlignment(btn2, Pos.BOTTOM_LEFT);
+
+     /*   navigation.getChildren().addAll(btn2, btn1);
+
+        root.setBottom(navigation);
+        BorderPane.setAlignment(navigation, Pos.CENTER);*/
+
+
+
+
+        return scene;
     }
+
+
+
 
 
     private Scene creerCredits() {
