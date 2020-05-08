@@ -784,7 +784,7 @@ public class FishHunt extends Application {
 
         // Le texte est le center
         Label label = new Label(
-                "Divers objets aparraissent de manière aléatoire durant la partie. Il vous est possible de les " +
+                "Divers objets apparaissent de manière aléatoire durant la partie. Il vous est possible de les " +
                         "attraper." +
                         " Les coeurs vert avec un + " +
                         "fait gagner une vie tandis que les coeurs rouge avec un - en fait perdre une.\n" +
@@ -792,7 +792,8 @@ public class FishHunt extends Application {
                         "sinon vous allez être à cours de munitions très rapidement!\n\n" +
                         "Visez juste et vous allez être récompensé! A la suite d'une série de 10 poissons attrapés " +
                         "d'affilés, le requin devient invincible à d'eventuelles pertes ou blessures pendant 10 " +
-                        "secondes.");
+                        "secondes. Et dans le mode spécial, vous disposez d'un nombre de balles illimités pendant " +
+                        "ce laps de temps.");
 
 
         label.setFont(Font.font ("Verdana", 14));
