@@ -407,7 +407,8 @@ public class Jeu {
      * @return un boolean pour savoir si on doit ou non ajouter le score du joueur à l'Arraylist
      */
     public boolean checkNewScore (int score, ArrayList<String> meilleursScores) {
-        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)[meilleursScores.get(9).split(" - ", 0).length-1]) ) {
+        if(meilleursScores.size()<10 || score > Integer.parseInt(meilleursScores.get(9).split(" - ", 0)
+                [meilleursScores.get(9).split(" - ", 0).length-1]) ) {
             return true;
         } else {
             return false;
@@ -426,7 +427,8 @@ public class Jeu {
         int index = meilleursScores.size();
 
         for (int i = 0; i < meilleursScores.size(); i++) {
-            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[meilleursScores.get(i).split(" - ", 0).length-1])) {
+            if(score > Integer.parseInt(meilleursScores.get(i).split(" - ", 0)[meilleursScores.get(i)
+                    .split(" - ", 0).length-1])) {
                 meilleursScores.add(i,"#" + (i+1) + " - " + name + " - " +  score);
                 index = i;
                 break;
@@ -664,12 +666,14 @@ public class Jeu {
         // Si on a atteint un palier de 5, on est prêt à changer de niveau
         // Dans de rares cas, on attrape 2 ou 3 poissons d'un coup pour passer au niveau suivant alors il faut aussi
         // traiter les paliers de 6 et 7 pour s'assurer que le niveau change.
-        if (player.getPoints()  == palier + 5 || player.getPoints()  == palier + 6 || player.getPoints()  == palier + 7) {
+        if (player.getPoints()  == palier + 5 || player.getPoints()  == palier + 6 ||
+                player.getPoints()  == palier + 7) {
             firstChangeLevel = true;
         }
         // On affiche le nouveau level en faisant arrêter l'apparition de nouveaux poissons et en établissant le
         // prochain palier de 5 dependemment de comment on a atteint ce niveau
-        if ( (player.getPoints() % 5 == 0 || player.getPoints() % 5 == 1 || player.getPoints() % 5 == 2) && firstChangeLevel) {
+        if ( (player.getPoints() % 5 == 0 || player.getPoints() % 5 == 1 || player.getPoints() % 5 == 2)
+                && firstChangeLevel) {
             setStopNewFish(true);
             afficherLevel=true;
             firstChangeLevel = false;

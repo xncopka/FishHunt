@@ -328,10 +328,12 @@ public class FishHunt extends Application {
                             // trier l'arraylist avec l'ajout du nouveau score et écrire l'arraylist trié dans
                             // le fichier
                             if (!prevGameSpecial) {
-                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores, textField.getText());
+                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores,
+                                        textField.getText());
                                 writeScore(indexScore, meilleursScores, "src/scores/highScore.txt");
                             } else {
-                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial, textField.getText());
+                                int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial,
+                                        textField.getText());
                                 writeScore(indexScore, meilleursScoresSpecial, "src/scores/highScore2.txt");
                             }
                             // retour à l'accueil
@@ -348,7 +350,8 @@ public class FishHunt extends Application {
 
                 // Si le message d'erreur doit être affiché, un nouveau label doit être ajouté au Vbox
                 if(printErreur == true) {
-                    Label erreur = new Label("Votre nom ne doit pas contenir le séparateur \" - \". Veillez réessayer s’il vous plaît.");
+                    Label erreur = new Label("Votre nom ne doit pas contenir le séparateur \" - \". " +
+                            "Veillez réessayer s’il vous plaît.");
                     erreur.setTextFill(Color.RED);
                     node3.getChildren().add(erreur);
                 }
@@ -631,11 +634,11 @@ public class FishHunt extends Application {
 
         // Le center est le texte
         Label label = new Label("Vous incarnez un requin qui chasse des poissons pour son souper.\n\n" +
-                "Étant un requin gourmand, vous ne pouvez pas vous permettre de laisser trop de poissons passer... Au bout de 3 poissons ratés, la\n" +
-                "partie est perdue.\n\n" +
-                "Le jeu se contrôle à la souris et continue à l’infini, ou jusqu’à ce que 3 poissons aient été ratés (selon lequel arrive en premier)."+
-                "\n\nSi vous vous sentez courageux, vous pouvez faire le mode spécial."+
-                        " Mais attention! Vous aurez un nombre limité de balles!" );
+                "Étant un requin gourmand, vous ne pouvez pas vous permettre de laisser trop de poissons passer... " +
+                "Au bout de 3 poissons ratés, la partie est perdue.\n\n" + "Le jeu se contrôle à la souris et " +
+                "continue à l’infini, ou jusqu’à ce que 3 poissons aient été ratés (selon lequel arrive en premier)."+
+                "\n\nSi vous vous sentez courageux, vous pouvez faire le mode spécial."+ "Mais attention! Vous " +
+                "aurez un nombre limité de balles!" );
         label.setFont(Font.font ("Verdana", 14));
         label.setTextFill(Color.WHITE);
         label.setTextAlignment(TextAlignment.JUSTIFY);
@@ -699,10 +702,14 @@ public class FishHunt extends Application {
                 "Le crabe et l'étoile de mer ont une façon différente des autres de se déplacer." +
                         " Le crabe avance en oscillant horizontalement." +
                         " L'étoile de mer avance en oscillant verticalement.\n\n" +
-                        "Le saumon prend peur et accélere quand le requin essaye d'attraper quelque chose dans les parages.\n\n"+
-                        "Un requin noir aux yeux rouges sévit dans l'océan et attrape les poissons qu'ils rencontrent. " +
-                        "Ne laissez pas ce prédateur manger ces poissons. Vous perdrez une vie pour chaque poisson qu'il mange!\n\n"+
-                        "Certains poissons sont trompeurs. Ce sont des appâts qu'utilisent les pêcheurs pour vous attraper. " +
+                        "Le saumon prend peur et accélere quand le requin essaye d'attraper quelque chose dans " +
+                        "les parages.\n\n"+
+                        "Un requin noir aux yeux rouges sévit dans l'océan et attrape les poissons qu'ils " +
+                        "rencontrent. " +
+                        "Ne laissez pas ce prédateur manger ces poissons. Vous perdrez une vie pour chaque poisson " +
+                        "qu'il mange!\n\n"+
+                        "Certains poissons sont trompeurs. Ce sont des appâts qu'utilisent les pêcheurs pour vous " +
+                        "attraper. " +
                         "Ne les attrapez pas sinon ils vous feront perdre 2 vies! "
         );
         label.setFont(Font.font ("Verdana", 14));
@@ -777,13 +784,15 @@ public class FishHunt extends Application {
 
         // Le texte est le center
         Label label = new Label(
-                "Divers objets aparraissent de manière aléatoire durant la partie. Il vous est possible de les attraper." +
+                "Divers objets aparraissent de manière aléatoire durant la partie. Il vous est possible de les " +
+                        "attraper." +
                         " Les coeurs vert avec un + " +
                         "fait gagner une vie tandis que les coeurs rouge avec un - en fait perdre une.\n" +
-                        "Des balles noires apparaissent de manière régulière durant le mode spécial. Attrapez-lez sinon vous" +
-                        " allez être à cours de munitions très rapidement!\n\n" +
-                        "Visez juste et vous allez être récompensé! A la suite d'une série de 10 poissons attrapés d'affilés, le requin devient invincible à d'eventuelles" +
-                        " pertes ou blessures pendant 10 secondes.");
+                        "Des balles noires apparaissent de manière régulière durant le mode spécial. Attrapez-lez " +
+                        "sinon vous allez être à cours de munitions très rapidement!\n\n" +
+                        "Visez juste et vous allez être récompensé! A la suite d'une série de 10 poissons attrapés " +
+                        "d'affilés, le requin devient invincible à d'eventuelles pertes ou blessures pendant 10 " +
+                        "secondes.");
 
 
         label.setFont(Font.font ("Verdana", 14));
