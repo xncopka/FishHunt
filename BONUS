@@ -4,15 +4,15 @@ BONUS
 
     a) un Saumon
 
-    Si le requin essaye de manger un poisson dans les parages, le poisson saumon prend peur et fait un sprint pour
+    Si le requin essaye de manger un poisson dans les parages, le poisson saumon prend peur et accelere pour
     s'échapper. Pour réaliser cela, nous simulons qu'une balle est envoyé sur un objet autre que le saumon lui même.
     Si un saumon est présent dans la scène du jeu,  alors la vitesse du saumon sera doublée.
 
     b) un poisson appat
 
     C'est le poisson dont se servent les pêcheurs pour attraper le requin. Il ne faut donc pas que le requin l'attrape.
-    Sinon le requin perd une vie. Sauf quand notre requin se retrouve invincible (voir plus bas). Si l'on lance une
-    balle sur lappat par accident, on perd 2 vies. L'appat descend de façon verticale du haut vers le bas de la scène.
+    Sinon le requin perd deux vies. Sauf quand notre requin se retrouve invincible (voir plus bas). L'appat descend de
+    façon verticale du haut vers le bas de la scène.
 
 
     c) un poisson prédateur
@@ -28,17 +28,17 @@ BONUS
 
 2-  Invincibilité après une serie de 10 poissons attrapés de façon consécutive
     Lorsque le requin a attrapé 10 poissons de suite, il est invincible et tout poisson raté ou perdu ne lui fait pas
-     perdre de vie.  Un poisson raté ou perdu est défini comme un poisson n'ayant pas été touché par balle, lorsque le
-     requin mange un poisson appat, ou lorsque prédateur mange un poisson. De plus, bien qu'il ne perd pas de vie, s'il
-      fait un raté cela fait quand meme remettre le compteur de la serie à 0
+     perdre de vie.  Un poisson raté ou perdu est défini comme un poisson n'ayant pas été touché par balle, ou lorsque
+     le requin mange un poisson appat, ou lorsque le prédateur mange un poisson. De plus, bien qu'il ne perd pas de
+     vie durant cet état, si le joueur fait un raté cela fait quand meme remettre le compteur de la serie à 0
 
 
 3-	Deux differents types d'objets
 
     Des objets se retrouvent aléatoirement dans la partie:
 
-    a) des coeurs vert avec un + qui font augmenter la vie du requin de 1
-       des coeurs rouge avec un - qui font descendre la vie du requin de 1
+    a) des coeurs vert avec un + qui font augmenter la vie du requin de +1
+       des coeurs rouge avec un - qui font descendre la vie du requin de -1
 
     b) des balles supplémentaires: present seulement dans le mode sniper (voir plus bas)
       permet d'avoir des balles supplémentaires pour manger les poissons ou attraper des objets
@@ -72,8 +72,8 @@ BONUS
     score dans le mode normal ou le mode original. Pour cela, deux fichiers textes ont été créés. Pour cela nous avons
     ajouté deux arraylistes, une pour chaque mode.
 
-9- Bouton pour couper le son-
-    Nous avons rajouté un bouton qui coupe les musiques à l'arrière plan. Pour cela nous avons
+9- Bouton pour couper ou allumer le son-
+    Nous avons rajouté un bouton qui coupe ou allume le son à l'arrière plan. Pour cela nous avons
     créer une méthode qui arrêter la musique dans la classe MusicGame.
 
 10- Nous avons rajouté des racourcis de clavier:
@@ -88,6 +88,8 @@ BONUS
     R- pour faire redémarrer la partie
     A- pour revenir à l'accueil
     ECHAP- pour quitter le jeu
+
+
 
 
 
