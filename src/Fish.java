@@ -14,7 +14,7 @@ public class Fish extends Entity{
     protected Color color;
     protected boolean leftOfScreen;
     protected boolean estAttrape;
-    protected boolean isFood;
+
 
 
     /**
@@ -34,8 +34,7 @@ public class Fish extends Entity{
         this.largeur=100;
         this.hauteur=100;
         this.color = new Color(Math.random(), Math.random(), Math.random(), 1);
-        this.isFood = true;
-       
+
 
         this.frames = new Image[]{
                 new Image("fish/00.png"),
@@ -98,13 +97,7 @@ public class Fish extends Entity{
         }
     }
 
-    /**
-     * Verifie si le poisson est un appat ou non
-     * @return booléen qui retourne vrai ou faux
-     */
-    public boolean isFood() {
-        return isFood;
-    }
+
     /**
      * Met à jour la position du poisson
      * @param dt Temps écoulé depuis le dernier update() en secondes

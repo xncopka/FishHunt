@@ -1,12 +1,12 @@
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+
 
 /**
  * Classe qui représente un prédateur qui attrape des poissons dans l'océan
  */
 public class Predator extends Fish {
 
-    private boolean aAttrape;
+
 
     /**
      * Constructeur de prédateur. Si celui-ci mange des poissons, cela enlève des vies au joueur
@@ -21,7 +21,7 @@ public class Predator extends Fish {
             this.image = ImageHelpers.flop(image);
         }
 
-        this.aAttrape = false;
+      
     }
 
 

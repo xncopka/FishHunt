@@ -573,7 +573,7 @@ public class Jeu {
                 }
                 // Si le poisson est un appât et qu'il est en dehors des bornes possibles, cela veut dire que l'appât
                 // n'a pas trompé le requin et il faut le supprimer
-                if(!fish.isFood()){
+                if(fish instanceof Appat){
                     if(fish.getY() < -fish.getHauteur()){
                         iterator.remove();
                     }
@@ -606,7 +606,7 @@ public class Jeu {
                     fish.testCollision(balle);
                     // si oui le poisson est attrapé
                     if (fish.estAttrape()) {
-                        if((!fish.isFood())) {
+                        if((fish instanceof Appat)) {
                             // si le poisson attrapé est un appât
                             if(!player.isInvicible()) {
                                 // faire perdre au joueur 2 vies

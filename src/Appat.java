@@ -16,7 +16,6 @@ public class Appat extends Fish {
 
     public Appat(int level) {
         super(level);
-        isFood = false;
         Random random = new Random();
         vx = 0;
         vy = (random.nextDouble()*(200-100) + 100);
