@@ -637,7 +637,7 @@ public class FishHunt extends Application {
                 "Étant un requin gourmand, vous ne pouvez pas vous permettre de laisser trop de poissons passer... " +
                 "Au bout de 3 poissons ratés, la partie est perdue.\n\n" + "Le jeu se contrôle à la souris et " +
                 "continue à l’infini, ou jusqu’à ce que 3 poissons aient été ratés (selon lequel arrive en premier)."+
-                "\n\nSi vous vous sentez courageux, vous pouvez faire le mode spécial."+ "Mais attention! Vous " +
+                "\n\nSi vous vous sentez courageux, vous pouvez faire le mode spécial."+ " Mais attention! Vous " +
                 "aurez un nombre limité de balles!" );
         label.setFont(Font.font ("Verdana", 14));
         label.setTextFill(Color.WHITE);
@@ -785,14 +785,14 @@ public class FishHunt extends Application {
         // Le texte est le center
         Label label = new Label(
                 "Divers objets apparaissent de manière aléatoire durant la partie. Il vous est possible de les " +
-                        "attraper." +
-                        " Les coeurs vert avec un + " +
-                        "fait gagner une vie tandis que les coeurs rouge avec un - en fait perdre une.\n" +
+                        "attraper.\n\n" +
+                        "Les coeurs vert avec un + " +
+                        "font gagner une vie tandis que les coeurs rouge avec un - en font perdre une.\n\n" +
                         "Des balles noires apparaissent de manière régulière durant le mode spécial. Attrapez-lez " +
                         "sinon vous allez être à cours de munitions très rapidement!\n\n" +
                         "Visez juste et vous allez être récompensé! A la suite d'une série de 10 poissons attrapés " +
                         "d'affilés, le requin devient invincible à d'eventuelles pertes ou blessures pendant 10 " +
-                        "secondes. Et dans le mode spécial, vous disposez d'un nombre de balles illimités pendant " +
+                        "secondes.\nEt dans le mode spécial, vous disposerez d'un nombre de balles illimités pendant " +
                         "ce laps de temps.");
 
 
