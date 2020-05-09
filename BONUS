@@ -27,10 +27,10 @@ BONUS
 
 
 2-  Invincibilité après une serie de 10 poissons attrapés de façon consécutive
-    Lorsque le requin a attrapé 10 poissons de suite, il est invincible et tout poisson raté ou perdu ne lui fait pas perdre
-    de vie.  Un poisson raté ou perdu est défini comme un poisson n'ayant pas été touché par balle, lorsque le requin mange
-    un poisson appat, ou lorsque prédateur mange un poisson. De plus, bien qu'il ne perd pas de vie, s'il fait un raté cela
-    fait quand meme remettre le compteur de la serie à 0
+    Lorsque le requin a attrapé 10 poissons de suite, il est invincible et tout poisson raté ou perdu ne lui fait pas
+     perdre de vie.  Un poisson raté ou perdu est défini comme un poisson n'ayant pas été touché par balle, lorsque le
+     requin mange un poisson appat, ou lorsque prédateur mange un poisson. De plus, bien qu'il ne perd pas de vie, s'il
+      fait un raté cela fait quand meme remettre le compteur de la serie à 0
 
 
 3-	Deux differents types d'objets
@@ -64,8 +64,8 @@ BONUS
     bonus que nous avons ajouté au jeu. Nous avons également ajouté un bouton à la page d'accueil.
 
 7-Crédits:
-    Nous avons ajouté un bouton crédits ainsi qu'une nouvelle scène avec les crédits du jeu, pour la musique, les auteurs
-    et les logos que nous avons utilisé.
+    Nous avons ajouté un bouton crédits ainsi qu'une nouvelle scène avec les crédits du jeu, pour la musique, les
+    auteurs et les logos que nous avons utilisé.
 
 8- Meilleurs scores-
     Nous avons ajouté deux liste différentes de meilleurs scores selon si le joueur à fait un meilleur
