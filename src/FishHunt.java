@@ -127,7 +127,7 @@ public class FishHunt extends Application {
 
         // musique de background au lancement du jeu
 
-        String filepath = "src/music/Aqua Road - Shining Sea.mp3";
+        String filepath = "music/Aqua Road - Shining Sea.mp3";
         backgroundMusic = new MusicGame();
         backgroundMusic = new MusicGame();
         backgroundMusic.playMusic(filepath);
@@ -249,8 +249,8 @@ public class FishHunt extends Application {
         FileReader fileReader = null;
         FileReader fileReader2 = null;
         try {
-            fileReader = new FileReader("src/scores/highScore.txt");
-            fileReader2 = new FileReader("src/scores/highScore2.txt");
+            fileReader = new FileReader("scores/highScore.txt");
+            fileReader2 = new FileReader("scores/highScore2.txt");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -330,11 +330,11 @@ public class FishHunt extends Application {
                             if (!prevGameSpecial) {
                                 int indexScore = controleur.trierScore(controleur.getScore(), meilleursScores,
                                         textField.getText());
-                                writeScore(indexScore, meilleursScores, "src/scores/highScore.txt");
+                                writeScore(indexScore, meilleursScores, "scores/highScore.txt");
                             } else {
                                 int indexScore = controleur.trierScore(controleur.getScore(), meilleursScoresSpecial,
                                         textField.getText());
-                                writeScore(indexScore, meilleursScoresSpecial, "src/scores/highScore2.txt");
+                                writeScore(indexScore, meilleursScoresSpecial, "scores/highScore2.txt");
                             }
                             // retour à l'accueil
                             primaryStage.setScene(creerAccueil());
@@ -489,7 +489,7 @@ public class FishHunt extends Application {
                 primaryStage.setScene(creerAccueil());
                 if(speakerOn) {
                     controleur.getChanson().stopMusic();
-                    String filepath = "src/music/Aqua Road - Shining Sea.mp3";
+                    String filepath = "music/Aqua Road - Shining Sea.mp3";
                     backgroundMusic = new MusicGame();
                     backgroundMusic.playMusic(filepath);
                 }
@@ -1199,7 +1199,7 @@ public class FishHunt extends Application {
                         firstTimeGameOver = 0;
                         if(speakerOn) {
                             controleur.getChanson().stopMusic();
-                            String filepath = "src/music/Aqua Road - Shining Sea.mp3";
+                            String filepath = "music/Aqua Road - Shining Sea.mp3";
                             backgroundMusic = new MusicGame();
                             backgroundMusic.playMusic(filepath);
                         }
@@ -1376,7 +1376,7 @@ public class FishHunt extends Application {
                 speakerOn = false;
                 primaryStage.setScene(creerAccueil());
             } else {
-                String filepath = "src/music/Aqua Road - Shining Sea.mp3";
+                String filepath = "music/Aqua Road - Shining Sea.mp3";
                 backgroundMusic = new MusicGame();
                 backgroundMusic.playMusic(filepath);
                 speakerOn = true;
