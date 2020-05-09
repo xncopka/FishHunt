@@ -1,44 +1,93 @@
 BONUS
 
-1- trois nouveau types de poissons:
+1- trois nouveaux types de poissons:
 
-	a) un Saumon
+    a) un Saumon
 
-	Si le requin essaye de manger un poisson dans les parages, le poisson saumon prend peur et tape un sprint pour s'echapper.
-	Pour realiser cela, nous avons dit que des qu'une balle est envoyé sur quelque chose d'autre que le saumon lui meme, et que le voilier se trouve dans la partie
-	visible du jeu alors la vitesse du saumon va se multiplier par 2
+    Si le requin essaye de manger un poisson dans les parages, le poisson saumon prend peur et fait un sprint pour
+    s'échapper. Pour réaliser cela, nous simulons qu'une balle est envoyé sur un objet autre que le saumon lui même.
+    Si un saumon est présent dans la scène du jeu,  alors la vitesse du saumon sera doublée.
 
-	b) un poisson appat
+    b) un poisson appat
 
-	C'est le poisson dont se serve les pêcheurs pour attraper le requin. Il ne faut donc pas que le requin l'attrape.
-	Sinon le requin perd une vie. Sauf quand notre requin se retrouve invincible (voir plus bas) 
-
-
-	c) un poisson predateur
-
-	Dans la chaine alimentaire du jeu, le requin est le plus grand predateur, suivi du poisson predateur et en tout dernier se retrouvent tous les autres poissons du jeu. Ainsi, si le poisson predateur
-	se retrouve face à un autre poisson il va le manger. Seul les poissons qui arrivent vers le poisson predateur sont mangés par ce dernier. S'il mange un poisson,cela va faire perdre une vie au requin qui rate une proie essentielle a sa survie.  Sauf quand notre requin se retrouve invincible (voir plus bas)
+    C'est le poisson dont se servent les pêcheurs pour attraper le requin. Il ne faut donc pas que le requin l'attrape.
+    Sinon le requin perd une vie. Sauf quand notre requin se retrouve invincible (voir plus bas). Si l'on lance une
+    balle sur lappat par accident, on perd 2 vies. L'appat descend de façon verticale du haut vers le bas de la scène.
 
 
-2-  Invincibilité apres une serie de 10 poissons attrapes a la suite sans raté
+    c) un poisson prédateur
 
-	Notre requin se retrouve alors invincible et tout poisson raté ou perdu ne lui fait pas perdre une vie.  Un poisson raté ou perdu est défini comme rater un poisson, manger un poisson appat, laisser un poisson s'echapper ou laisser un predateur manger un poisson. De plus, bien qu'il ne perd pas de vie, s'il fait un raté cela fait quand meme remettre le compteur de la serie à 0
+    Dans la chaine alimentaire du jeu, le requin est le plus grand prédateur, suivi du poisson prédateur et en tout
+    dernier se retrouvent tous les autres poissons du jeu. Ainsi, si le poisson prédateur
+    se retrouve face à un autre poisson il va le manger. Seul les poissons qui arrivent vers le poisson prédateur
+    sont mangés par ce dernier. S'il mange un poisson, cela va faire perdre une vie au requin
+    qui rate une proie essentielle a sa survie.  Sauf quand notre requin se retrouve invincible (voir plus bas).
+    Le poisson prédateur attaque seulement les poissons qui vont dans la direction opposée. Il teste la collision
+    avec ceux-ci et les fait disparaître de l'écran lorsqu'il y a collision.
+
+
+2-  Invincibilité après une serie de 10 poissons attrapés de façon consécutive
+    Lorsque le requin a attrapé 10 poissons de suite, il est invincible et tout poisson raté ou perdu ne lui fait pas
+     perdre de vie.  Un poisson raté ou perdu est défini comme un poisson n'ayant pas été touché par balle, lorsque le
+     requin mange un poisson appat, ou lorsque prédateur mange un poisson. De plus, bien qu'il ne perd pas de vie, s'il
+      fait un raté cela fait quand meme remettre le compteur de la serie à 0
 
 
 3-	Deux differents types d'objets
 
-	Des objets se retrouvent aléatoirement dans la partie:
+    Des objets se retrouvent aléatoirement dans la partie:
 
-	a) des coeurs vert avec un + qui font augmenter la vie du requin de 1
-	   des coeurs rouge avec un - qui font descendre la vie du requin de 1
+    a) des coeurs vert avec un + qui font augmenter la vie du requin de 1
+       des coeurs rouge avec un - qui font descendre la vie du requin de 1
 
-	b) des balles supplémentaires: present seulement dans le mode sniper (voir plus bas)
-							   permet d'avoir des balles supplementaires pour manger les poissons ou attraper des objets
+    b) des balles supplémentaires: present seulement dans le mode sniper (voir plus bas)
+      permet d'avoir des balles supplémentaires pour manger les poissons ou attraper des objets
 
 
 4- Nouveau mode de jeu: Mode Sniper
-					    Ce mode de jeu est la version plus difficile du mode normal
-					    Dans ce mode nous avons un nombre limité de balles au départ
-					    Et nous pouvons seulement recuperer une balle de plus grâce à l'apparition de maniere aleatoire des objets de type balles
-					    A chaque fois qu'on essaye d'attraper quelque chose, le requin perd une munition
-					   	Exception faite lorsque le requin est invincible et dans ce cas il a un nombre illimité de balles jusqu'a la fin de l'invincibilité
+    Ce mode de jeu est la version plus difficile du mode normal
+    Dans ce mode nous avons un nombre limité de balles au départ. Nous pouvons seulement récupérer une balle de plus
+    grâce à l'apparition de façon aléatoire des objets de type balles
+    A chaque fois qu'on essaye d'attraper quelque chose, le requin perd une munition
+    Exception faite lorsque le requin est invincible et dans ce cas il a un nombre illimité de balles jusqu'a la fin
+    de l'invincibilité
+
+
+5- Musique ajoutée au jeu:
+    Deux chansons ont été rajoutés au jeu. La chanson Crab Rave et la chanson Shining Sea.
+    La première est la musique de fond lorsque le jeu est en cours. La deuxième est la musique de fond de l'accueil.
+    Ces deux chansons jouent en boucle. Pour ce faire, nous avons rajouté une classe MusicGame qui permet de créer un
+    nouveau média player.
+
+6-Instructions:
+    Nous avons créé 4 scènes additionnelles avec les instructions de notre jeu ainsi qu'avec les instructions pour les
+    bonus que nous avons ajouté au jeu. Nous avons également ajouté un bouton à la page d'accueil.
+
+7-Crédits:
+    Nous avons ajouté un bouton crédits ainsi qu'une nouvelle scène avec les crédits du jeu, pour la musique, les
+    auteurs et les logos que nous avons utilisé.
+
+8- Meilleurs scores-
+    Nous avons ajouté deux liste différentes de meilleurs scores selon si le joueur à fait un meilleur
+    score dans le mode normal ou le mode original. Pour cela, deux fichiers textes ont été créés. Pour cela nous avons
+    ajouté deux arraylistes, une pour chaque mode.
+
+9- Bouton pour couper le son-
+    Nous avons rajouté un bouton qui coupe les musiques à l'arrière plan. Pour cela nous avons
+    créer une méthode qui arrêter la musique dans la classe MusicGame.
+
+10- Nous avons rajouté des racourcis de clavier:
+    S- pour monter la série en cours de +1
+    B- pour faire monter le nombre de balle de +1
+    C- pour faire apparaître un crabe
+    E- pour faire apparaître une étoile de mer
+    V- pour faire apparaître un saumon
+    T- pour faire apparaître un appat
+    P- pour faire apparaître un prédateur
+    O- pour couper ou alumer le son
+    R- pour faire redémarrer la partie
+    A- pour revenir à l'accueil
+    ECHAP- pour quitter le jeu
+
+
+

@@ -19,7 +19,7 @@ public class Salmon extends Fish {
     private boolean maxSpeed;
 
     /**
-     * Constructeur du saulmon
+     * Constructeur du saumon
      * @param level niveau du jeu
      */
     public Salmon(int level) {
