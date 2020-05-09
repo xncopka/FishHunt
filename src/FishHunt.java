@@ -30,7 +30,7 @@ import java.util.Iterator;
  * pour son souper.Au bout de 3 poissons ratés, la partie est perdue.
  * Le jeu se contrôle à la souris et continue à l’infini, ou jusqu’à ce que 3 poissons
  * aient été ratés
- * @author Thomas Bui
+ * @author Thomas Bui, 20055825
  * @author Vanda Gaonac'h-Lovejoy, 1018781
  * Classe qui sert à définir ce qui doit être affiché (Vue)
  */
