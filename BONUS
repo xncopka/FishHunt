@@ -22,8 +22,9 @@ BONUS
     se retrouve face à un autre poisson il va le manger. Seul les poissons qui arrivent vers le poisson prédateur
     sont mangés par ce dernier. S'il mange un poisson, cela va faire perdre une vie au requin
     qui rate une proie essentielle a sa survie.  Sauf quand notre requin se retrouve invincible (voir plus bas).
-    Le poisson prédateur attaque seulement les poissons qui vont dans la direction opposée. Il teste la collision
-    avec ceux-ci et les fait disparaître de l'écran lorsqu'il y a collision.
+    Le poisson prédateur attaque seulement les poissons qui vont dans la direction opposée. Et les poissons attaqués
+    sont autre que un poisson du même type que lui et autre qu'un appât. Il teste la collision avec ces poissons
+    et les fait disparaître de l'écran lorsqu'il y a collision.
 
 
 2-  Invincibilité après une serie de 10 poissons attrapés de façon consécutive

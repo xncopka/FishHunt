@@ -583,7 +583,7 @@ public class Jeu {
                     for (Iterator<Fish> iterator2 = fishes.iterator(); iterator2.hasNext(); ) {
                         Fish other = iterator2.next();
                         if(fish != other) {
-                            if(!(other instanceof Appat)) {
+                            if(!(other instanceof Appat) && !(other instanceof Predator)) {
                                 // s'il rencontre un autre poisson sur son passage
                                 if (((Predator)fish).intersects(other) && other.isLeftOfScreen() !=
                                         fish.isLeftOfScreen() ) {
