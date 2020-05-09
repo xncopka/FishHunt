@@ -59,8 +59,9 @@ BONUS
     Ces deux chansons jouent en boucle. Pour ce faire, nous avons rajouté une classe MusicGame qui permet de créer un
     nouveau média player.
     Il se peut qu'il y ait une erreur de module avec IntelliJ alors dans ce cas il faut ajouter le module javafx.media
-    dans VM options en allant dans Edit Configurations. "--add-modules javafx.controls,javafx.fxml,javafx.media"
-    Notre musique depend du path src.
+    dans VM options en allant dans Edit Configurations. Et verifiez qu'on a bien la ligne suivante:
+    "--add-modules javafx.controls,javafx.fxml,javafx.media"
+
 
 6-Instructions:
     Nous avons créé 4 scènes additionnelles avec les instructions de notre jeu ainsi qu'avec les instructions pour les
